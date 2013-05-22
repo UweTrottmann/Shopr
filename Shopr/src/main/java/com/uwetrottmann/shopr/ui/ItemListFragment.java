@@ -14,6 +14,10 @@ import com.uwetrottmann.shopr.R;
  * vote button.
  */
 public class ItemListFragment extends Fragment {
+    
+    public static ItemListFragment newInstance() {
+        return new ItemListFragment();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
