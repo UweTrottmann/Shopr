@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:layout_height="wrap_content" >
 
     <ImageView
         android:id="@+id/imageViewItemPicture"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="150dp"
         android:contentDescription="@string/description_item_picutre"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_launcher" />
@@ -16,13 +15,40 @@
         android:id="@+id/textViewItemName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:textAppearance="@style/TextAppearance.Light" />
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/imageViewItemPicture"
+        android:ellipsize="end"
+        android:lines="1"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:text="Sample Item Armani"
+        android:textAppearance="@style/TextAppearance.Small.Light" />
+
+    <TextView
+        android:id="@+id/textViewItemPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/textViewItemName"
+        android:ellipsize="end"
+        android:lines="1"
+        android:paddingRight="4dp"
+        android:text="35.23 €"
+        android:textAppearance="@style/TextAppearance.Small.Light"
+        android:textColor="@color/lilac" />
+
+    <View
+        android:id="@+id/dividerHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/textViewItemPrice"
+        android:background="?android:attr/dividerHorizontal" />
 
     <LinearLayout
         style="?android:attr/buttonBarStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewItemPrice"
         android:divider="?android:attr/dividerVertical"
         android:showDividers="middle" >
 
@@ -30,7 +56,7 @@
             android:id="@+id/imageButtonItemLike"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="32dp"
             android:layout_weight="1"
             android:contentDescription="@string/like"
             android:src="@drawable/ic_action_like" />
@@ -39,10 +65,10 @@
             android:id="@+id/imageButtonItemDislike"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="32dp"
             android:layout_weight="1"
             android:contentDescription="@string/dislike"
             android:src="@drawable/ic_action_dontlike" />
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>
