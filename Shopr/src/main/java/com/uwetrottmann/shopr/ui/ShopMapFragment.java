@@ -2,13 +2,10 @@
 package com.uwetrottmann.shopr.ui;
 
 import android.os.Bundle;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap.OnMapLongClickListener;
-import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class ShopMapFragment extends SupportMapFragment {
