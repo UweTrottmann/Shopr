@@ -11,8 +11,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 
-import com.google.android.gms.maps.SupportMapFragment;
 import com.uwetrottmann.shopr.ui.ItemListFragment;
+import com.uwetrottmann.shopr.ui.ShopMapFragment;
 
 import java.util.Locale;
 
@@ -108,7 +108,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         @Override
         public Fragment getItem(int position) {
             if (position == 1) {
-                return new SupportMapFragment();
+                return ShopMapFragment.newInstance();
             } else {
                 return ItemListFragment.newInstance();
             }
