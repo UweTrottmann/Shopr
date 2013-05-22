@@ -1,3 +1,4 @@
+
 package com.uwetrottmann.shopr;
 
 import java.util.Locale;
@@ -9,15 +10,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.google.android.gms.maps.SupportMapFragment;
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
 
@@ -82,7 +82,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
-    
+
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
         // When the given tab is selected, switch to the corresponding page in
@@ -110,20 +110,20 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
         @Override
         public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a DummySectionFragment (defined as a static inner class
-            // below) with the page number as its lone argument.
-            Fragment fragment = new DummySectionFragment();
-            Bundle args = new Bundle();
-            args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
-            fragment.setArguments(args);
-            return fragment;
+            if (position == 1) {
+                return new SupportMapFragment();
+            } else {
+                Fragment fragment = new DummySectionFragment();
+                Bundle args = new Bundle();
+                args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
+                fragment.setArguments(args);
+                return fragment;
+            }
         }
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
-            return 3;
+            return 2;
         }
 
         @Override
@@ -131,11 +131,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             Locale l = Locale.getDefault();
             switch (position) {
                 case 0:
-                    return getString(R.string.title_section1).toUpperCase(l);
+                    return getString(R.string.title_list).toUpperCase(l);
                 case 1:
-                    return getString(R.string.title_section2).toUpperCase(l);
-                case 2:
-                    return getString(R.string.title_section3).toUpperCase(l);
+                    return getString(R.string.title_map).toUpperCase(l);
             }
             return null;
         }
