@@ -15,8 +15,8 @@
         android:id="@+id/textViewItemName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Sample Item"
-        android:textAppearance="?android:attr/textAppearanceListItemSmall" />
+        android:padding="8dp"
+        android:textAppearance="@style/TextAppearance.Light" />
 
     <LinearLayout
         style="?android:attr/buttonBarStyle"
@@ -28,15 +28,19 @@
         <ImageButton
             android:id="@+id/imageButtonItemLike"
             style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:contentDescription="@string/like"
             android:src="@drawable/ic_action_like" />
 
         <ImageButton
             android:id="@+id/imageButtonItemDislike"
             style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:contentDescription="@string/dislike"
             android:src="@drawable/ic_action_dontlike" />
     </LinearLayout>
 

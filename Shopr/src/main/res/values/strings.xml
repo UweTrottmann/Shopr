@@ -6,5 +6,7 @@
     <string name="title_list">Items</string>
     <string name="title_map">Shops</string>
     <string name="reason_empty">This will show why items below are recommended:</string>
+    <string name="like">I like this item</string>
+    <string name="dislike">I do not like this item</string>
 
 </resources>
