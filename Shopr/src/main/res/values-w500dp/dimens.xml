@@ -1,0 +1,5 @@
+<resources>
+
+    <integer name="gridview_num_columns">4</integer>
+
+</resources>
