@@ -1,17 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name" >Shopr
-    </string>
-    <string name="action_settings" >Settings
-    </string>
+    <string name="app_name">Shopr</string>
+    <string name="action_settings">Settings</string>
     <string name="title_list">Items</string>
     <string name="title_map">Shops</string>
-    <string name="title_section1" >Section 1
-    </string>
-    <string name="title_section2" >Section 2
-    </string>
-    <string name="title_section3" >Section 3
-    </string>
+    <string name="reason_empty">This will show why items below are recommended:</string>
 
 </resources>
