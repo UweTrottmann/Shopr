@@ -8,6 +8,7 @@
         android:id="@+id/imageViewItemPicture"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/description_item_picutre"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_launcher" />
 

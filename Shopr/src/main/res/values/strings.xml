@@ -8,5 +8,6 @@
     <string name="reason_empty">This will show why items below are recommended:</string>
     <string name="like">I like this item</string>
     <string name="dislike">I do not like this item</string>
+    <string name="description_item_picutre">Clothing item</string>
 
 </resources>
