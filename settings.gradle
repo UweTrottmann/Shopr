@@ -1,1 +1,1 @@
-include ':Shopr'
+include ':Shopr', ':google-play-services_lib'
