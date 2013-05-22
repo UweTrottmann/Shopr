@@ -15,6 +15,9 @@ import android.widget.Toast;
 import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.model.Item;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 public class ItemAdapter extends ArrayAdapter<Item> {
 
     private static final int LAYOUT = R.layout.item_layout;
@@ -35,6 +38,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
             holder = new ViewHolder();
             holder.picture = (ImageView) convertView.findViewById(R.id.imageViewItemPicture);
             holder.name = (TextView) convertView.findViewById(R.id.textViewItemName);
+            holder.price = (TextView) convertView.findViewById(R.id.textViewItemPrice);
             holder.buttonLike = (ImageButton) convertView.findViewById(R.id.imageButtonItemLike);
             holder.buttonDislike = (ImageButton) convertView
                     .findViewById(R.id.imageButtonItemDislike);
@@ -46,6 +50,8 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 
         Item item = getItem(position);
         holder.name.setText(item.name());
+        holder.price.setText(NumberFormat.getCurrencyInstance(Locale.GERMANY).format(
+                item.price().doubleValue()));
         holder.buttonLike.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,6 +74,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
     static class ViewHolder {
         ImageView picture;
         TextView name;
+        TextView price;
         ImageButton buttonLike;
         ImageButton buttonDislike;
     }

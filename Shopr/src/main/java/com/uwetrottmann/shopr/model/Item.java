@@ -1,11 +1,14 @@
 
 package com.uwetrottmann.shopr.model;
 
+import java.math.BigDecimal;
+
 public class Item {
 
     private int id;
     private String name;
     private String picture;
+    private BigDecimal price;
     private int shop_id;
 
     public int id() {
@@ -41,6 +44,15 @@ public class Item {
 
     public Item shopId(int shop_id) {
         this.shop_id = shop_id;
+        return this;
+    }
+
+    public BigDecimal price() {
+        return price;
+    }
+
+    public Item price(BigDecimal price) {
+        this.price = price;
         return this;
     }
 
