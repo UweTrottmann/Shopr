@@ -1,6 +1,22 @@
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This conversation-based active learning critiquing algorithm is heavily based
+ * on<br>
+ * On the Role of Diversity in Conversational Recommender Systems,<br>
+ * Lorraine McGinty and Barry Smyth, 2003. <a href=
+ * "http://www.researchgate.net/publication/221203571_On_the_Role_of_Diversity_in_Conversational_Recommender_Systems/file/79e41508849a34b9a3.pdf"
+ * >PDF</a> (June 2013) <br>
+ * <br>
+ * It differs by allowing negative critiques and uses these as an indicator of
+ * positive or negative progress. Why? Imagine a clothing item selection: you
+ * may not always say 'Hey, I like this color', but also 'OMG, this color looks
+ * bad.'.
+ * 
+ * @author Uwe Trottmann
+ * 
+ */
 public class AdaptiveSelection {
 
 	public static void main(String[] args) {
