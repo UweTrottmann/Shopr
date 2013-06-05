@@ -1,3 +1,4 @@
+package com.uwetrottmann.shopr.algorithm;
 import java.util.ArrayList;
 import java.util.List;
 

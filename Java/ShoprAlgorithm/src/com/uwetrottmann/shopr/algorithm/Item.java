@@ -1,3 +1,4 @@
+package com.uwetrottmann.shopr.algorithm;
 /**
  * Represents a item (e.g. clothing item), or one case in the case-base.
  */

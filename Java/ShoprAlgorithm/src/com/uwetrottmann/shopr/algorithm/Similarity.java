@@ -1,3 +1,4 @@
+package com.uwetrottmann.shopr.algorithm;
 public class Similarity {
 
     public static double similarity(Attributes attrsFirst, Attributes attrsSecond) {
