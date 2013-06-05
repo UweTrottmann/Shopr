@@ -7,91 +7,74 @@ public class AdaptiveSelection {
         adaptiveSelection();
     }
 
-    /**
-     * Runs one recommendation cycle.
-     */
     private static void adaptiveSelection() {
-        itemRecommend(null, null, 15, null, FeedbackType.FIRST_RUN);
-        userReview();
-        queryRevise();
+        /*
+         * TODO: Build an actual cycle with item output and user input.
+         */
+        Query query = new Query();
+        Critique critique = new Critique();
+        critique.item = null;
+        boolean isAbort = false;
+
+        while (!isAbort) {
+            itemRecommend(query, 15, critique);
+            critique = userReview();
+            queryRevise(query, critique);
+        }
     }
 
     /**
-     * Takes the case-base, current query, number of recommended items to
-     * return, the currently critiqued on item. Returns a list of recommended
-     * items.
+     * Takes the current query, number of recommended items to return, the last
+     * critique. Returns a list of recommended items based on the case-base.
      */
-    private static List<Item> itemRecommend(List<Item> caseBase, Query query,
-            int numItems, Item critiquedItem, FeedbackType critiqueType) {
+    private static List<Item> itemRecommend(Query query, int numItems, Critique lastCritique) {
         /*
          * The caseBase will later be stored in a database (due to its size).
          * Think about optimizations which could be applied.
          */
-        List<Item> recommendations = new ArrayList<Item>();
-
         // Filter case-base to match hard-limits (location, opening hours)
-        recommendations = getLimitedCaseBase();
+        List<Item> caseBase = Utils.getLimitedCaseBase();
 
-        if (critiqueType == FeedbackType.POSITIVE_FEEDBACK) {
+        List<Item> recommendations;
+
+        if (lastCritique.item != null && lastCritique.feedback.isPositiveFeedback) {
             /*
              * Positive progress: user liked one or more features of one of the
              * recommended items.
              */
-            // show similar recommendations
-            recommendations = reFine();
+            /*
+             * REFINE: Show similar recommendations by sorting the case-base in
+             * decreasing similarity to current query. Return top k items.
+             */
+            Utils.sortBySimilarityToQuery(query, caseBase);
+            recommendations = new ArrayList<Item>(caseBase.subList(0, numItems - 1));
         } else {
             /*
              * Negative progress: user disliked one or more of the features of
              * one recommended item. Or: first run.
              */
-            // show diverse recommendations
-            recommendations = reFocus();
+            // REFOCUS: show diverse recommendations
+            int bound = 10;
+            recommendations = BoundedGreedySelection
+                    .boundedGreedySelection(query, caseBase, numItems, bound);
         }
 
-        /*
-         * Carry the critiqued item into the next set of recommendations so the
-         * user may critique it further.
-         */
-        recommendations.add(critiquedItem);
+        // Carry the critiqued so the user may critique it further.
+        recommendations.add(lastCritique.item);
 
         return recommendations;
-    }
-
-    /**
-     * Returns a subset of the overall case base filtered by hard-limits like
-     * location, availability and opening hours.
-     */
-    private static List<Item> getLimitedCaseBase() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    /**
-     * Sort case-base in decreasing similarity to current query. Return top k
-     * items.
-     */
-    private static List<Item> reFine() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    /**
-     * Chooses b*k items most similar to current query. Returns k items most
-     * similar to query and most dissimilar to already selected items. (Is a
-     * bounded greedy selection.)
-     */
-    private static List<Item> reFocus() {
-        // TODO Auto-generated method stub
-        return null;
     }
 
     /**
      * Takes the list of recommended items and elicits a critique on a feature
      * of one item from the user. Returns the liked/disliked item and which
      * feature value (! not just which feature !) was liked/disliked.
+     * 
+     * @return
      */
-    private static void userReview() {
+    private static Critique userReview() {
         // TODO Auto-generated method stub
+        return null;
     }
 
     /**
@@ -99,9 +82,8 @@ public class AdaptiveSelection {
      * current query. Returns a new query modified according to the given user
      * critique.
      */
-    private static void queryRevise() {
+    private static void queryRevise(Query query, Critique critique) {
         // TODO Auto-generated method stub
-
     }
 
 }

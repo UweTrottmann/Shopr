@@ -3,4 +3,6 @@
  */
 public class Item {
 
+    public Attributes attrs;
+
 }

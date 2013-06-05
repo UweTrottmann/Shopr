@@ -5,4 +5,5 @@
  */
 public class Query {
 
+    public Attributes attrs;
 }
