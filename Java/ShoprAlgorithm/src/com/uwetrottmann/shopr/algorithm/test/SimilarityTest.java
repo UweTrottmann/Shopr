@@ -39,6 +39,11 @@ public class SimilarityTest {
         } catch (Exception e) {
             assertThat(e).isInstanceOf(IllegalArgumentException.class);
         }
+
+        // different color, same type
+        a1.color = new Color(Color.Value.RED);
+        a2.type = new ClothingType(ClothingType.Value.DRESS);
+        assertThat(Similarity.similarity(a1, a2)).isEqualTo(0.5);
     }
 
 }
