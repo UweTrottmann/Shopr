@@ -29,7 +29,7 @@ public class Similarity {
 
         if (count == 0) {
             throw new IllegalArgumentException(
-                    "No attributes have been defined.");
+                    "Could not find one match of attribute to compare.");
         }
 
         // average
@@ -53,11 +53,18 @@ public class Similarity {
         }
 
         // sum up deltas
+        int count = 0;
         for (int i = 0; i < valueWeightsFirst.length; i++) {
+            if (valueWeightsFirst[i] == 0 && valueWeightsSecond[i] == 0) {
+                // skip if both weights are 0
+                continue;
+            }
+            count++;
             similarity += 1 - Math.abs(valueWeightsFirst[i] - valueWeightsSecond[i]);
         }
+
         // average
-        similarity /= valueWeightsFirst.length;
+        similarity /= count;
 
         return similarity;
     }
