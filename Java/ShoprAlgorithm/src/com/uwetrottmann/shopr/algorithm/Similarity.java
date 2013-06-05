@@ -6,15 +6,36 @@ import com.uwetrottmann.shopr.algorithm.model.Attributes.Attribute;
 
 public class Similarity {
 
-    public static double similarity(Attributes attrsFirst, Attributes attrsSecond) {
-        // TODO: calculates similarity over all attributes
+    public static double similarity(Attributes first, Attributes second) {
+        Attribute[] attrsFirst = first.getAllAttributes();
+        Attribute[] attrsSecond = second.getAllAttributes();
 
-        // for each feature in attrsFirst/attrsSecond
-        // calc similarity(featureFirst, featureSecond)
-        // sum up, divide by number of compared features
+        int count = 0;
+        double similarity = 0;
 
+        // sum up similarity values for all attributes
+        for (int i = 0; i < attrsFirst.length; i++) {
+            /*
+             * The query does only store new vectors for a feature once it has
+             * been critiqued (others remain null). This speeds up processing by
+             * avoiding useless comparisons (calculating similarity for
+             * un-critiqued features).
+             */
+            if (attrsFirst[i] != null && attrsSecond[i] != null) {
+                count++;
+                similarity += attributeSimilarity(attrsFirst[i], attrsSecond[i]);
+            }
+        }
 
-        return 1;
+        if (count == 0) {
+            throw new IllegalArgumentException(
+                    "No attributes have been defined.");
+        }
+
+        // average
+        similarity /= count;
+
+        return similarity;
     }
 
     /**

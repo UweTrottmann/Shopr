@@ -1,9 +1,6 @@
 
 package com.uwetrottmann.shopr.algorithm.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Holds a list of possible attributes of an item.
  */
@@ -17,13 +14,13 @@ public class Attributes {
 
     public Color color;
 
-    public List<double[]> getAllValueWeights() {
-        List<double[]> weights = new ArrayList<double[]>();
+    public Attribute[] getAllAttributes() {
+        Attribute[] attrs = new Attribute[2];
 
-        weights.add(type.getValueWeights());
-        weights.add(color.getValueWeights());
+        attrs[0] = type;
+        attrs[1] = color;
 
-        return weights;
+        return attrs;
     }
 
 }
