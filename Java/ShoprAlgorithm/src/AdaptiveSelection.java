@@ -66,12 +66,21 @@ public class AdaptiveSelection {
         return null;
     }
 
-    private static List<Item> reFocus() {
+    /**
+     * Sort case-base in decreasing similarity to current query. Return top k
+     * items.
+     */
+    private static List<Item> reFine() {
         // TODO Auto-generated method stub
         return null;
     }
 
-    private static List<Item> reFine() {
+    /**
+     * Chooses b*k items most similar to current query. Returns k items most
+     * similar to query and most dissimilar to already selected items. (Is a
+     * bounded greedy selection.)
+     */
+    private static List<Item> reFocus() {
         // TODO Auto-generated method stub
         return null;
     }
