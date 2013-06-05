@@ -7,7 +7,7 @@ import java.util.Arrays;
 
 public class ClothingType implements Attribute {
 
-    enum Value {
+    public enum Value {
         DRESS,
         SHIRT,
         TROUSER,

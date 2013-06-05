@@ -7,7 +7,7 @@ import java.util.Arrays;
 
 public class Color implements Attribute {
 
-    enum Value {
+    public enum Value {
         RED,
         BLUE,
         GREEN,
