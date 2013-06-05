@@ -1,4 +1,6 @@
 package com.uwetrottmann.shopr.algorithm;
+import com.uwetrottmann.shopr.algorithm.model.Item;
+
 import java.util.List;
 
 public class Utils {
