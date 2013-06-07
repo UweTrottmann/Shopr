@@ -1,3 +1,4 @@
+
 package com.uwetrottmann.shopr.algorithm;
 
 import com.uwetrottmann.shopr.algorithm.model.Attributes;
@@ -9,5 +10,14 @@ import com.uwetrottmann.shopr.algorithm.model.Attributes;
  */
 public class Query {
 
-    public Attributes attrs;
+    private Attributes attrs;
+
+    public Attributes attributes() {
+        return attrs;
+    }
+
+    public Query attributes(Attributes attrs) {
+        this.attrs = attrs;
+        return this;
+    }
 }

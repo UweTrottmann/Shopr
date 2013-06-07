@@ -1,6 +1,10 @@
+
 package com.uwetrottmann.shopr.algorithm;
+
 import com.uwetrottmann.shopr.algorithm.model.Item;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class Utils {
@@ -19,7 +23,27 @@ public class Utils {
      * item of caseBase).
      */
     public static void sortBySimilarityToQuery(Query query, List<Item> caseBase) {
-        // TODO Auto-generated method stub
+        // calculate similarity value for each item
+        for (Item item : caseBase) {
+            item.querySimilarity(Similarity.similarity(query.attributes(), item.attributes()));
+        }
+
+        // sort highest similarity first
+        Collections.sort(caseBase, new Comparator<Item>() {
+            @Override
+            public int compare(Item o1, Item o2) {
+                // is o2 smaller?
+                if (o1.querySimilarity() > o2.querySimilarity()) {
+                    return -1;
+                }
+                // is o2 bigger?
+                if (o1.querySimilarity() < o2.querySimilarity()) {
+                    return 1;
+                }
+                // they are equal!
+                return 0;
+            }
+        });
     }
 
 }

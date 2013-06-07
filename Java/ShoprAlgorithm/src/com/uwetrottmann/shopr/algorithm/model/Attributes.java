@@ -10,17 +10,35 @@ public class Attributes {
         public double[] getValueWeights();
     }
 
-    public ClothingType type;
+    private ClothingType type;
 
-    public Color color;
+    private Color color;
 
     public Attribute[] getAllAttributes() {
         Attribute[] attrs = new Attribute[2];
 
-        attrs[0] = type;
-        attrs[1] = color;
+        attrs[0] = type();
+        attrs[1] = color();
 
         return attrs;
+    }
+
+    public Color color() {
+        return color;
+    }
+
+    public Attributes color(Color color) {
+        this.color = color;
+        return this;
+    }
+
+    public ClothingType type() {
+        return type;
+    }
+
+    public Attributes type(ClothingType type) {
+        this.type = type;
+        return this;
     }
 
 }

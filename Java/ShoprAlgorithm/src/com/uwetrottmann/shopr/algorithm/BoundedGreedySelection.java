@@ -43,7 +43,7 @@ public class BoundedGreedySelection {
         for (Item item : caseBase) {
             // FIXME: Similarity to the query has to be only calculated once per
             // cycle!
-            double quality = ALPHA * Similarity.similarity(query.attrs, item.attrs) + (1 - ALPHA)
+            double quality = ALPHA * Similarity.similarity(query.attributes(), item.attributes()) + (1 - ALPHA)
                     * relativeDiversity(item, recommendations);
         }
     }
@@ -60,7 +60,7 @@ public class BoundedGreedySelection {
 
         double similarity = 0;
         for (Item recommendation : recommendations) {
-            similarity += 1 - Similarity.similarity(item.attrs, recommendation.attrs);
+            similarity += 1 - Similarity.similarity(item.attributes(), recommendation.attributes());
         }
         similarity /= recommendations.size();
 
