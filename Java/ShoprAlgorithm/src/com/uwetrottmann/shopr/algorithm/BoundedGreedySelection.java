@@ -1,4 +1,6 @@
+
 package com.uwetrottmann.shopr.algorithm;
+
 import com.uwetrottmann.shopr.algorithm.model.Item;
 
 import java.util.ArrayList;
@@ -15,8 +17,6 @@ public class BoundedGreedySelection {
      */
     public static List<Item> boundedGreedySelection(Query query, List<Item> caseBase, int limit,
             int bound) {
-        // FIXME: Similarity to the query has to be only calculated once per
-        // cycle!
         Utils.sortBySimilarityToQuery(query, caseBase);
 
         // TODO: get first b*k items
@@ -41,10 +41,8 @@ public class BoundedGreedySelection {
     private static void sortByQuality(List<Item> caseBase, List<Item> recommendations, Query query) {
         // TODO Sort by quality
         for (Item item : caseBase) {
-            // FIXME: Similarity to the query has to be only calculated once per
-            // cycle!
-            double quality = ALPHA * Similarity.similarity(query.attributes(), item.attributes()) + (1 - ALPHA)
-                    * relativeDiversity(item, recommendations);
+            double quality = ALPHA * item.querySimilarity()
+                    + (1 - ALPHA) * relativeDiversity(item, recommendations);
         }
     }
 
