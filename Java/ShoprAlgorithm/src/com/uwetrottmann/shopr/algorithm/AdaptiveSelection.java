@@ -16,12 +16,12 @@ public class AdaptiveSelection {
          */
         Query query = new Query();
         Critique critique = new Critique();
-        critique.item = null;
+        critique.item(null);
         boolean isAbort = false;
 
         while (!isAbort) {
-            itemRecommend(query, 15, critique);
-            critique = userReview();
+            List<Item> recommendations = itemRecommend(query, 15, critique);
+            critique = userReview(recommendations, query);
             queryRevise(query, critique);
         }
     }
@@ -40,7 +40,7 @@ public class AdaptiveSelection {
 
         List<Item> recommendations;
 
-        if (lastCritique.item != null && lastCritique.feedback.isPositiveFeedback) {
+        if (lastCritique.item() != null && lastCritique.feedback().isPositiveFeedback) {
             /*
              * Positive progress: user liked one or more features of one of the
              * recommended items.
@@ -63,7 +63,7 @@ public class AdaptiveSelection {
         }
 
         // Carry the critiqued so the user may critique it further.
-        recommendations.add(lastCritique.item);
+        recommendations.add(lastCritique.item());
 
         return recommendations;
     }
@@ -73,10 +73,16 @@ public class AdaptiveSelection {
      * of one item from the user. Returns the liked/disliked item and which
      * feature value (! not just which feature !) was liked/disliked.
      * 
+     * @param recommendations
      * @return
      */
-    private static Critique userReview() {
-        // TODO Auto-generated method stub
+    private static Critique userReview(List<Item> recommendations, Query query) {
+        Utils.dumpToConsole(recommendations, query);
+
+        Critique critique = new Critique();
+        critique.item(recommendations.get(0));
+        critique.feedback(new Feedback());
+
         return null;
     }
 
