@@ -31,7 +31,9 @@ public class BoundedGreedySelection {
     /**
      * Chooses <code>bound*limit</code> items most similar to current query.
      * Returns <code>limit</code> items most similar to query and most
-     * dissimilar to already selected items out of those.
+     * dissimilar to already selected items out of those.<br>
+     * If there are less items than required, will still return (less)
+     * recommendations.
      */
     public static List<Item> boundedGreedySelection(Query query, List<Item> caseBase, int limit,
             int bound) {
