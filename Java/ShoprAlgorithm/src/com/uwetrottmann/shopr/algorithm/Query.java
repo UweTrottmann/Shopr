@@ -12,12 +12,11 @@ public class Query {
 
     private Attributes attrs;
 
-    public Attributes attributes() {
-        return attrs;
+    public Query() {
+        attrs = new Attributes();
     }
 
-    public Query attributes(Attributes attrs) {
-        this.attrs = attrs;
-        return this;
+    public Attributes attributes() {
+        return attrs;
     }
 }

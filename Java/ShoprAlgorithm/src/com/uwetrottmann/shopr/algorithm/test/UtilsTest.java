@@ -31,7 +31,8 @@ public class UtilsTest {
                 .add(new Item().attributes(new Attributes().color(new Color(Color.Value.BLUE))));
 
         // sample query
-        Query query = new Query().attributes(new Attributes().color(new Color(Color.Value.RED)));
+        Query query = new Query();
+        query.attributes().color(new Color(Color.Value.RED));
 
         Utils.sortBySimilarityToQuery(query, unsortedCases);
 
