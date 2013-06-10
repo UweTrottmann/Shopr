@@ -25,6 +25,7 @@ public class ClothingType extends GenericAttribute<ClothingType.Value> implement
         mValueWeights = new double[Value.values().length];
         Arrays.fill(mValueWeights, 0.0);
         mValueWeights[value.ordinal()] = 1.0;
+        currentValue(value);
     }
 
     @Override

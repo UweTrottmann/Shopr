@@ -24,6 +24,7 @@ public class Color extends GenericAttribute<Color.Value> implements Attribute {
         mValueWeights = new double[Value.values().length];
         Arrays.fill(mValueWeights, 0.0);
         mValueWeights[value.ordinal()] = 1.0;
+        currentValue(value);
     }
 
     @Override

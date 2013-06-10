@@ -3,6 +3,8 @@ package com.uwetrottmann.shopr.algorithm.model;
 
 public abstract class GenericAttribute<T> {
 
+    private T currentValue;
+
     double[] mValueWeights;
 
     public double[] getValueWeights() {
@@ -26,5 +28,14 @@ public abstract class GenericAttribute<T> {
     }
 
     public abstract T[] getValueSymbols();
+
+    public T currentValue() {
+        return currentValue;
+    }
+
+    public GenericAttribute<T> currentValue(T currentValue) {
+        this.currentValue = currentValue;
+        return this;
+    }
 
 }
