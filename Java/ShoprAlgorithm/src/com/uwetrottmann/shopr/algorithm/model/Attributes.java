@@ -14,11 +14,14 @@ public class Attributes {
 
     private Color color;
 
+    private Label label;
+
     public Attribute[] getAllAttributes() {
-        Attribute[] attrs = new Attribute[2];
+        Attribute[] attrs = new Attribute[3];
 
         attrs[0] = type();
         attrs[1] = color();
+        attrs[2] = label();
 
         return attrs;
     }
@@ -38,6 +41,15 @@ public class Attributes {
 
     public Attributes type(ClothingType type) {
         this.type = type;
+        return this;
+    }
+
+    public Label label() {
+        return label;
+    }
+
+    public Attributes label(Label label) {
+        this.label = label;
         return this;
     }
 

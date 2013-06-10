@@ -4,6 +4,7 @@ package com.uwetrottmann.shopr.algorithm;
 import com.uwetrottmann.shopr.algorithm.model.ClothingType;
 import com.uwetrottmann.shopr.algorithm.model.Color;
 import com.uwetrottmann.shopr.algorithm.model.Item;
+import com.uwetrottmann.shopr.algorithm.model.Label;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,6 +17,7 @@ public class AdaptiveSelection {
 
     private static final int NUM_RECOMMENDATIONS = 2;
     private static final int BOUND = 5;
+    private static final boolean DUMP_INVENTORY = false;
 
     public static void main(String[] args) {
         adaptiveSelection();
@@ -35,9 +37,9 @@ public class AdaptiveSelection {
         List<Item> caseBase = Utils.getLimitedCaseBase();
 
         // dump database
-        System.out.println("*** START INVENTORY DUMP ***");
-        Utils.dumpToConsole(caseBase, query);
-        System.out.println("*** DONE INVENTORY DUMP ***");
+        if (DUMP_INVENTORY) {
+            dumpInventory(query, caseBase);
+        }
 
         while (!isAbort) {
             List<Item> recommendations = itemRecommend(caseBase, query, NUM_RECOMMENDATIONS, BOUND,
@@ -45,6 +47,12 @@ public class AdaptiveSelection {
             critique = userReview(recommendations, query);
             queryRevise(query, critique);
         }
+    }
+
+    private static void dumpInventory(Query query, List<Item> caseBase) {
+        System.out.println("*** START INVENTORY DUMP ***");
+        Utils.dumpToConsole(caseBase, query);
+        System.out.println("*** DONE INVENTORY DUMP ***");
     }
 
     /**
@@ -106,7 +114,7 @@ public class AdaptiveSelection {
             boolean isPositiveCritique = Integer.valueOf(in.readLine()) == 1;
 
             // TODO: allow multiple attributes
-            System.out.print("Color (0) or type (1)?: ");
+            System.out.print("Color (0), type (1) or label(2)?: ");
             int attribute = Integer.valueOf(in.readLine());
 
             Critique critique = new Critique();
@@ -149,6 +157,15 @@ public class AdaptiveSelection {
                 }
                 valueIndex = critique.item().attributes().type().currentValue().ordinal();
                 weights = query.attributes().type().getValueWeights();
+                break;
+            }
+            case 2: {
+                if (query.attributes().label() == null) {
+                    // initialize with evenly weighted values
+                    query.attributes().label(new Label());
+                }
+                valueIndex = critique.item().attributes().label().currentValue().ordinal();
+                weights = query.attributes().label().getValueWeights();
                 break;
             }
         }

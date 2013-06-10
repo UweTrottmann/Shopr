@@ -5,6 +5,7 @@ import com.uwetrottmann.shopr.algorithm.model.Attributes;
 import com.uwetrottmann.shopr.algorithm.model.ClothingType;
 import com.uwetrottmann.shopr.algorithm.model.Color;
 import com.uwetrottmann.shopr.algorithm.model.Item;
+import com.uwetrottmann.shopr.algorithm.model.Label;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,16 +16,21 @@ public class Utils {
 
     /**
      * Returns a subset of the overall case base filtered by hard-limits like
-     * location, availability and opening hours.
+     * location, availability and opening hours.<br>
+     * Currently only returns sample items.
      */
     public static List<Item> getLimitedCaseBase() {
+        // TODO replace with actual prefiltered data
         ArrayList<Item> cases = new ArrayList<Item>();
 
         for (Color.Value color : Color.Value.values()) {
             for (ClothingType.Value type : ClothingType.Value.values()) {
-                cases.add(new Item().attributes(new Attributes()
-                        .color(new Color(color))
-                        .type(new ClothingType(type))));
+                for (Label.Value label : Label.Value.values()) {
+                    cases.add(new Item().attributes(new Attributes()
+                            .color(new Color(color))
+                            .type(new ClothingType(type))
+                            .label(new Label(label))));
+                }
             }
         }
 
@@ -61,8 +67,10 @@ public class Utils {
 
     public static void dumpToConsole(List<Item> cases, Query query) {
         if (query.attributes() != null) {
-            System.out.println("Query " + query.attributes().color() + " "
-                    + query.attributes().type());
+            System.out.println("Query "
+                    + query.attributes().color() + " "
+                    + query.attributes().type() + " "
+                    + query.attributes().label());
         } else {
             System.out.println("Query EMPTY");
         }
@@ -71,7 +79,8 @@ public class Utils {
             System.out
                     .println("[" + i + "] Item "
                             + item.attributes().color() + " "
-                            + item.attributes().type()
+                            + item.attributes().type() + " "
+                            + item.attributes().label()
                             + " sim " + item.querySimilarity()
                             + " qual " + item.quality());
         }
