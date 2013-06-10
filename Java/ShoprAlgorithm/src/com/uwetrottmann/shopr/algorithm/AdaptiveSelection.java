@@ -26,8 +26,16 @@ public class AdaptiveSelection {
         critique.item(null);
         boolean isAbort = false;
 
+        /*
+         * The caseBase will later be stored in a database (due to its size).
+         * Think about optimizations which could be applied.
+         */
+        // Filter case-base to match hard-limits (location, opening hours)
+        List<Item> caseBase = Utils.getLimitedCaseBase();
+
         while (!isAbort) {
-            List<Item> recommendations = itemRecommend(query, NUM_RECOMMENDATIONS, critique);
+            List<Item> recommendations = itemRecommend(caseBase, query, NUM_RECOMMENDATIONS,
+                    critique);
             critique = userReview(recommendations, query);
             queryRevise(query, critique);
         }
@@ -37,15 +45,10 @@ public class AdaptiveSelection {
      * Takes the current query, number of recommended items to return, the last
      * critique. Returns a list of recommended items based on the case-base.
      */
-    private static List<Item> itemRecommend(Query query, int numItems, Critique lastCritique) {
-        /*
-         * The caseBase will later be stored in a database (due to its size).
-         * Think about optimizations which could be applied.
-         */
-        // Filter case-base to match hard-limits (location, opening hours)
-        List<Item> caseBase = Utils.getLimitedCaseBase();
+    private static List<Item> itemRecommend(List<Item> caseBase, Query query, int numItems,
+            Critique lastCritique) {
 
-        List<Item> recommendations;
+        List<Item> recommendations = new ArrayList<Item>();
 
         if (lastCritique.item() != null && lastCritique.feedback().isPositiveFeedback()) {
             /*
@@ -57,7 +60,9 @@ public class AdaptiveSelection {
              * decreasing similarity to current query. Return top k items.
              */
             Utils.sortBySimilarityToQuery(query, caseBase);
-            recommendations = new ArrayList<Item>(caseBase.subList(0, numItems - 1));
+            for (int i = 0; i < numItems; i++) {
+                recommendations.add(caseBase.remove(0));
+            }
         } else {
             /*
              * Negative progress: user disliked one or more of the features of
