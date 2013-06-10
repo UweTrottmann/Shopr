@@ -5,7 +5,7 @@ import com.uwetrottmann.shopr.algorithm.model.Attributes.Attribute;
 
 import java.util.Arrays;
 
-public class ClothingType implements Attribute {
+public class ClothingType extends GenericAttribute implements Attribute {
 
     public enum Value {
         DRESS,
@@ -14,8 +14,6 @@ public class ClothingType implements Attribute {
         JEANS,
         SHORTS
     }
-
-    double[] mValueWeights;
 
     public ClothingType() {
         int numValues = Value.values().length;
@@ -27,10 +25,6 @@ public class ClothingType implements Attribute {
         mValueWeights = new double[Value.values().length];
         Arrays.fill(mValueWeights, 0.0);
         mValueWeights[value.ordinal()] = 1.0;
-    }
-
-    public double[] getValueWeights() {
-        return mValueWeights;
     }
 
 }
