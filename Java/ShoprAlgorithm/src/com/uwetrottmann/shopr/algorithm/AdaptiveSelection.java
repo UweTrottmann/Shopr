@@ -1,4 +1,6 @@
+
 package com.uwetrottmann.shopr.algorithm;
+
 import com.uwetrottmann.shopr.algorithm.model.Item;
 
 import java.util.ArrayList;
@@ -40,7 +42,7 @@ public class AdaptiveSelection {
 
         List<Item> recommendations;
 
-        if (lastCritique.item() != null && lastCritique.feedback().isPositiveFeedback) {
+        if (lastCritique.item() != null && lastCritique.feedback().isPositiveFeedback()) {
             /*
              * Positive progress: user liked one or more features of one of the
              * recommended items.
@@ -79,9 +81,20 @@ public class AdaptiveSelection {
     private static Critique userReview(List<Item> recommendations, Query query) {
         Utils.dumpToConsole(recommendations, query);
 
+        int selection = Integer.valueOf(System.console().readLine(
+                "Enter the number of item to critique: "));
+
+        boolean isPositiveCritique = Integer.valueOf(System.console().readLine(
+                "Like (1) or Dislike(0)? ")) == 1;
+
+        // TODO: allow multiple attributes
+        int attribute = Integer.valueOf(System.console().readLine(
+                "Color (0) or type (1)?: "));
+
         Critique critique = new Critique();
-        critique.item(recommendations.get(0));
-        critique.feedback(new Feedback());
+        critique.item(recommendations.get(selection));
+        critique.feedback(new Feedback().isPositiveFeedback(isPositiveCritique)
+                .attribute(attribute));
 
         return null;
     }
@@ -92,7 +105,16 @@ public class AdaptiveSelection {
      * critique.
      */
     private static void queryRevise(Query query, Critique critique) {
-        // TODO Auto-generated method stub
+        // TODO implement weighting, right now only replacing with item
+        // attributes
+        switch (critique.feedback().attribute()) {
+            case 0:
+                query.attributes().color(critique.item().attributes().color());
+                break;
+            case 1:
+                query.attributes().type(critique.item().attributes().type());
+                break;
+        }
     }
 
 }
