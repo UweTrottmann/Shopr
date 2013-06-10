@@ -2,7 +2,6 @@
 package com.uwetrottmann.shopr.algorithm.test;
 
 import static org.fest.assertions.api.Assertions.assertThat;
-import static org.fest.assertions.api.Assertions.failBecauseExceptionWasNotThrown;
 
 import com.uwetrottmann.shopr.algorithm.Similarity;
 import com.uwetrottmann.shopr.algorithm.model.Attributes;
@@ -30,15 +29,9 @@ public class SimilarityTest {
         a1.color(new Color(Color.Value.BLACK));
         assertThat(Similarity.similarity(a1, a2)).isEqualTo(1.0);
 
-        // throw on no comparable attributes
+        // return 0 on no comparable attributes
         a1.color(null);
-        try {
-            Similarity.similarity(a1, a2);
-
-            failBecauseExceptionWasNotThrown(IllegalArgumentException.class);
-        } catch (Exception e) {
-            assertThat(e).isInstanceOf(IllegalArgumentException.class);
-        }
+        assertThat(Similarity.similarity(a1, a2)).isEqualTo(0.0);
 
         // different color, same type
         a1.color(new Color(Color.Value.RED));

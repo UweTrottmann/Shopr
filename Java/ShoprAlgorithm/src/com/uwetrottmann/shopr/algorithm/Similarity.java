@@ -7,10 +7,6 @@ import com.uwetrottmann.shopr.algorithm.model.Attributes.Attribute;
 public class Similarity {
 
     public static double similarity(Attributes first, Attributes second) {
-        if (first == null || second == null) {
-            return 0;
-        }
-
         Attribute[] attrsFirst = first.getAllAttributes();
         Attribute[] attrsSecond = second.getAllAttributes();
 
@@ -31,9 +27,9 @@ public class Similarity {
             }
         }
 
+        // if there are no comparable attributes, there is no similarity
         if (count == 0) {
-            throw new IllegalArgumentException(
-                    "Could not find one match of attribute to compare.");
+            return 0;
         }
 
         // average
