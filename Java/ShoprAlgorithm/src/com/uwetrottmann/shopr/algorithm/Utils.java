@@ -48,9 +48,10 @@ public class Utils {
 
     public static void dumpToConsole(List<Item> cases, Query query) {
         System.out.println("Query " + query.attributes().color());
-        for (Item item : cases) {
-            System.out.println("Item " + item.attributes().color() + " " + item.attributes().type()
-                    + " querySimilarity: " + item.querySimilarity());
+        for (int i = 0; i < cases.size(); i++) {
+            System.out.println("[" + i + "] Item " + cases.get(i).attributes().color() + " "
+                    + cases.get(i).attributes().type()
+                    + " querySimilarity: " + cases.get(i).querySimilarity());
         }
     }
 
