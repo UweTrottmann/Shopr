@@ -128,9 +128,13 @@ public class Utils {
             System.out.println("Query EMPTY");
         }
         for (int i = 0; i < cases.size(); i++) {
-            System.out.println("[" + i + "] Item " + cases.get(i).attributes().color() + " "
-                    + cases.get(i).attributes().type()
-                    + " querySimilarity: " + cases.get(i).querySimilarity());
+            Item item = cases.get(i);
+            System.out
+                    .println("[" + i + "] Item "
+                            + item.attributes().color() + " "
+                            + item.attributes().type()
+                            + " sim " + item.querySimilarity()
+                            + " qual " + item.quality());
         }
     }
 
