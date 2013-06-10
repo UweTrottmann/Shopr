@@ -19,75 +19,14 @@ public class Utils {
      */
     public static List<Item> getLimitedCaseBase() {
         ArrayList<Item> cases = new ArrayList<Item>();
-        // dresses
-        cases.add(new Item().attributes(new Attributes()
-                .color(new Color(Color.Value.RED))
-                .type(new ClothingType(ClothingType.Value.DRESS))));
-        cases.add(new Item().attributes(new Attributes()
-                .color(new Color(Color.Value.BLUE))
-                .type(new ClothingType(ClothingType.Value.DRESS))));
-        cases.add(new Item().attributes(new Attributes()
-                .color(new Color(Color.Value.GREEN))
-                .type(new ClothingType(ClothingType.Value.DRESS))));
-        cases.add(new Item().attributes(new Attributes()
-                .color(new Color(Color.Value.BLACK))
-                .type(new ClothingType(ClothingType.Value.DRESS))));
 
-        // Jeans
-        cases.add(new Item().attributes(new Attributes()
-                .color(new Color(Color.Value.RED))
-                .type(new ClothingType(ClothingType.Value.JEANS))));
-        cases.add(new Item().attributes(new Attributes()
-                .color(new Color(Color.Value.BLUE))
-                .type(new ClothingType(ClothingType.Value.JEANS))));
-        cases.add(new Item().attributes(new Attributes()
-                .color(new Color(Color.Value.GREEN))
-                .type(new ClothingType(ClothingType.Value.JEANS))));
-        cases.add(new Item().attributes(new Attributes()
-                .color(new Color(Color.Value.BLACK))
-                .type(new ClothingType(ClothingType.Value.JEANS))));
-
-        // Shirts
-        cases.add(new Item().attributes(new Attributes()
-                .color(new Color(Color.Value.RED))
-                .type(new ClothingType(ClothingType.Value.SHIRT))));
-        cases.add(new Item().attributes(new Attributes()
-                .color(new Color(Color.Value.BLUE))
-                .type(new ClothingType(ClothingType.Value.SHIRT))));
-        cases.add(new Item().attributes(new Attributes()
-                .color(new Color(Color.Value.GREEN))
-                .type(new ClothingType(ClothingType.Value.SHIRT))));
-        cases.add(new Item().attributes(new Attributes()
-                .color(new Color(Color.Value.BLACK))
-                .type(new ClothingType(ClothingType.Value.SHIRT))));
-
-        // Shorts
-        cases.add(new Item().attributes(new Attributes()
-                .color(new Color(Color.Value.RED))
-                .type(new ClothingType(ClothingType.Value.SHORTS))));
-        cases.add(new Item().attributes(new Attributes()
-                .color(new Color(Color.Value.BLUE))
-                .type(new ClothingType(ClothingType.Value.SHORTS))));
-        cases.add(new Item().attributes(new Attributes()
-                .color(new Color(Color.Value.GREEN))
-                .type(new ClothingType(ClothingType.Value.SHORTS))));
-        cases.add(new Item().attributes(new Attributes()
-                .color(new Color(Color.Value.BLACK))
-                .type(new ClothingType(ClothingType.Value.SHORTS))));
-
-        // Trousers
-        cases.add(new Item().attributes(new Attributes()
-                .color(new Color(Color.Value.RED))
-                .type(new ClothingType(ClothingType.Value.TROUSER))));
-        cases.add(new Item().attributes(new Attributes()
-                .color(new Color(Color.Value.BLUE))
-                .type(new ClothingType(ClothingType.Value.TROUSER))));
-        cases.add(new Item().attributes(new Attributes()
-                .color(new Color(Color.Value.GREEN))
-                .type(new ClothingType(ClothingType.Value.TROUSER))));
-        cases.add(new Item().attributes(new Attributes()
-                .color(new Color(Color.Value.BLACK))
-                .type(new ClothingType(ClothingType.Value.TROUSER))));
+        for (Color.Value color : Color.Value.values()) {
+            for (ClothingType.Value type : ClothingType.Value.values()) {
+                cases.add(new Item().attributes(new Attributes()
+                        .color(new Color(color))
+                        .type(new ClothingType(type))));
+            }
+        }
 
         return cases;
     }
