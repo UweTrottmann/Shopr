@@ -121,7 +121,12 @@ public class Utils {
     }
 
     public static void dumpToConsole(List<Item> cases, Query query) {
-        System.out.println("Query " + query.attributes().color());
+        if (query.attributes() != null) {
+            System.out.println("Query " + query.attributes().color() + " "
+                    + query.attributes().type());
+        } else {
+            System.out.println("Query EMPTY");
+        }
         for (int i = 0; i < cases.size(); i++) {
             System.out.println("[" + i + "] Item " + cases.get(i).attributes().color() + " "
                     + cases.get(i).attributes().type()
