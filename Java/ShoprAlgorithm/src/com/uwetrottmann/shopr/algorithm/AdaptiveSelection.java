@@ -14,7 +14,7 @@ import java.util.List;
 
 public class AdaptiveSelection {
 
-    private static final int NUM_RECOMMENDATIONS = 5;
+    private static final int NUM_RECOMMENDATIONS = 2;
     private static final int BOUND = 5;
 
     public static void main(String[] args) {
@@ -95,7 +95,7 @@ public class AdaptiveSelection {
 
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
-        System.out.print("Enter the number of item to critique: ");
+        System.out.print("Enter which item to critique: ");
         int selection;
         try {
             selection = Integer.valueOf(in.readLine());
