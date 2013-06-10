@@ -22,9 +22,6 @@ public class AdaptiveSelection {
     }
 
     private static void adaptiveSelection() {
-        /*
-         * TODO: Build an actual cycle with item output and user input.
-         */
         Query query = new Query();
         Critique critique = new Critique();
         critique.item(null);
