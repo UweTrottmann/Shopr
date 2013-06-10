@@ -5,7 +5,7 @@ import com.uwetrottmann.shopr.algorithm.model.Attributes.Attribute;
 
 import java.util.Arrays;
 
-public class Color extends GenericAttribute implements Attribute {
+public class Color extends GenericAttribute<Color.Value> implements Attribute {
 
     public enum Value {
         RED,
@@ -24,5 +24,10 @@ public class Color extends GenericAttribute implements Attribute {
         mValueWeights = new double[Value.values().length];
         Arrays.fill(mValueWeights, 0.0);
         mValueWeights[value.ordinal()] = 1.0;
+    }
+
+    @Override
+    public Value[] getValueSymbols() {
+        return Value.values();
     }
 }

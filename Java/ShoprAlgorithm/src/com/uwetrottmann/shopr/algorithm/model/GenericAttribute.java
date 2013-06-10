@@ -1,9 +1,7 @@
 
 package com.uwetrottmann.shopr.algorithm.model;
 
-import com.uwetrottmann.shopr.algorithm.model.Color.Value;
-
-public abstract class GenericAttribute {
+public abstract class GenericAttribute<T> {
 
     double[] mValueWeights;
 
@@ -14,7 +12,7 @@ public abstract class GenericAttribute {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        Value[] values = Value.values();
+        T[] values = getValueSymbols();
 
         builder.append("[");
         for (int i = 0; i < mValueWeights.length; i++) {
@@ -26,5 +24,7 @@ public abstract class GenericAttribute {
 
         return builder.toString();
     }
+
+    public abstract T[] getValueSymbols();
 
 }
