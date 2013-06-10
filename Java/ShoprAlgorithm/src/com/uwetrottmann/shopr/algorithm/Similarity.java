@@ -7,6 +7,10 @@ import com.uwetrottmann.shopr.algorithm.model.Attributes.Attribute;
 public class Similarity {
 
     public static double similarity(Attributes first, Attributes second) {
+        if (first == null || second == null) {
+            return 0;
+        }
+
         Attribute[] attrsFirst = first.getAllAttributes();
         Attribute[] attrsSecond = second.getAllAttributes();
 
