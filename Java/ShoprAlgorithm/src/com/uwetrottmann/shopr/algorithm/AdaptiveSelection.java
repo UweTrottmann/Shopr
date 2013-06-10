@@ -8,6 +8,8 @@ import java.util.List;
 
 public class AdaptiveSelection {
 
+    private static final int NUM_RECOMMENDATIONS = 5;
+
     public static void main(String[] args) {
         adaptiveSelection();
     }
@@ -22,7 +24,7 @@ public class AdaptiveSelection {
         boolean isAbort = false;
 
         while (!isAbort) {
-            List<Item> recommendations = itemRecommend(query, 15, critique);
+            List<Item> recommendations = itemRecommend(query, NUM_RECOMMENDATIONS, critique);
             critique = userReview(recommendations, query);
             queryRevise(query, critique);
         }
@@ -65,7 +67,9 @@ public class AdaptiveSelection {
         }
 
         // Carry the critiqued so the user may critique it further.
-        recommendations.add(lastCritique.item());
+        if (lastCritique.item() != null) {
+            recommendations.add(lastCritique.item());
+        }
 
         return recommendations;
     }
