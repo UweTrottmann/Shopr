@@ -3,6 +3,9 @@ package com.uwetrottmann.shopr.algorithm;
 
 import com.uwetrottmann.shopr.algorithm.model.Item;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,27 +81,33 @@ public class AdaptiveSelection {
      * Takes the list of recommended items and elicits a critique on a feature
      * of one item from the user. Returns the liked/disliked item and which
      * feature value (! not just which feature !) was liked/disliked.
-     * 
-     * @param recommendations
-     * @return
      */
     private static Critique userReview(List<Item> recommendations, Query query) {
         Utils.dumpToConsole(recommendations, query);
 
-        int selection = Integer.valueOf(System.console().readLine(
-                "Enter the number of item to critique: "));
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
-        boolean isPositiveCritique = Integer.valueOf(System.console().readLine(
-                "Like (1) or Dislike(0)? ")) == 1;
+        System.out.print("Enter the number of item to critique: ");
+        int selection;
+        try {
+            selection = Integer.valueOf(in.readLine());
 
-        // TODO: allow multiple attributes
-        int attribute = Integer.valueOf(System.console().readLine(
-                "Color (0) or type (1)?: "));
+            System.out.print("Like (1) or Dislike(0)? ");
+            boolean isPositiveCritique = Integer.valueOf(in.readLine()) == 1;
 
-        Critique critique = new Critique();
-        critique.item(recommendations.get(selection));
-        critique.feedback(new Feedback().isPositiveFeedback(isPositiveCritique)
-                .attribute(attribute));
+            // TODO: allow multiple attributes
+            System.out.print("Color (0) or type (1)?: ");
+            int attribute = Integer.valueOf(in.readLine());
+
+            Critique critique = new Critique();
+            critique.item(recommendations.get(selection));
+            critique.feedback(new Feedback().isPositiveFeedback(isPositiveCritique)
+                    .attribute(attribute));
+
+            return critique;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         return null;
     }
