@@ -18,9 +18,10 @@ public abstract class GenericAttribute<T> {
 
         builder.append("[");
         for (int i = 0; i < mValueWeights.length; i++) {
-            if (mValueWeights[i] != 0) {
-                builder.append(values[i]).append(":").append(mValueWeights[i]).append(" ");
+            if (mValueWeights[i] == 1) {
+                return "[" + values[i] + ":" + mValueWeights[i] + "]";
             }
+            builder.append(values[i]).append(":").append(mValueWeights[i]).append(" ");
         }
         builder.append("]");
 
