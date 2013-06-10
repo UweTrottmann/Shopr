@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class AdaptiveSelection {
@@ -125,22 +126,18 @@ public class AdaptiveSelection {
      * critique.
      */
     private static void queryRevise(Query query, Critique critique) {
-        // TODO implement weighting, right now only replacing with item
-        // attributes
+        int valueIndex = -1;
+        double[] weights = null;
+
+        // get value weight index, current weights
         switch (critique.feedback().attribute()) {
             case 0: {
                 if (query.attributes().color() == null) {
                     // initialize with evenly weighted values
                     query.attributes().color(new Color());
                 }
-                if (critique.feedback().isPositiveFeedback()) {
-
-                } else {
-                    int valueIndex = critique.item().attributes().color().currentValue().ordinal();
-                    double[] weights = query.attributes().color().getValueWeights();
-
-                    dislikeValue(valueIndex, weights);
-                }
+                valueIndex = critique.item().attributes().color().currentValue().ordinal();
+                weights = query.attributes().color().getValueWeights();
                 break;
             }
             case 1: {
@@ -148,21 +145,56 @@ public class AdaptiveSelection {
                     // initialize with evenly weighted values
                     query.attributes().type(new ClothingType());
                 }
-                if (critique.feedback().isPositiveFeedback()) {
-
-                } else {
-                    int valueIndex = critique.item().attributes().type().currentValue().ordinal();
-                    double[] weights = query.attributes().type().getValueWeights();
-
-                    dislikeValue(valueIndex, weights);
-                }
+                valueIndex = critique.item().attributes().type().currentValue().ordinal();
+                weights = query.attributes().type().getValueWeights();
                 break;
+            }
+        }
+
+        // calculate new weights
+        if (valueIndex != -1 || weights != null) {
+            if (critique.feedback().isPositiveFeedback()) {
+                likeValue(valueIndex, weights);
+            } else {
+                dislikeValue(valueIndex, weights);
             }
         }
     }
 
-    private static void dislikeValue(int valueIndex, double[] weights) {
-        double dislikedValue = weights[valueIndex];
+    /**
+     * Doubles the weight of the liked value, clamps to one. Subtracts the
+     * difference evenly from other weights, clamps them to zero if necessary.
+     */
+    public static void likeValue(int valueIndex, double[] weights) {
+        double likedWeight = weights[valueIndex];
+
+        weights[valueIndex] += likedWeight;
+
+        // sum can not exceed 1.0
+        if (weights[valueIndex] > 1.0) {
+            Arrays.fill(weights, 0.0);
+            weights[valueIndex] = 1.0;
+        }
+
+        // subtract average from other weights
+        double redistributed = likedWeight / (weights.length - 1);
+        for (int i = 0; i < weights.length; i++) {
+            if (i != valueIndex) {
+                weights[i] -= redistributed;
+                // floor at 0.0
+                if (weights[i] < 0) {
+                    weights[i] = 0.0;
+                }
+            }
+        }
+    }
+
+    /**
+     * Sets the disliked values weight to zero, distributes its ex-weight evenly
+     * to other weights.
+     */
+    public static void dislikeValue(int valueIndex, double[] weights) {
+        double dislikedWeight = weights[valueIndex];
 
         weights[valueIndex] = 0.0;
 
@@ -173,7 +205,7 @@ public class AdaptiveSelection {
             }
         }
 
-        double redistributed = dislikedValue / nonZeroCount;
+        double redistributed = dislikedWeight / nonZeroCount;
         for (int i = 0; i < weights.length; i++) {
             if (weights[i] != 0) {
                 weights[i] += redistributed;
