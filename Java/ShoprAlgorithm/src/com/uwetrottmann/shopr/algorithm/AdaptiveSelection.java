@@ -34,6 +34,11 @@ public class AdaptiveSelection {
         // Filter case-base to match hard-limits (location, opening hours)
         List<Item> caseBase = Utils.getLimitedCaseBase();
 
+        // dump database
+        System.out.println("*** START INVENTORY DUMP ***");
+        Utils.dumpToConsole(caseBase, query);
+        System.out.println("*** DONE INVENTORY DUMP ***");
+
         while (!isAbort) {
             List<Item> recommendations = itemRecommend(caseBase, query, NUM_RECOMMENDATIONS, BOUND,
                     critique);
