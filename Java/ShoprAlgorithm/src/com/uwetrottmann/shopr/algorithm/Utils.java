@@ -3,6 +3,7 @@ package com.uwetrottmann.shopr.algorithm;
 
 import com.uwetrottmann.shopr.algorithm.model.Item;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -44,6 +45,14 @@ public class Utils {
                 return 0;
             }
         });
+    }
+
+    public static void dumpToConsole(ArrayList<Item> cases, Query query) {
+        System.out.println("Query " + query.attributes().color());
+        for (Item item : cases) {
+            System.out.println("Item " + item.attributes().color() + " " + item.attributes().type()
+                    + " querySimilarity: " + item.querySimilarity());
+        }
     }
 
 }

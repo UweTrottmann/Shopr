@@ -36,7 +36,7 @@ public class UtilsTest {
         Utils.sortBySimilarityToQuery(query, unsortedCases);
 
         // top two items are red?
-        dumpToConsole(unsortedCases, query);
+        Utils.dumpToConsole(unsortedCases, query);
         assertThat(
                 unsortedCases.get(0).attributes().color().getValueWeights()[Color.Value.RED
                         .ordinal()]).isEqualTo(1.0);
@@ -50,21 +50,13 @@ public class UtilsTest {
         Utils.sortBySimilarityToQuery(query, unsortedCases);
 
         // nothing should have changed
-        dumpToConsole(unsortedCases, query);
+        Utils.dumpToConsole(unsortedCases, query);
         assertThat(
                 unsortedCases.get(0).attributes().color().getValueWeights()[Color.Value.RED
                         .ordinal()]).isEqualTo(1.0);
         assertThat(
                 unsortedCases.get(1).attributes().color().getValueWeights()[Color.Value.RED
                         .ordinal()]).isEqualTo(1.0);
-    }
-
-    private void dumpToConsole(ArrayList<Item> unsortedCases, Query query) {
-        System.out.println("Query " + query.attributes().color());
-        for (Item item : unsortedCases) {
-            System.out.println("Item " + item.attributes().color()
-                    + " querySimilarity: " + item.querySimilarity());
-        }
     }
 
 }
