@@ -12,6 +12,7 @@ import java.util.List;
 public class AdaptiveSelection {
 
     private static final int NUM_RECOMMENDATIONS = 5;
+    private static final int BOUND = 5;
 
     public static void main(String[] args) {
         adaptiveSelection();
@@ -34,7 +35,7 @@ public class AdaptiveSelection {
         List<Item> caseBase = Utils.getLimitedCaseBase();
 
         while (!isAbort) {
-            List<Item> recommendations = itemRecommend(caseBase, query, NUM_RECOMMENDATIONS,
+            List<Item> recommendations = itemRecommend(caseBase, query, NUM_RECOMMENDATIONS, BOUND,
                     critique);
             critique = userReview(recommendations, query);
             queryRevise(query, critique);
@@ -46,7 +47,7 @@ public class AdaptiveSelection {
      * critique. Returns a list of recommended items based on the case-base.
      */
     private static List<Item> itemRecommend(List<Item> caseBase, Query query, int numItems,
-            Critique lastCritique) {
+            int bound, Critique lastCritique) {
 
         List<Item> recommendations = new ArrayList<Item>();
 
@@ -69,7 +70,6 @@ public class AdaptiveSelection {
              * one recommended item. Or: first run.
              */
             // REFOCUS: show diverse recommendations
-            int bound = 10;
             recommendations = BoundedGreedySelection
                     .boundedGreedySelection(query, caseBase, numItems, bound);
         }
