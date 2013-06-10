@@ -1,6 +1,8 @@
 
 package com.uwetrottmann.shopr.algorithm;
 
+import com.uwetrottmann.shopr.algorithm.model.ClothingType;
+import com.uwetrottmann.shopr.algorithm.model.Color;
 import com.uwetrottmann.shopr.algorithm.model.Item;
 
 import java.io.BufferedReader;
@@ -126,12 +128,56 @@ public class AdaptiveSelection {
         // TODO implement weighting, right now only replacing with item
         // attributes
         switch (critique.feedback().attribute()) {
-            case 0:
-                query.attributes().color(critique.item().attributes().color());
+            case 0: {
+                if (query.attributes().color() == null) {
+                    // initialize with evenly weighted values
+                    query.attributes().color(new Color());
+                }
+                if (critique.feedback().isPositiveFeedback()) {
+
+                } else {
+                    int valueIndex = critique.item().attributes().color().currentValue().ordinal();
+                    double[] weights = query.attributes().color().getValueWeights();
+
+                    dislikeValue(valueIndex, weights);
+                }
                 break;
-            case 1:
-                query.attributes().type(critique.item().attributes().type());
+            }
+            case 1: {
+                if (query.attributes().type() == null) {
+                    // initialize with evenly weighted values
+                    query.attributes().type(new ClothingType());
+                }
+                if (critique.feedback().isPositiveFeedback()) {
+
+                } else {
+                    int valueIndex = critique.item().attributes().type().currentValue().ordinal();
+                    double[] weights = query.attributes().type().getValueWeights();
+
+                    dislikeValue(valueIndex, weights);
+                }
                 break;
+            }
+        }
+    }
+
+    private static void dislikeValue(int valueIndex, double[] weights) {
+        double dislikedValue = weights[valueIndex];
+
+        weights[valueIndex] = 0.0;
+
+        int nonZeroCount = 0;
+        for (int i = 0; i < weights.length; i++) {
+            if (weights[i] != 0) {
+                nonZeroCount++;
+            }
+        }
+
+        double redistributed = dislikedValue / nonZeroCount;
+        for (int i = 0; i < weights.length; i++) {
+            if (weights[i] != 0) {
+                weights[i] += redistributed;
+            }
         }
     }
 
