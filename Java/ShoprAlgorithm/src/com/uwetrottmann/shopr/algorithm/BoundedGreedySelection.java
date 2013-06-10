@@ -37,16 +37,24 @@ public class BoundedGreedySelection {
             int bound) {
         Utils.sortBySimilarityToQuery(query, caseBase);
 
-        // TODO: get first b*k items
+        // Get first b*k items
+        int numItems = limit * bound;
+        numItems = Math.min(numItems, caseBase.size());
 
-        List<Item> recommendations = new ArrayList<Item>();
+        List<Item> limitedCaseBase = new ArrayList<Item>();
+        for (int i = 0; i < numItems; i++) {
+            limitedCaseBase.add(caseBase.get(i));
+        }
 
         // add recommendations
-        for (int i = 0; i < limit; i++) {
-            sortByQuality(caseBase, recommendations, query);
+        int numRecs = Math.min(limit, limitedCaseBase.size());
+
+        List<Item> recommendations = new ArrayList<Item>();
+        for (int i = 0; i < numRecs; i++) {
+            sortByQuality(limitedCaseBase, recommendations, query);
 
             // get top item, remove it from remaining cases
-            recommendations.add(caseBase.remove(0));
+            recommendations.add(limitedCaseBase.remove(0));
         }
 
         return recommendations;
