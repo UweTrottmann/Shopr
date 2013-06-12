@@ -9,5 +9,8 @@
     <string name="like">I like this item</string>
     <string name="dislike">I do not like this item</string>
     <string name="description_item_picutre">Clothing item</string>
+    <string name="title_activity_critique">CritiqueActivity</string>
+    <string name="detail_like">What do you like about %s?</string>
+    <string name="detail_dislike">What do you not like about %s?</string>
 
 </resources>
