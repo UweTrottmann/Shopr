@@ -26,6 +26,7 @@ public class ItemLoader extends GenericSimpleLoader<List<Item>> {
             Item item = new Item().id(i).name("Sample Item " + i).picture("sample.jpg").shopId(42);
             double random = Math.random() * 200;
             item.price(new BigDecimal(random));
+            item.label(Math.random() > 0.5 ? "Armani" : "Hugo Boss");
             items.add(item);
         }
 

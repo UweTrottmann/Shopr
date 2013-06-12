@@ -8,6 +8,7 @@ public class Item {
     private int id;
     private String name;
     private String picture;
+    private String label;
     private BigDecimal price;
     private int shop_id;
 
@@ -53,6 +54,15 @@ public class Item {
 
     public Item price(BigDecimal price) {
         this.price = price;
+        return this;
+    }
+
+    public String label() {
+        return label;
+    }
+
+    public Item label(String label) {
+        this.label = label;
         return this;
     }
 

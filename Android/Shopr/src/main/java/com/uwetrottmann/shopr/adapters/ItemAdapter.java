@@ -44,6 +44,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
             holder = new ViewHolder();
             holder.picture = (ImageView) convertView.findViewById(R.id.imageViewItemPicture);
             holder.name = (TextView) convertView.findViewById(R.id.textViewItemName);
+            holder.label = (TextView) convertView.findViewById(R.id.textViewItemLabel);
             holder.price = (TextView) convertView.findViewById(R.id.textViewItemPrice);
             holder.buttonLike = (ImageButton) convertView.findViewById(R.id.imageButtonItemLike);
             holder.buttonDislike = (ImageButton) convertView
@@ -56,6 +57,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 
         final Item item = getItem(position);
         holder.name.setText(item.name());
+        holder.label.setText(item.label());
         holder.price.setText(NumberFormat.getCurrencyInstance(Locale.GERMANY).format(
                 item.price().doubleValue()));
         holder.buttonLike.setOnClickListener(new OnClickListener() {
@@ -83,6 +85,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
     static class ViewHolder {
         ImageView picture;
         TextView name;
+        TextView label;
         TextView price;
         ImageButton buttonLike;
         ImageButton buttonDislike;
