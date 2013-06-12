@@ -47,7 +47,7 @@ public class CritiqueActivity extends Activity {
         }
 
         mItem = new Item().id(extras.getInt(InitBundle.ITEM_ID)).name("Some Item").picture("")
-                .price(new BigDecimal(25.99));
+                .price(new BigDecimal(249.00));
         mIsPositiveCritique = extras.getBoolean(InitBundle.IS_POSITIVE_CRITIQUE);
 
         // Show the Up button in the action bar.
@@ -117,7 +117,7 @@ public class CritiqueActivity extends Activity {
 
         @Override
         public int getCount() {
-            return 5;
+            return 4;
         }
 
         @Override
@@ -147,9 +147,31 @@ public class CritiqueActivity extends Activity {
             }
 
             Item item = (Item) getItem(position);
-            holder.title.setText("Price");
-            holder.value.setText(NumberFormat.getCurrencyInstance(Locale.GERMANY).format(
-                    item.price().doubleValue()));
+
+            String title = "";
+            String value = "";
+            switch (position) {
+                case 0:
+                    title = mContext.getString(R.string.label);
+                    value = "Armani";
+                    break;
+                case 1:
+                    title = mContext.getString(R.string.price);
+                    value = NumberFormat.getCurrencyInstance(Locale.GERMANY).format(
+                            item.price().doubleValue());
+                    break;
+                case 2:
+                    title = mContext.getString(R.string.color);
+                    value = "Black";
+                    break;
+                case 3:
+                    title = mContext.getString(R.string.type);
+                    value = "Suit (female)";
+                    break;
+            }
+
+            holder.title.setText(title);
+            holder.value.setText(value);
 
             return convertView;
         }
