@@ -1,23 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="48dp"
     android:layout_margin="@dimen/default_margin"
     android:divider="?android:attr/dividerVertical"
+    android:dividerPadding="@dimen/default_margin"
+    android:gravity="center_vertical"
     android:orientation="horizontal"
     android:showDividers="middle" >
 
     <CheckBox
         android:id="@+id/checkBoxFeatureTitle"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1"
-        android:text="CheckBox" />
+        android:paddingRight="@dimen/default_margin"
+        android:text="@string/app_name"
+        android:textAppearance="@style/TextAppearance.Light" />
 
     <TextView
         android:id="@+id/textViewFeatureValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:paddingLeft="@dimen/default_margin"
+        android:text="@string/app_name"
+        android:textAppearance="@style/TextAppearance.Light"
+        android:textColor="@color/lilac" />
 
 </LinearLayout>
