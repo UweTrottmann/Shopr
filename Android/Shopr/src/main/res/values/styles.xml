@@ -21,4 +21,10 @@
         <item name="android:fontFamily" tools:targetApi="jelly_bean">sans-serif-light</item>
     </style>
 
+    <style name="TextAppearance.Small.Highlight">
+        <item name="android:textColor">@android:color/tertiary_text_light</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:fontFamily" tools:targetApi="jelly_bean">sans-serif-condensed</item>
+    </style>
+
 </resources>

@@ -8,9 +8,10 @@
         android:id="@+id/textViewItemListTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
         android:padding="8dp"
         android:text="@string/reason_empty"
-        android:textAppearance="@style/TextAppearance.Light" />
+        android:textAppearance="@style/TextAppearance.Small.Highlight" />
 
     <GridView
         android:id="@+id/gridViewItemList"
