@@ -10,7 +10,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.model.Item;
@@ -24,9 +23,16 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 
     private LayoutInflater mInflater;
 
-    public ItemAdapter(Context context) {
+    private OnItemCritiqueListener mCritiqueListener;
+
+    public interface OnItemCritiqueListener {
+        public void onItemCritique(Item item, boolean isLike);
+    }
+
+    public ItemAdapter(Context context, OnItemCritiqueListener critiqueListener) {
         super(context, LAYOUT);
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mCritiqueListener = critiqueListener;
     }
 
     @Override
@@ -48,21 +54,24 @@ public class ItemAdapter extends ArrayAdapter<Item> {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        Item item = getItem(position);
+        final Item item = getItem(position);
         holder.name.setText(item.name());
         holder.price.setText(NumberFormat.getCurrencyInstance(Locale.GERMANY).format(
                 item.price().doubleValue()));
         holder.buttonLike.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(), "Liking this item", Toast.LENGTH_SHORT).show();
+                if (mCritiqueListener != null) {
+                    mCritiqueListener.onItemCritique(item, true);
+                }
             }
         });
         holder.buttonDislike.setOnClickListener(new OnClickListener() {
-
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(), "Not liking this item", Toast.LENGTH_SHORT).show();
+                if (mCritiqueListener != null) {
+                    mCritiqueListener.onItemCritique(item, false);
+                }
             }
         });
 

@@ -9,9 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.adapters.ItemAdapter;
+import com.uwetrottmann.shopr.adapters.ItemAdapter.OnItemCritiqueListener;
 import com.uwetrottmann.shopr.loaders.ItemLoader;
 import com.uwetrottmann.shopr.model.Item;
 
@@ -21,7 +23,8 @@ import java.util.List;
  * Shows a list of clothing items the user can critique by tapping an up or down
  * vote button.
  */
-public class ItemListFragment extends Fragment implements LoaderCallbacks<List<Item>> {
+public class ItemListFragment extends Fragment implements LoaderCallbacks<List<Item>>,
+        OnItemCritiqueListener {
 
     // I = 9, T = 20
     private static final int LOADER_ID = 920;
@@ -45,7 +48,7 @@ public class ItemListFragment extends Fragment implements LoaderCallbacks<List<I
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mAdapter = new ItemAdapter(getActivity());
+        mAdapter = new ItemAdapter(getActivity(), this);
 
         mGridView.setAdapter(mAdapter);
 
@@ -66,5 +69,10 @@ public class ItemListFragment extends Fragment implements LoaderCallbacks<List<I
     @Override
     public void onLoaderReset(Loader<List<Item>> loader) {
         mAdapter.clear();
+    }
+
+    @Override
+    public void onItemCritique(Item item, boolean isLike) {
+        Toast.makeText(getActivity(), "Positive critique? " + isLike, Toast.LENGTH_SHORT).show();
     }
 }
