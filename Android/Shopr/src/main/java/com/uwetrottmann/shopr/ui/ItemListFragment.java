@@ -1,6 +1,7 @@
 
 package com.uwetrottmann.shopr.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
@@ -9,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
-import android.widget.Toast;
 
 import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.adapters.ItemAdapter;
@@ -73,6 +73,8 @@ public class ItemListFragment extends Fragment implements LoaderCallbacks<List<I
 
     @Override
     public void onItemCritique(Item item, boolean isLike) {
-        Toast.makeText(getActivity(), "Positive critique? " + isLike, Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(getActivity(), CritiqueActivity.class).putExtra(
+                CritiqueActivity.InitBundle.IS_POSITIVE_CRITIQUE, isLike)
+                .putExtra(CritiqueActivity.InitBundle.ITEM_ID, item.id()));
     }
 }
