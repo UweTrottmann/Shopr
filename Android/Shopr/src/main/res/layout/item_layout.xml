@@ -21,7 +21,7 @@
         android:lines="1"
         android:paddingLeft="4dp"
         android:paddingRight="4dp"
-        android:text="Sample Item Armani"
+        android:text="@string/app_name"
         android:textAppearance="@style/TextAppearance.Small.Light" />
 
     <TextView
@@ -32,10 +32,25 @@
         android:layout_below="@id/textViewItemName"
         android:ellipsize="end"
         android:lines="1"
+        android:paddingLeft="4dp"
         android:paddingRight="4dp"
-        android:text="35.23 €"
-        android:textAppearance="@style/TextAppearance.Small.Light"
+        android:text="@string/price"
+        android:textAppearance="@style/TextAppearance.Small"
         android:textColor="@color/lilac" />
+
+    <TextView
+        android:id="@+id/textViewItemLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/textViewItemName"
+        android:layout_toLeftOf="@+id/textViewItemPrice"
+        android:ellipsize="end"
+        android:lines="1"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:text="@string/label"
+        android:textAppearance="@style/TextAppearance.Small.Dim" />
 
     <View
         android:id="@+id/dividerHorizontal"

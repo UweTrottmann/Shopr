@@ -11,7 +11,7 @@
         android:gravity="center_horizontal"
         android:padding="8dp"
         android:text="@string/reason_empty"
-        android:textAppearance="@style/TextAppearance.Small.Highlight" />
+        android:textAppearance="@style/TextAppearance.Small.Dim.Highlight" />
 
     <GridView
         android:id="@+id/gridViewItemList"
