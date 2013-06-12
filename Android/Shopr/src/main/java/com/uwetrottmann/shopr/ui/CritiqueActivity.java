@@ -12,22 +12,49 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.model.Item;
 
+import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.Locale;
 
 public class CritiqueActivity extends Activity {
 
+    private TextView mQuestion;
+    private ListView mListView;
+    private Item mItem;
+    private ItemFeatureAdapter mAdapter;
+    private boolean mIsPositiveCritique;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_critique);
+
+        mItem = new Item().id(123).name("Some Item").picture("")
+                .price(new BigDecimal(25.99));
+        mIsPositiveCritique = true;
+
         // Show the Up button in the action bar.
         setupActionBar();
+        setupViews();
+        setupAdapter();
+    }
+
+    private void setupAdapter() {
+        mAdapter = new ItemFeatureAdapter(this, mItem);
+        mListView.setAdapter(mAdapter);
+    }
+
+    private void setupViews() {
+        mQuestion = (TextView) findViewById(R.id.textViewCritiqueQuestion);
+        mQuestion.setText(getString(mIsPositiveCritique ? R.string.detail_like
+                : R.string.detail_dislike, mItem.name()));
+        mListView = (ListView) findViewById(R.id.listViewCritique);
     }
 
     /**
