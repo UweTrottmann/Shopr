@@ -30,14 +30,25 @@ public class CritiqueActivity extends Activity {
     private ItemFeatureAdapter mAdapter;
     private boolean mIsPositiveCritique;
 
+    public interface InitBundle {
+        String ITEM_ID = "item_id";
+        String IS_POSITIVE_CRITIQUE = "is_positive";
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_critique);
 
-        mItem = new Item().id(123).name("Some Item").picture("")
+        Bundle extras = getIntent().getExtras();
+        if (extras == null) {
+            finish();
+            return;
+        }
+
+        mItem = new Item().id(extras.getInt(InitBundle.ITEM_ID)).name("Some Item").picture("")
                 .price(new BigDecimal(25.99));
-        mIsPositiveCritique = true;
+        mIsPositiveCritique = extras.getBoolean(InitBundle.IS_POSITIVE_CRITIQUE);
 
         // Show the Up button in the action bar.
         setupActionBar();
