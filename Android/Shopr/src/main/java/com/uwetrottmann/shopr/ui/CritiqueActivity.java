@@ -9,9 +9,11 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -27,8 +29,11 @@ public class CritiqueActivity extends Activity {
 
     private TextView mQuestion;
     private ListView mListView;
-    private Item mItem;
+    private Button mButtonUpdate;
+
     private ItemFeatureAdapter mAdapter;
+
+    private Item mItem;
     private boolean mIsPositiveCritique;
 
     public interface InitBundle {
@@ -71,7 +76,17 @@ public class CritiqueActivity extends Activity {
         mQuestion = (TextView) findViewById(R.id.textViewCritiqueQuestion);
         mQuestion.setText(getString(mIsPositiveCritique ? R.string.detail_like
                 : R.string.detail_dislike, mItem.name()));
+
         mListView = (ListView) findViewById(R.id.listViewCritique);
+
+        mButtonUpdate = (Button) findViewById(R.id.buttonRecommend);
+        mButtonUpdate.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO recommend new items
+                finish();
+            }
+        });
     }
 
     private void setupAdapter() {
