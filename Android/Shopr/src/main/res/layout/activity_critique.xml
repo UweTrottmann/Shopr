@@ -2,18 +2,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:layout_marginTop="?android:attr/actionBarSize"
     tools:context=".CritiqueActivity" >
 
-    <TextView
-        android:id="@+id/textViewCritiqueQuestion"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/containerCritiqueItem"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/default_margin"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:text="@string/detail_like"
-        android:textAppearance="@style/TextAppearance" />
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/textViewCritiqueQuestion"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="@string/detail_like"
+            android:textAppearance="@style/TextAppearance" />
+
+        <ImageView
+            android:id="@+id/imageViewCritiqueImage"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_weight="1"
+            android:contentDescription="@string/description_item_picutre"
+            android:scaleType="centerCrop"
+            android:src="@drawable/armani" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/buttonRecommend"
@@ -35,7 +52,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/dividerHorizontalCritique"
-        android:layout_below="@+id/textViewCritiqueQuestion"
+        android:layout_below="@+id/containerCritiqueItem"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin" >
     </ListView>

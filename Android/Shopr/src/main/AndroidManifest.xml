@@ -46,8 +46,8 @@
             android:value="AIzaSyCSN5CufQbIY3c5oiMUAPgpHD_fuTM9swA" />
 
         <activity
+            android:theme="@android:style/Theme.Holo.Light"
             android:name="com.uwetrottmann.shopr.ui.CritiqueActivity"
-            android:label="@string/title_activity_critique"
             android:parentActivityName="com.uwetrottmann.shopr.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

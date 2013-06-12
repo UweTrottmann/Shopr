@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ListView;
@@ -37,6 +38,7 @@ public class CritiqueActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_critique);
 
@@ -56,9 +58,13 @@ public class CritiqueActivity extends Activity {
         setupAdapter();
     }
 
-    private void setupAdapter() {
-        mAdapter = new ItemFeatureAdapter(this, mItem);
-        mListView.setAdapter(mAdapter);
+    /**
+     * Set up the {@link android.app.ActionBar}.
+     */
+    private void setupActionBar() {
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setDisplayShowTitleEnabled(false);
+        getActionBar().setBackgroundDrawable(null);
     }
 
     private void setupViews() {
@@ -68,13 +74,9 @@ public class CritiqueActivity extends Activity {
         mListView = (ListView) findViewById(R.id.listViewCritique);
     }
 
-    /**
-     * Set up the {@link android.app.ActionBar}.
-     */
-    private void setupActionBar() {
-
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-
+    private void setupAdapter() {
+        mAdapter = new ItemFeatureAdapter(this, mItem);
+        mListView.setAdapter(mAdapter);
     }
 
     @Override
