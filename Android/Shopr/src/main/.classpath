@@ -5,6 +5,6 @@
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="src" path="java"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ShoprAlgorithm"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/ShoprAlgorithm"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
