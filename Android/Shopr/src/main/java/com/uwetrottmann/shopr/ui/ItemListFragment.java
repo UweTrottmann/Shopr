@@ -57,7 +57,7 @@ public class ItemListFragment extends Fragment implements LoaderCallbacks<List<I
 
     @Override
     public Loader<List<Item>> onCreateLoader(int loaderId, Bundle args) {
-        return new ItemLoader(getActivity());
+        return new ItemLoader(getActivity(), null);
     }
 
     @Override
