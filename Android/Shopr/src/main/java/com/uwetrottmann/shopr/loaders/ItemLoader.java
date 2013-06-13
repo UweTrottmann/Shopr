@@ -3,6 +3,8 @@ package com.uwetrottmann.shopr.loaders;
 
 import android.content.Context;
 
+import com.uwetrottmann.shopr.algorithm.AdaptiveSelection;
+import com.uwetrottmann.shopr.algorithm.model.Attributes;
 import com.uwetrottmann.shopr.model.Item;
 import com.uwetrottmann.shopr.utils.Lists;
 
@@ -22,12 +24,27 @@ public class ItemLoader extends GenericSimpleLoader<List<Item>> {
     public List<Item> loadInBackground() {
         List<Item> items = Lists.newArrayList();
 
-        for (int i = 0; i < 10; i++) {
-            Item item = new Item().id(i).name("Sample Item " + i).picture("sample.jpg").shopId(42);
+        AdaptiveSelection manager = AdaptiveSelection.get();
+        List<com.uwetrottmann.shopr.algorithm.model.Item> recommendations = manager
+                .getRecommendations(null);
+
+        // Until we have real data transfer the model of item used by algorithm
+        // to the app model
+        int count = 0;
+        for (com.uwetrottmann.shopr.algorithm.model.Item item : recommendations) {
+            Attributes attrs = item.attributes();
+            String label = attrs.label().currentValue().toString();
+            String type = attrs.type().currentValue().toString();
+
+            Item expandedItem = new Item().id(count++);
+            expandedItem.name(label + " " + type + " " + count);
+            expandedItem.color(attrs.color().currentValue().toString());
+            expandedItem.label(label);
+            expandedItem.type(type);
             double random = Math.random() * 200;
-            item.price(new BigDecimal(random));
-            item.label(Math.random() > 0.5 ? "Armani" : "Hugo Boss");
-            items.add(item);
+            expandedItem.price(new BigDecimal(random));
+
+            items.add(expandedItem);
         }
 
         return items;
