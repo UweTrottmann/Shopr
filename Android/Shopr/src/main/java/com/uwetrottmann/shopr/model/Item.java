@@ -9,6 +9,8 @@ public class Item {
     private String name;
     private String picture;
     private String label;
+    private String color;
+    private String type;
     private BigDecimal price;
     private int shop_id;
 
@@ -63,6 +65,24 @@ public class Item {
 
     public Item label(String label) {
         this.label = label;
+        return this;
+    }
+
+    public String color() {
+        return color;
+    }
+
+    public Item color(String color) {
+        this.color = color;
+        return this;
+    }
+
+    public String type() {
+        return type;
+    }
+
+    public Item type(String type) {
+        this.type = type;
         return this;
     }
 
