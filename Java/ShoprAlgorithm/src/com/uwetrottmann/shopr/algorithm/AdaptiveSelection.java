@@ -32,8 +32,28 @@ public class AdaptiveSelection {
         return _instance;
     }
 
-    private AdaptiveSelection() {
+    private List<Item> mCaseBase;
+    private Query mQuery;
 
+    private AdaptiveSelection() {
+        mQuery = new Query();
+    }
+
+    public void setInitialCaseBase(List<Item> caseBase) {
+        mCaseBase = caseBase;
+    }
+
+    public List<Item> getRecommendations(Critique critique) {
+        // Update the current query with the new critique
+        if (critique != null) {
+            queryRevise(mQuery, critique);
+        }
+
+        // build a new set of recommendations
+        List<Item> recommendations = itemRecommend(mCaseBase, mQuery, NUM_RECOMMENDATIONS, BOUND,
+                critique);
+
+        return recommendations;
     }
 
     private static void adaptiveSelection() {
