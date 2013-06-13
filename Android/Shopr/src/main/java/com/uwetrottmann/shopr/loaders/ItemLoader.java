@@ -4,7 +4,6 @@ package com.uwetrottmann.shopr.loaders;
 import android.content.Context;
 
 import com.uwetrottmann.shopr.algorithm.AdaptiveSelection;
-import com.uwetrottmann.shopr.algorithm.Critique;
 import com.uwetrottmann.shopr.algorithm.model.Attributes;
 import com.uwetrottmann.shopr.model.Item;
 import com.uwetrottmann.shopr.utils.Lists;
@@ -16,11 +15,8 @@ import java.util.List;
  */
 public class ItemLoader extends GenericSimpleLoader<List<Item>> {
 
-    private Critique mCritique;
-
-    public ItemLoader(Context context, Critique critique) {
+    public ItemLoader(Context context) {
         super(context);
-        mCritique = critique;
     }
 
     @Override
@@ -29,7 +25,7 @@ public class ItemLoader extends GenericSimpleLoader<List<Item>> {
 
         AdaptiveSelection manager = AdaptiveSelection.get();
         List<com.uwetrottmann.shopr.algorithm.model.Item> recommendations = manager
-                .getRecommendations(mCritique);
+                .getRecommendations();
 
         // Until we have real data transfer the model of item used by algorithm
         // to the app model

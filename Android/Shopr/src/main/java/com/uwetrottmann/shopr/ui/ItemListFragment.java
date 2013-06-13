@@ -1,6 +1,7 @@
 
 package com.uwetrottmann.shopr.ui;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -28,6 +29,7 @@ public class ItemListFragment extends Fragment implements LoaderCallbacks<List<I
 
     // I = 9, T = 20
     private static final int LOADER_ID = 920;
+    private static final int REQUEST_CODE = 12;
     private GridView mGridView;
     private ItemAdapter mAdapter;
 
@@ -57,7 +59,7 @@ public class ItemListFragment extends Fragment implements LoaderCallbacks<List<I
 
     @Override
     public Loader<List<Item>> onCreateLoader(int loaderId, Bundle args) {
-        return new ItemLoader(getActivity(), null);
+        return new ItemLoader(getActivity());
     }
 
     @Override
@@ -73,8 +75,15 @@ public class ItemListFragment extends Fragment implements LoaderCallbacks<List<I
 
     @Override
     public void onItemCritique(Item item, boolean isLike) {
-        startActivity(new Intent(getActivity(), CritiqueActivity.class).putExtra(
+        startActivityForResult(new Intent(getActivity(), CritiqueActivity.class).putExtra(
                 CritiqueActivity.InitBundle.IS_POSITIVE_CRITIQUE, isLike)
-                .putExtra(CritiqueActivity.InitBundle.ITEM_ID, item.id()));
+                .putExtra(CritiqueActivity.InitBundle.ITEM_ID, item.id()), REQUEST_CODE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE) {
+            getLoaderManager().restartLoader(LOADER_ID, null, this);
+        }
     }
 }

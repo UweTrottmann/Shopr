@@ -37,6 +37,7 @@ public class AdaptiveSelection {
 
     private List<Item> mCaseBase;
     private Query mQuery;
+    private Critique mCurrentCritique;
     private int mNumRecommendations;
     private List<Item> mCurrentRecommendations;
 
@@ -68,16 +69,10 @@ public class AdaptiveSelection {
      * {@code null} for the critique to get an initial set of diverse
      * recommendations.
      */
-    public List<Item> getRecommendations(Critique critique) {
-        // Update the current query with the new critique
-        if (critique != null) {
-            queryRevise(mQuery, critique);
-        }
-
+    public List<Item> getRecommendations() {
         // build a new set of recommendations
         List<Item> recommendations = itemRecommend(mCaseBase, mQuery, mNumRecommendations,
-                BOUND_DEFAULT,
-                critique);
+                BOUND_DEFAULT, mCurrentCritique);
 
         mCurrentRecommendations = recommendations;
 
@@ -86,6 +81,18 @@ public class AdaptiveSelection {
 
     public List<Item> getCurrentRecommendations() {
         return mCurrentRecommendations;
+    }
+
+    /**
+     * Updates the item query, will influence the next set of recommendations.
+     * Call {@link #getRecommendations()} afterwards.
+     */
+    public void submitCritique(Critique critique) {
+        // Update the current query with the new critique
+        if (critique != null) {
+            queryRevise(mQuery, critique);
+            mCurrentCritique = critique;
+        }
     }
 
     /**
