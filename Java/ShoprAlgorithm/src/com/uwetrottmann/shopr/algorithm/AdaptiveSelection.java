@@ -127,7 +127,8 @@ public class AdaptiveSelection {
 
         List<Item> recommendations = new ArrayList<Item>();
 
-        if (lastCritique.item() != null && lastCritique.feedback().isPositiveFeedback()) {
+        if (lastCritique != null && lastCritique.item() != null
+                && lastCritique.feedback().isPositiveFeedback()) {
             /*
              * Positive progress: user liked one or more features of one of the
              * recommended items.
@@ -151,7 +152,7 @@ public class AdaptiveSelection {
         }
 
         // Carry the critiqued so the user may critique it further.
-        if (lastCritique.item() != null) {
+        if (lastCritique != null && lastCritique.item() != null) {
             recommendations.add(lastCritique.item());
         }
 
