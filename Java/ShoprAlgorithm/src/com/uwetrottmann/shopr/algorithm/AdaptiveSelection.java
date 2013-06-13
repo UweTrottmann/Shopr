@@ -81,6 +81,10 @@ public class AdaptiveSelection {
         return recommendations;
     }
 
+    public List<Item> getCurrentCaseBase() {
+        return mCaseBase;
+    }
+
     /**
      * **DO NOT USE** Only for testing of the Adaptive Selection cycle using a
      * console program.
