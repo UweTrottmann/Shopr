@@ -9,7 +9,6 @@ import com.uwetrottmann.shopr.algorithm.model.Attributes;
 import com.uwetrottmann.shopr.model.Item;
 import com.uwetrottmann.shopr.utils.Lists;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -45,8 +44,7 @@ public class ItemLoader extends GenericSimpleLoader<List<Item>> {
             expandedItem.color(attrs.color().currentValue().toString());
             expandedItem.label(label);
             expandedItem.type(type);
-            double random = Math.random() * 200;
-            expandedItem.price(new BigDecimal(random));
+            expandedItem.price(item.price());
 
             items.add(expandedItem);
         }
