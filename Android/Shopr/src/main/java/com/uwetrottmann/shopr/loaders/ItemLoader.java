@@ -37,7 +37,7 @@ public class ItemLoader extends GenericSimpleLoader<List<Item>> {
             String type = attrs.type().currentValue().toString();
 
             Item expandedItem = new Item().id(count++);
-            expandedItem.name(label + " " + type + " " + count);
+            expandedItem.name(type + " " + label + count);
             expandedItem.color(attrs.color().currentValue().toString());
             expandedItem.label(label);
             expandedItem.type(type);
