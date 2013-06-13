@@ -19,8 +19,21 @@ public class AdaptiveSelection {
     private static final int BOUND = 5;
     private static final boolean DUMP_INVENTORY = false;
 
+    private static AdaptiveSelection _instance;
+
     public static void main(String[] args) {
         adaptiveSelection();
+    }
+
+    public static synchronized AdaptiveSelection getInstance() {
+        if (_instance == null) {
+            _instance = new AdaptiveSelection();
+        }
+        return _instance;
+    }
+
+    private AdaptiveSelection() {
+
     }
 
     private static void adaptiveSelection() {
