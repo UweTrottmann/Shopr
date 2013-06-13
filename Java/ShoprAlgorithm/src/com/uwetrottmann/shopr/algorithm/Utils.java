@@ -23,13 +23,16 @@ public class Utils {
         // TODO replace with actual prefiltered data
         ArrayList<Item> cases = new ArrayList<Item>();
 
+        int count = 0;
         for (Color.Value color : Color.Value.values()) {
             for (ClothingType.Value type : ClothingType.Value.values()) {
                 for (Label.Value label : Label.Value.values()) {
-                    cases.add(new Item().attributes(new Attributes()
-                            .color(new Color(color))
-                            .type(new ClothingType(type))
-                            .label(new Label(label))));
+                    cases.add(new Item()
+                            .id(count++)
+                            .attributes(new Attributes()
+                                    .color(new Color(color))
+                                    .type(new ClothingType(type))
+                                    .label(new Label(label))));
                 }
             }
         }

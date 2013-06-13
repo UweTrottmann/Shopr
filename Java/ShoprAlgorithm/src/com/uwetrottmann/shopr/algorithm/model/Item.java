@@ -6,11 +6,22 @@ package com.uwetrottmann.shopr.algorithm.model;
  */
 public class Item {
 
+    private int id;
+
     private Attributes attrs;
 
     private double querySimilarity;
 
     private double quality;
+
+    public int id() {
+        return id;
+    }
+
+    public Item id(int id) {
+        this.id = id;
+        return this;
+    }
 
     public Attributes attributes() {
         return attrs;
