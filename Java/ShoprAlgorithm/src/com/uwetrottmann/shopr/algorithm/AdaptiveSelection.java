@@ -15,15 +15,11 @@ import java.util.List;
 
 public class AdaptiveSelection {
 
-    private static final int NUM_RECOMMENDATIONS = 2;
-    private static final int BOUND = 5;
+    private static final int NUM_RECOMMENDATIONS_DEFAULT = 2;
+    private static final int BOUND_DEFAULT = 5;
     private static final boolean DUMP_INVENTORY = false;
 
     private static AdaptiveSelection _instance;
-
-    public static void main(String[] args) {
-        adaptiveSelection();
-    }
 
     public static synchronized AdaptiveSelection getInstance() {
         if (_instance == null) {
@@ -32,17 +28,45 @@ public class AdaptiveSelection {
         return _instance;
     }
 
-    private List<Item> mCaseBase;
-    private Query mQuery;
-
-    private AdaptiveSelection() {
-        mQuery = new Query();
+    /**
+     * **DO NOT USE** Only for internal testing.
+     */
+    public static void main(String[] args) {
+        adaptiveSelection();
     }
 
+    private List<Item> mCaseBase;
+    private Query mQuery;
+    private int mNumRecommendations;
+
+    private AdaptiveSelection() {
+        mCaseBase = new ArrayList<Item>();
+        mQuery = new Query();
+        mNumRecommendations = NUM_RECOMMENDATIONS_DEFAULT;
+    }
+
+    /**
+     * Call before {@link #getRecommendations(Critique)} to set the initial data
+     * set.
+     */
     public void setInitialCaseBase(List<Item> caseBase) {
         mCaseBase = caseBase;
     }
 
+    /**
+     * The maximum number of recommendations to return. Does not count the
+     * carried item!
+     */
+    public void setMaxRecommendations(int limit) {
+        mNumRecommendations = Math.max(1, limit);
+    }
+
+    /**
+     * Returns a sorted list of recommendations based on the current query which
+     * itself is shaped through passed critiques. The first time you may pass
+     * {@code null} for the critique to get an initial set of diverse
+     * recommendations.
+     */
     public List<Item> getRecommendations(Critique critique) {
         // Update the current query with the new critique
         if (critique != null) {
@@ -50,12 +74,17 @@ public class AdaptiveSelection {
         }
 
         // build a new set of recommendations
-        List<Item> recommendations = itemRecommend(mCaseBase, mQuery, NUM_RECOMMENDATIONS, BOUND,
+        List<Item> recommendations = itemRecommend(mCaseBase, mQuery, mNumRecommendations,
+                BOUND_DEFAULT,
                 critique);
 
         return recommendations;
     }
 
+    /**
+     * **DO NOT USE** Only for testing of the Adaptive Selection cycle using a
+     * console program.
+     */
     private static void adaptiveSelection() {
         Query query = new Query();
         Critique critique = new Critique();
@@ -75,7 +104,8 @@ public class AdaptiveSelection {
         }
 
         while (!isAbort) {
-            List<Item> recommendations = itemRecommend(caseBase, query, NUM_RECOMMENDATIONS, BOUND,
+            List<Item> recommendations = itemRecommend(caseBase, query,
+                    NUM_RECOMMENDATIONS_DEFAULT, BOUND_DEFAULT,
                     critique);
             critique = userReview(recommendations, query);
             queryRevise(query, critique);
