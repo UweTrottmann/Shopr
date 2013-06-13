@@ -55,7 +55,7 @@ public class CritiqueActivity extends Activity {
         }
 
         int itemId = extras.getInt(InitBundle.ITEM_ID);
-        List<Item> currentCaseBase = AdaptiveSelection.get().getCurrentCaseBase();
+        List<Item> currentCaseBase = AdaptiveSelection.get().getCurrentRecommendations();
         for (Item item : currentCaseBase) {
             if (item.id() == itemId) {
                 mItem = item;

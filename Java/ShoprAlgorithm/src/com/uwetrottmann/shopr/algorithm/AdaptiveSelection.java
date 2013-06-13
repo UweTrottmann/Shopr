@@ -38,6 +38,7 @@ public class AdaptiveSelection {
     private List<Item> mCaseBase;
     private Query mQuery;
     private int mNumRecommendations;
+    private List<Item> mCurrentRecommendations;
 
     private AdaptiveSelection() {
         mCaseBase = new ArrayList<Item>();
@@ -78,11 +79,13 @@ public class AdaptiveSelection {
                 BOUND_DEFAULT,
                 critique);
 
+        mCurrentRecommendations = recommendations;
+
         return recommendations;
     }
 
-    public List<Item> getCurrentCaseBase() {
-        return mCaseBase;
+    public List<Item> getCurrentRecommendations() {
+        return mCurrentRecommendations;
     }
 
     /**
