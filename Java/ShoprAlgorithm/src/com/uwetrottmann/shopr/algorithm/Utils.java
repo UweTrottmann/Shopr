@@ -7,6 +7,7 @@ import com.uwetrottmann.shopr.algorithm.model.Color;
 import com.uwetrottmann.shopr.algorithm.model.Item;
 import com.uwetrottmann.shopr.algorithm.model.Label;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -27,12 +28,24 @@ public class Utils {
         for (Color.Value color : Color.Value.values()) {
             for (ClothingType.Value type : ClothingType.Value.values()) {
                 for (Label.Value label : Label.Value.values()) {
+                    // id
+                    int id = count++;
+                    // random price
+                    double random = Math.random() * 200;
+                    // named after type and label + id
+                    ClothingType typeValue = new ClothingType(type);
+                    Label labelValue = new Label(label);
+                    String name = typeValue.currentValue().toString() + " "
+                            + labelValue.currentValue().toString() + id;
+
                     cases.add(new Item()
-                            .id(count++)
+                            .id(id)
+                            .name(name)
+                            .price(new BigDecimal(random))
                             .attributes(new Attributes()
                                     .color(new Color(color))
-                                    .type(new ClothingType(type))
-                                    .label(new Label(label))));
+                                    .type(typeValue)
+                                    .label(labelValue)));
                 }
             }
         }
