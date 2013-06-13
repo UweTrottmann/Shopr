@@ -12,7 +12,7 @@ public class ShoprApp extends Application {
     public void onCreate() {
         super.onCreate();
 
-        AdaptiveSelection.getInstance().setInitialCaseBase(Utils.getLimitedCaseBase());
+        AdaptiveSelection.get().setInitialCaseBase(Utils.getLimitedCaseBase());
     }
 
 }

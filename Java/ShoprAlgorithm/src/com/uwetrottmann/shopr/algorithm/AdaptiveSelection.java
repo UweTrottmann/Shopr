@@ -21,7 +21,7 @@ public class AdaptiveSelection {
 
     private static AdaptiveSelection _instance;
 
-    public static synchronized AdaptiveSelection getInstance() {
+    public static synchronized AdaptiveSelection get() {
         if (_instance == null) {
             _instance = new AdaptiveSelection();
         }
