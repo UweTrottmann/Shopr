@@ -19,10 +19,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.uwetrottmann.shopr.R;
-import com.uwetrottmann.shopr.model.Item;
+import com.uwetrottmann.shopr.algorithm.AdaptiveSelection;
+import com.uwetrottmann.shopr.algorithm.model.Item;
 
-import java.math.BigDecimal;
 import java.text.NumberFormat;
+import java.util.List;
 import java.util.Locale;
 
 public class CritiqueActivity extends Activity {
@@ -53,8 +54,14 @@ public class CritiqueActivity extends Activity {
             return;
         }
 
-        mItem = new Item().id(extras.getInt(InitBundle.ITEM_ID)).name("Some Item").picture("")
-                .price(new BigDecimal(249.00));
+        int itemId = extras.getInt(InitBundle.ITEM_ID);
+        List<Item> currentCaseBase = AdaptiveSelection.get().getCurrentCaseBase();
+        for (Item item : currentCaseBase) {
+            if (item.id() == itemId) {
+                mItem = item;
+                break;
+            }
+        }
         mIsPositiveCritique = extras.getBoolean(InitBundle.IS_POSITIVE_CRITIQUE);
 
         // Show the Up button in the action bar.
@@ -170,7 +177,7 @@ public class CritiqueActivity extends Activity {
             switch (position) {
                 case 0:
                     title = mContext.getString(R.string.label);
-                    value = "Armani";
+                    value = item.attributes().label().currentValue().toString();
                     break;
                 case 1:
                     title = mContext.getString(R.string.price);
@@ -179,11 +186,11 @@ public class CritiqueActivity extends Activity {
                     break;
                 case 2:
                     title = mContext.getString(R.string.color);
-                    value = "Black";
+                    value = item.attributes().color().currentValue().toString();
                     break;
                 case 3:
                     title = mContext.getString(R.string.type);
-                    value = "Suit (female)";
+                    value = item.attributes().type().currentValue().toString();
                     break;
             }
 
