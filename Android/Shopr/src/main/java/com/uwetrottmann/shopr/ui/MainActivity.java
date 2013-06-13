@@ -1,5 +1,5 @@
 
-package com.uwetrottmann.shopr;
+package com.uwetrottmann.shopr.ui;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
@@ -11,8 +11,11 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 
-import com.uwetrottmann.shopr.ui.ItemListFragment;
-import com.uwetrottmann.shopr.ui.ShopMapFragment;
+import com.uwetrottmann.shopr.R;
+import com.uwetrottmann.shopr.R.id;
+import com.uwetrottmann.shopr.R.layout;
+import com.uwetrottmann.shopr.R.menu;
+import com.uwetrottmann.shopr.R.string;
 
 import java.util.Locale;
 
