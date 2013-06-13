@@ -8,7 +8,7 @@ import com.uwetrottmann.shopr.algorithm.Utils;
 
 public class ShoprApp extends Application {
 
-    private static final int MAX_RECOMMENDATIONS = 5;
+    private static final int MAX_RECOMMENDATIONS = 8;
 
     @Override
     public void onCreate() {
