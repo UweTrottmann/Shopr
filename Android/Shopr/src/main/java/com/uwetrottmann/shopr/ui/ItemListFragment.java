@@ -11,10 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.adapters.ItemAdapter;
 import com.uwetrottmann.shopr.adapters.ItemAdapter.OnItemCritiqueListener;
+import com.uwetrottmann.shopr.algorithm.AdaptiveSelection;
+import com.uwetrottmann.shopr.algorithm.Query;
 import com.uwetrottmann.shopr.loaders.ItemLoader;
 import com.uwetrottmann.shopr.model.Item;
 
@@ -30,6 +33,7 @@ public class ItemListFragment extends Fragment implements LoaderCallbacks<List<I
     // I = 9, T = 20
     private static final int LOADER_ID = 920;
     private static final int REQUEST_CODE = 12;
+    private TextView mTextViewReason;
     private GridView mGridView;
     private ItemAdapter mAdapter;
 
@@ -41,6 +45,7 @@ public class ItemListFragment extends Fragment implements LoaderCallbacks<List<I
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_item_list, container, false);
 
+        mTextViewReason = (TextView) v.findViewById(R.id.textViewItemListReason);
         mGridView = (GridView) v.findViewById(R.id.gridViewItemList);
 
         return v;
@@ -66,6 +71,16 @@ public class ItemListFragment extends Fragment implements LoaderCallbacks<List<I
     public void onLoadFinished(Loader<List<Item>> loader, List<Item> data) {
         mAdapter.clear();
         mAdapter.addAll(data);
+        onUpdateReason();
+    }
+
+    private void onUpdateReason() {
+        Query currentQuery = AdaptiveSelection.get().getCurrentQuery();
+        // TODO display current reason as explanatory text
+        mTextViewReason.setText("Query "
+                + currentQuery.attributes().color() + " "
+                + currentQuery.attributes().type() + " "
+                + currentQuery.attributes().label());
     }
 
     @Override
