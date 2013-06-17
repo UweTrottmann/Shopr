@@ -81,10 +81,13 @@ public class Attributes {
             }
 
             Attribute attribute = allAttributes[i];
-            if (reason.length() != 0) {
-                reason.append(", ");
+            String attrString = attribute.getReasonString();
+            if (attrString != null && attrString.length() != 0) {
+                if (reason.length() != 0) {
+                    reason.append(", ");
+                }
+                reason.append(attrString);
             }
-            reason.append(attribute.getReasonString());
         }
 
         return reason.toString();
