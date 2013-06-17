@@ -9,6 +9,9 @@ import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
@@ -19,6 +22,7 @@ import com.uwetrottmann.shopr.adapters.ItemAdapter;
 import com.uwetrottmann.shopr.adapters.ItemAdapter.OnItemCritiqueListener;
 import com.uwetrottmann.shopr.algorithm.AdaptiveSelection;
 import com.uwetrottmann.shopr.algorithm.Query;
+import com.uwetrottmann.shopr.algorithm.Utils;
 import com.uwetrottmann.shopr.loaders.ItemLoader;
 import com.uwetrottmann.shopr.model.Item;
 
@@ -61,6 +65,25 @@ public class ItemListFragment extends Fragment implements LoaderCallbacks<List<I
         mGridView.setAdapter(mAdapter);
 
         getLoaderManager().initLoader(LOADER_ID, null, this);
+
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.item_list, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_restart:
+                AdaptiveSelection.get().setInitialCaseBase(Utils.getLimitedCaseBase());
+                getLoaderManager().restartLoader(LOADER_ID, null, this);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
@@ -79,7 +102,9 @@ public class ItemListFragment extends Fragment implements LoaderCallbacks<List<I
         Query currentQuery = AdaptiveSelection.get().getCurrentQuery();
         // Display current reason as explanatory text
         String reasonString = currentQuery.attributes().getReasonString();
-        if (!TextUtils.isEmpty(reasonString)) {
+        if (TextUtils.isEmpty(reasonString)) {
+            mTextViewReason.setText(R.string.reason_empty);
+        } else {
             mTextViewReason.setText(reasonString);
         }
     }

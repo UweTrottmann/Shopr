@@ -50,9 +50,11 @@ public class AdaptiveSelection {
 
     /**
      * Call before {@link #getRecommendations(Critique)} to set the initial data
-     * set.
+     * set. Resets the query.
      */
     public void setInitialCaseBase(List<Item> caseBase) {
+        mQuery = new Query();
+        mCurrentCritique = null;
         mCaseBase = caseBase;
     }
 

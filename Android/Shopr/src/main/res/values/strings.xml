@@ -17,5 +17,6 @@
     <string name="color">Color</string>
     <string name="label">Label</string>
     <string name="type">Type</string>
+    <string name="action_restart">Start over</string>
 
 </resources>
