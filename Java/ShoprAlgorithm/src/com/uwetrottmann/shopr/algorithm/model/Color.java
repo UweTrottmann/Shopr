@@ -8,10 +8,10 @@ import java.util.Arrays;
 public class Color extends GenericAttribute {
 
     public enum Value implements AttributeValue {
-        RED("red"),
-        BLUE("blue"),
-        GREEN("green"),
-        BLACK("black");
+        RED("Red"),
+        BLUE("Blue"),
+        GREEN("Green"),
+        BLACK("Black");
 
         String mDescriptor;
 
