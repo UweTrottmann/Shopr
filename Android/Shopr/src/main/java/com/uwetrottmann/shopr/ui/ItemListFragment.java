@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,9 +77,11 @@ public class ItemListFragment extends Fragment implements LoaderCallbacks<List<I
 
     private void onUpdateReason() {
         Query currentQuery = AdaptiveSelection.get().getCurrentQuery();
-        // TODO display current reason as explanatory text
-        mTextViewReason.setText("Query "
-                + currentQuery.attributes().getAllAttributesString());
+        // Display current reason as explanatory text
+        String reasonString = currentQuery.attributes().getReasonString();
+        if (!TextUtils.isEmpty(reasonString)) {
+            mTextViewReason.setText(reasonString);
+        }
     }
 
     @Override
