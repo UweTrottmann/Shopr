@@ -8,6 +8,8 @@ public class Attributes {
 
     public interface Attribute {
         public double[] getValueWeights();
+
+        public String toString();
     }
 
     private ClothingType type;
@@ -24,6 +26,20 @@ public class Attributes {
         attrs[2] = label();
 
         return attrs;
+    }
+
+    public String getAllAttributesString() {
+        StringBuilder attrsStr = new StringBuilder("");
+
+        Attribute[] allAttributes = getAllAttributes();
+        for (int i = 0; i < allAttributes.length; i++) {
+            attrsStr.append(allAttributes[i].toString());
+            if (i != allAttributes.length - 1) {
+                attrsStr.append(" ");
+            }
+        }
+
+        return attrsStr.toString();
     }
 
     public Color color() {

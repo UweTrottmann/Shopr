@@ -83,10 +83,7 @@ public class Utils {
 
     public static void dumpToConsole(List<Item> cases, Query query) {
         if (query.attributes() != null) {
-            System.out.println("Query "
-                    + query.attributes().color() + " "
-                    + query.attributes().type() + " "
-                    + query.attributes().label());
+            System.out.println("Query " + query.attributes().getAllAttributesString());
         } else {
             System.out.println("Query EMPTY");
         }
@@ -94,9 +91,7 @@ public class Utils {
             Item item = cases.get(i);
             System.out
                     .println("[" + i + "] Item "
-                            + item.attributes().color() + " "
-                            + item.attributes().type() + " "
-                            + item.attributes().label()
+                            + item.attributes().getAllAttributesString()
                             + " sim " + item.querySimilarity()
                             + " qual " + item.quality());
         }

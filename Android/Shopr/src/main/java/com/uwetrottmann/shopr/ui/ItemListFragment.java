@@ -78,9 +78,7 @@ public class ItemListFragment extends Fragment implements LoaderCallbacks<List<I
         Query currentQuery = AdaptiveSelection.get().getCurrentQuery();
         // TODO display current reason as explanatory text
         mTextViewReason.setText("Query "
-                + currentQuery.attributes().color() + " "
-                + currentQuery.attributes().type() + " "
-                + currentQuery.attributes().label());
+                + currentQuery.attributes().getAllAttributesString());
     }
 
     @Override
