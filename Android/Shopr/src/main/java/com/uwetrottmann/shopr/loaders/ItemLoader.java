@@ -32,12 +32,12 @@ public class ItemLoader extends GenericSimpleLoader<List<Item>> {
         int count = 0;
         for (com.uwetrottmann.shopr.algorithm.model.Item item : recommendations) {
             Attributes attrs = item.attributes();
-            String label = attrs.label().currentValue().toString();
-            String type = attrs.type().currentValue().toString();
+            String label = attrs.label().currentValue().descriptor();
+            String type = attrs.type().currentValue().descriptor();
 
             Item expandedItem = new Item().id(item.id());
             expandedItem.name(type + " " + label + count);
-            expandedItem.color(attrs.color().currentValue().toString());
+            expandedItem.color(attrs.color().currentValue().descriptor());
             expandedItem.label(label);
             expandedItem.type(type);
             expandedItem.price(item.price());

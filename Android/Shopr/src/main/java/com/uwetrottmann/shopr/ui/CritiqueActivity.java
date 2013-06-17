@@ -27,9 +27,7 @@ import com.uwetrottmann.shopr.algorithm.Critique;
 import com.uwetrottmann.shopr.algorithm.Feedback;
 import com.uwetrottmann.shopr.algorithm.model.Item;
 
-import java.text.NumberFormat;
 import java.util.List;
-import java.util.Locale;
 
 public class CritiqueActivity extends Activity {
 
@@ -173,7 +171,7 @@ public class CritiqueActivity extends Activity {
 
         @Override
         public int getCount() {
-            return 4;
+            return 3;
         }
 
         @Override
@@ -216,20 +214,15 @@ public class CritiqueActivity extends Activity {
             switch (position) {
                 case 0:
                     title = mContext.getString(R.string.color);
-                    value = item.attributes().color().currentValue().toString();
+                    value = item.attributes().color().currentValue().descriptor();
                     break;
                 case 1:
                     title = mContext.getString(R.string.type);
-                    value = item.attributes().type().currentValue().toString();
+                    value = item.attributes().type().currentValue().descriptor();
                     break;
                 case 2:
                     title = mContext.getString(R.string.label);
-                    value = item.attributes().label().currentValue().toString();
-                    break;
-                case 3:
-                    title = mContext.getString(R.string.price);
-                    value = NumberFormat.getCurrencyInstance(Locale.GERMANY).format(
-                            item.price().doubleValue());
+                    value = item.attributes().label().currentValue().descriptor();
                     break;
             }
 
