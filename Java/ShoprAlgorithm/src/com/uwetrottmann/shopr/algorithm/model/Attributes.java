@@ -57,7 +57,7 @@ public class Attributes {
             if (allAttributes[i] != null) {
                 attrsStr.append(allAttributes[i].getValueWeightsString());
             } else {
-                attrsStr.append("not set");
+                attrsStr.append("[not set]");
             }
             if (i != allAttributes.length - 1) {
                 attrsStr.append(" ");
