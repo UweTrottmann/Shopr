@@ -95,6 +95,10 @@ public class AdaptiveSelection {
         }
     }
 
+    public Query getCurrentQuery() {
+        return mQuery;
+    }
+
     /**
      * **DO NOT USE** Only for testing of the Adaptive Selection cycle using a
      * console program.
