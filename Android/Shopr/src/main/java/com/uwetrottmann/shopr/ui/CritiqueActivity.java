@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.BaseAdapter;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -25,7 +25,11 @@ import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.algorithm.AdaptiveSelection;
 import com.uwetrottmann.shopr.algorithm.Critique;
 import com.uwetrottmann.shopr.algorithm.Feedback;
+import com.uwetrottmann.shopr.algorithm.model.Attributes.Attribute;
+import com.uwetrottmann.shopr.algorithm.model.ClothingType;
+import com.uwetrottmann.shopr.algorithm.model.Color;
 import com.uwetrottmann.shopr.algorithm.model.Item;
+import com.uwetrottmann.shopr.algorithm.model.Label;
 
 import java.util.List;
 
@@ -101,7 +105,8 @@ public class CritiqueActivity extends Activity {
     }
 
     private void setupAdapter() {
-        mAdapter = new ItemFeatureAdapter(this, mItem);
+        mAdapter = new ItemFeatureAdapter(this);
+        mAdapter.addAll(mItem.attributes().getAllAttributes());
         mListView.setAdapter(mAdapter);
     }
 
@@ -154,34 +159,16 @@ public class CritiqueActivity extends Activity {
         finish();
     }
 
-    public class ItemFeatureAdapter extends BaseAdapter {
+    public class ItemFeatureAdapter extends ArrayAdapter<Attribute> {
 
         private static final int LAYOUT = R.layout.feature_row;
-        private Item mItem;
-        private Context mContext;
         private LayoutInflater mLayoutInflater;
         private SparseBooleanArray mCheckedPositions = new SparseBooleanArray();
 
-        public ItemFeatureAdapter(Context context, Item item) {
-            mContext = context;
-            mItem = item;
+        public ItemFeatureAdapter(Context context) {
+            super(context, LAYOUT);
             mLayoutInflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        }
-
-        @Override
-        public int getCount() {
-            return 3;
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return mItem;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
         }
 
         @Override
@@ -200,7 +187,7 @@ public class CritiqueActivity extends Activity {
                 holder = (ViewHolder) convertView.getTag();
             }
 
-            Item item = (Item) getItem(position);
+            Attribute item = getItem(position);
 
             holder.title.setOnCheckedChangeListener(new OnCheckedChangeListener() {
                 @Override
@@ -210,24 +197,16 @@ public class CritiqueActivity extends Activity {
             });
 
             String title = "";
-            String value = "";
-            switch (position) {
-                case 0:
-                    title = mContext.getString(R.string.color);
-                    value = item.attributes().color().currentValue().descriptor();
-                    break;
-                case 1:
-                    title = mContext.getString(R.string.type);
-                    value = item.attributes().type().currentValue().descriptor();
-                    break;
-                case 2:
-                    title = mContext.getString(R.string.label);
-                    value = item.attributes().label().currentValue().descriptor();
-                    break;
+            if (item.id() == Color.ID) {
+                title = getContext().getString(R.string.color);
+            } else if (item.id() == Label.ID) {
+                title = getContext().getString(R.string.label);
+            } else if (item.id() == ClothingType.ID) {
+                title = getContext().getString(R.string.type);
             }
 
             holder.title.setText(title);
-            holder.value.setText(value);
+            holder.value.setText(item.currentValue().descriptor());
 
             return convertView;
         }

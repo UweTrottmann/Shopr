@@ -7,6 +7,8 @@ import java.util.Arrays;
 
 public class Label extends GenericAttribute {
 
+    public static final String ID = "label";
+
     public enum Value implements AttributeValue {
         ARMANI("Armani"),
         HUGO_BOSS("Hugo Boss"),

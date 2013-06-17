@@ -7,9 +7,15 @@ package com.uwetrottmann.shopr.algorithm.model;
 public class Attributes {
 
     public interface Attribute {
+        public String id();
+
+        public AttributeValue currentValue();
+
         public double[] getValueWeights();
 
         public String getValueWeightsString();
+
+        public String getReasonString();
     }
 
     public interface AttributeValue {
@@ -59,6 +65,26 @@ public class Attributes {
         }
 
         return attrsStr.toString();
+    }
+
+    /**
+     * Returns a string describing this query for an end-user, e.g.
+     * "no Red, mainly Blue, no Armani".
+     */
+    public String getReasonString() {
+        StringBuilder reason = new StringBuilder();
+
+        Attribute[] allAttributes = getAllAttributes();
+        for (int i = 0; i < allAttributes.length; i++) {
+            if (allAttributes[i] == null) {
+                continue;
+            }
+
+            Attribute attribute = allAttributes[i];
+            reason.append(attribute.getReasonString());
+        }
+
+        return reason.toString();
     }
 
     public Color color() {

@@ -7,6 +7,8 @@ import java.util.Arrays;
 
 public class Color extends GenericAttribute {
 
+    public static final String ID = "color";
+
     public enum Value implements AttributeValue {
         RED("Red"),
         BLUE("Blue"),

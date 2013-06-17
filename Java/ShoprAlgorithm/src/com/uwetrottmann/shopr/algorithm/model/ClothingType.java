@@ -7,6 +7,8 @@ import java.util.Arrays;
 
 public class ClothingType extends GenericAttribute {
 
+    public static final String ID = "clothing-type";
+
     public enum Value implements AttributeValue {
         DRESS("Dress"),
         SHIRT("Shirt"),
