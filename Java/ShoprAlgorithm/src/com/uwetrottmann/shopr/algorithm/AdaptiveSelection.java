@@ -280,7 +280,8 @@ public class AdaptiveSelection {
      * difference evenly from other weights, clamps them to zero if necessary.
      */
     public static void likeValue(int valueIndex, double[] weights) {
-        double likedWeight = weights[valueIndex];
+        // increase by the average weight
+        double likedWeight = 1.0 / weights.length;
 
         weights[valueIndex] += likedWeight;
 
@@ -288,6 +289,7 @@ public class AdaptiveSelection {
         if (weights[valueIndex] > 1.0) {
             Arrays.fill(weights, 0.0);
             weights[valueIndex] = 1.0;
+            return;
         }
 
         // subtract average from other weights
