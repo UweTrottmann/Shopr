@@ -1,17 +1,34 @@
 
 package com.uwetrottmann.shopr.algorithm.model;
 
-import com.uwetrottmann.shopr.algorithm.model.Attributes.Attribute;
+import com.uwetrottmann.shopr.algorithm.model.Attributes.AttributeValue;
 
 import java.util.Arrays;
 
-public class Label extends GenericAttribute<Label.Value> implements Attribute {
-    public enum Value {
-        ARMANI,
-        HUGO_BOSS,
-        CHANEL,
-        DOLCE_AND_GABBANA,
-        KARL_LAGERFELD
+public class Label extends GenericAttribute {
+
+    public enum Value implements AttributeValue {
+        ARMANI("Armani"),
+        HUGO_BOSS("Hugo Boss"),
+        CHANEL("Chanel"),
+        DOLCE_AND_GABBANA("Dolce & Gabbana"),
+        KARL_LAGERFELD("Karl Lagerfeld");
+
+        private String mDescriptor;
+
+        Value(String descriptor) {
+            mDescriptor = descriptor;
+        }
+
+        @Override
+        public String descriptor() {
+            return mDescriptor;
+        }
+
+        @Override
+        public int index() {
+            return ordinal();
+        }
     }
 
     public Label() {

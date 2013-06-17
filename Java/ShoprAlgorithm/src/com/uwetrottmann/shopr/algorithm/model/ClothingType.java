@@ -1,18 +1,34 @@
 
 package com.uwetrottmann.shopr.algorithm.model;
 
-import com.uwetrottmann.shopr.algorithm.model.Attributes.Attribute;
+import com.uwetrottmann.shopr.algorithm.model.Attributes.AttributeValue;
 
 import java.util.Arrays;
 
-public class ClothingType extends GenericAttribute<ClothingType.Value> implements Attribute {
+public class ClothingType extends GenericAttribute {
 
-    public enum Value {
-        DRESS,
-        SHIRT,
-        TROUSER,
-        JEANS,
-        SHORTS
+    public enum Value implements AttributeValue {
+        DRESS("Dress"),
+        SHIRT("Shirt"),
+        TROUSER("Trouser"),
+        JEANS("Jeans"),
+        SHORTS("Shorts");
+
+        String mDescriptor;
+
+        Value(String descriptor) {
+            mDescriptor = descriptor;
+        }
+
+        @Override
+        public String descriptor() {
+            return mDescriptor;
+        }
+
+        @Override
+        public int index() {
+            return ordinal();
+        }
     }
 
     public ClothingType() {

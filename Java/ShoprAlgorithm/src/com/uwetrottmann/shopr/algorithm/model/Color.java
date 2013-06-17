@@ -1,17 +1,33 @@
 
 package com.uwetrottmann.shopr.algorithm.model;
 
-import com.uwetrottmann.shopr.algorithm.model.Attributes.Attribute;
+import com.uwetrottmann.shopr.algorithm.model.Attributes.AttributeValue;
 
 import java.util.Arrays;
 
-public class Color extends GenericAttribute<Color.Value> implements Attribute {
+public class Color extends GenericAttribute {
 
-    public enum Value {
-        RED,
-        BLUE,
-        GREEN,
-        BLACK
+    public enum Value implements AttributeValue {
+        RED("red"),
+        BLUE("blue"),
+        GREEN("green"),
+        BLACK("black");
+
+        String mDescriptor;
+
+        Value(String name) {
+            mDescriptor = name;
+        }
+
+        @Override
+        public String descriptor() {
+            return mDescriptor;
+        }
+
+        @Override
+        public int index() {
+            return ordinal();
+        }
     }
 
     public Color() {
@@ -28,7 +44,7 @@ public class Color extends GenericAttribute<Color.Value> implements Attribute {
     }
 
     @Override
-    public Value[] getValueSymbols() {
+    public AttributeValue[] getValueSymbols() {
         return Value.values();
     }
 }

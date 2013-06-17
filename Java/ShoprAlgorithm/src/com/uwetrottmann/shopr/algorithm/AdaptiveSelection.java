@@ -228,7 +228,7 @@ public class AdaptiveSelection {
                     // initialize with evenly weighted values
                     query.attributes().color(new Color());
                 }
-                valueIndex = critique.item().attributes().color().currentValue().ordinal();
+                valueIndex = critique.item().attributes().color().currentValue().index();
                 weights = query.attributes().color().getValueWeights();
                 break;
             }
@@ -237,7 +237,7 @@ public class AdaptiveSelection {
                     // initialize with evenly weighted values
                     query.attributes().type(new ClothingType());
                 }
-                valueIndex = critique.item().attributes().type().currentValue().ordinal();
+                valueIndex = critique.item().attributes().type().currentValue().index();
                 weights = query.attributes().type().getValueWeights();
                 break;
             }
@@ -246,7 +246,7 @@ public class AdaptiveSelection {
                     // initialize with evenly weighted values
                     query.attributes().label(new Label());
                 }
-                valueIndex = critique.item().attributes().label().currentValue().ordinal();
+                valueIndex = critique.item().attributes().label().currentValue().index();
                 weights = query.attributes().label().getValueWeights();
                 break;
             }

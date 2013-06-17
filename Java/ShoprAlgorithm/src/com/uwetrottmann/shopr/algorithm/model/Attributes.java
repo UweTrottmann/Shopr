@@ -9,7 +9,22 @@ public class Attributes {
     public interface Attribute {
         public double[] getValueWeights();
 
-        public String toString();
+        public String getValueWeightsString();
+    }
+
+    public interface AttributeValue {
+
+        /**
+         * Returns the index of this value in the weights vector of the
+         * attribute.
+         */
+        public int index();
+
+        /**
+         * Returns a {@link String} representation suitable for end-user
+         * representation.
+         */
+        public String descriptor();
     }
 
     private ClothingType type;
@@ -33,7 +48,11 @@ public class Attributes {
 
         Attribute[] allAttributes = getAllAttributes();
         for (int i = 0; i < allAttributes.length; i++) {
-            attrsStr.append(allAttributes[i].toString());
+            if (allAttributes[i] != null) {
+                attrsStr.append(allAttributes[i].getValueWeightsString());
+            } else {
+                attrsStr.append("not set");
+            }
             if (i != allAttributes.length - 1) {
                 attrsStr.append(" ");
             }
