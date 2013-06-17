@@ -96,29 +96,9 @@ public class CritiqueActivity extends Activity {
         mButtonUpdate.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Get selected attribute
-                Feedback feedback = new Feedback();
-
-                SparseBooleanArray checkedPositions = mAdapter.getCheckedPositions();
-                for (int i = 0; i < 4; i++) {
-                    if (checkedPositions.get(i)) {
-                        mCritiquedAttributeId = i;
-                        break;
-                    }
-                }
-
-                feedback.attribute(mCritiquedAttributeId);
-                feedback.isPositiveFeedback(mIsPositiveCritique);
-
-                Critique critique = new Critique();
-                critique.item(mItem);
-                critique.feedback(feedback);
-
-                // Submit to algorithm backend
-                AdaptiveSelection.get().submitCritique(critique);
-                setResult(RESULT_OK);
-                finish();
+                onUpdateQuery();
             }
+
         });
     }
 
@@ -149,6 +129,31 @@ public class CritiqueActivity extends Activity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void onUpdateQuery() {
+        // Get selected attribute
+        Feedback feedback = new Feedback();
+
+        SparseBooleanArray checkedPositions = mAdapter.getCheckedPositions();
+        for (int i = 0; i < 4; i++) {
+            if (checkedPositions.get(i)) {
+                mCritiquedAttributeId = i;
+                break;
+            }
+        }
+
+        feedback.attribute(mCritiquedAttributeId);
+        feedback.isPositiveFeedback(mIsPositiveCritique);
+
+        Critique critique = new Critique();
+        critique.item(mItem);
+        critique.feedback(feedback);
+
+        // Submit to algorithm backend
+        AdaptiveSelection.get().submitCritique(critique);
+        setResult(RESULT_OK);
+        finish();
     }
 
     public class ItemFeatureAdapter extends BaseAdapter {
