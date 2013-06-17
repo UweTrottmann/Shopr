@@ -47,6 +47,11 @@ public class Label extends GenericAttribute {
     }
 
     @Override
+    public String id() {
+        return ID;
+    }
+
+    @Override
     public Value[] getValueSymbols() {
         return Value.values();
     }

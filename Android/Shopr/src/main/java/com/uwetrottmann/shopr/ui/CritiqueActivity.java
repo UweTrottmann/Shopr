@@ -197,11 +197,12 @@ public class CritiqueActivity extends Activity {
             });
 
             String title = "";
-            if (item.id() == Color.ID) {
+            String id = item.id();
+            if (id == Color.ID) {
                 title = getContext().getString(R.string.color);
-            } else if (item.id() == Label.ID) {
+            } else if (id == Label.ID) {
                 title = getContext().getString(R.string.label);
-            } else if (item.id() == ClothingType.ID) {
+            } else if (id == ClothingType.ID) {
                 title = getContext().getString(R.string.type);
             }
 

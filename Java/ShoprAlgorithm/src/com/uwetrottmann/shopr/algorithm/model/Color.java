@@ -46,6 +46,11 @@ public class Color extends GenericAttribute {
     }
 
     @Override
+    public String id() {
+        return ID;
+    }
+
+    @Override
     public AttributeValue[] getValueSymbols() {
         return Value.values();
     }

@@ -6,16 +6,9 @@ import com.uwetrottmann.shopr.algorithm.model.Attributes.AttributeValue;
 
 public abstract class GenericAttribute implements Attribute {
 
-    public static final String ID = null;
-
     private AttributeValue currentValue;
 
     double[] mValueWeights;
-
-    @Override
-    public String id() {
-        return ID;
-    }
 
     public AttributeValue currentValue() {
         return currentValue;
