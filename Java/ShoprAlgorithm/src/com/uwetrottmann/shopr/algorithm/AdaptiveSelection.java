@@ -1,6 +1,7 @@
 
 package com.uwetrottmann.shopr.algorithm;
 
+import com.uwetrottmann.shopr.algorithm.model.Attributes.Attribute;
 import com.uwetrottmann.shopr.algorithm.model.ClothingType;
 import com.uwetrottmann.shopr.algorithm.model.Color;
 import com.uwetrottmann.shopr.algorithm.model.Item;
@@ -198,11 +199,23 @@ public class AdaptiveSelection {
             // TODO: allow multiple attributes
             System.out.print("Color (0), type (1) or label(2)?: ");
             int attribute = Integer.valueOf(in.readLine());
+            Attribute attr = null;
+            switch (attribute) {
+                case 0:
+                    attr = new Color();
+                    break;
+                case 1:
+                    attr = new ClothingType();
+                    break;
+                case 2:
+                    attr = new Label();
+                    break;
+            }
 
             Critique critique = new Critique();
             critique.item(recommendations.get(selection));
             critique.feedback(new Feedback().isPositiveFeedback(isPositiveCritique)
-                    .attribute(attribute));
+                    .attributes(attr));
 
             return critique;
         } catch (IOException e) {
@@ -221,9 +234,12 @@ public class AdaptiveSelection {
         int valueIndex = -1;
         double[] weights = null;
 
-        // get value weight index, current weights
-        switch (critique.feedback().attribute()) {
-            case 0: {
+        List<Attribute> attributes = critique.feedback().attributes();
+        for (Attribute attribute : attributes) {
+            // get value weight index, current weights
+
+            String id = attribute.id();
+            if (id == Color.ID) {
                 if (query.attributes().color() == null) {
                     // initialize with evenly weighted values
                     query.attributes().color(new Color());
@@ -231,33 +247,29 @@ public class AdaptiveSelection {
                 valueIndex = critique.item().attributes().color().currentValue().index();
                 weights = query.attributes().color().getValueWeights();
                 break;
-            }
-            case 1: {
+            } else if (id == ClothingType.ID) {
                 if (query.attributes().type() == null) {
                     // initialize with evenly weighted values
                     query.attributes().type(new ClothingType());
                 }
                 valueIndex = critique.item().attributes().type().currentValue().index();
                 weights = query.attributes().type().getValueWeights();
-                break;
-            }
-            case 2: {
+            } else if (id == Label.ID) {
                 if (query.attributes().label() == null) {
                     // initialize with evenly weighted values
                     query.attributes().label(new Label());
                 }
                 valueIndex = critique.item().attributes().label().currentValue().index();
                 weights = query.attributes().label().getValueWeights();
-                break;
             }
-        }
 
-        // calculate new weights
-        if (valueIndex != -1 || weights != null) {
-            if (critique.feedback().isPositiveFeedback()) {
-                likeValue(valueIndex, weights);
-            } else {
-                dislikeValue(valueIndex, weights);
+            // calculate new weights
+            if (valueIndex != -1 || weights != null) {
+                if (critique.feedback().isPositiveFeedback()) {
+                    likeValue(valueIndex, weights);
+                } else {
+                    dislikeValue(valueIndex, weights);
+                }
             }
         }
     }
