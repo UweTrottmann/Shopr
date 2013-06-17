@@ -248,7 +248,6 @@ public class AdaptiveSelection {
                 }
                 valueIndex = critique.item().attributes().color().currentValue().index();
                 weights = query.attributes().color().getValueWeights();
-                break;
             } else if (id == ClothingType.ID) {
                 if (query.attributes().type() == null) {
                     // initialize with evenly weighted values
