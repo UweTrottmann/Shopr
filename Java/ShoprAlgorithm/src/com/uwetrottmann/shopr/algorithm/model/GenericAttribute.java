@@ -59,17 +59,30 @@ public abstract class GenericAttribute implements Attribute {
                     reason.append(", ");
                 }
                 reason.append("no ").append(values[i].descriptor());
-            }
-            if (mValueWeights[maxIndex] > mValueWeights[i]) {
+            } else if (mValueWeights[i] > mValueWeights[maxIndex]) {
                 maxIndex = i;
             }
         }
 
-        // e.g. ", mainly Red"
-        if (reason.length() != 0) {
-            reason.append(", ");
+        // check for global maximum
+        boolean hasGlobalMaximum = true;
+        for (int i = 0; i < mValueWeights.length; i++) {
+            if (i == maxIndex) {
+                continue;
+            }
+            if (mValueWeights[i] == mValueWeights[maxIndex]) {
+                hasGlobalMaximum = false;
+                break;
+            }
         }
-        reason.append("mainly ").append(values[maxIndex].descriptor());
+
+        // e.g. ", mainly Red"
+        if (hasGlobalMaximum) {
+            if (reason.length() != 0) {
+                reason.append(", ");
+            }
+            reason.append("mainly ").append(values[maxIndex].descriptor());
+        }
 
         return reason.toString();
     }
