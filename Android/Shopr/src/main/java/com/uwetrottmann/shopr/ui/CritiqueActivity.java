@@ -43,7 +43,6 @@ public class CritiqueActivity extends Activity {
 
     private Item mItem;
     private boolean mIsPositiveCritique;
-    private int mCritiquedAttributeId;
 
     public interface InitBundle {
         String ITEM_ID = "item_id";
@@ -135,19 +134,16 @@ public class CritiqueActivity extends Activity {
     }
 
     private void onUpdateQuery() {
-        // Get selected attribute
+        // Get selected attributes
         Feedback feedback = new Feedback();
+        feedback.isPositiveFeedback(mIsPositiveCritique);
 
         SparseBooleanArray checkedPositions = mAdapter.getCheckedPositions();
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < mAdapter.getCount(); i++) {
             if (checkedPositions.get(i)) {
-                mCritiquedAttributeId = i;
-                break;
+                feedback.addAttributes(mAdapter.getItem(i));
             }
         }
-
-        feedback.attribute(mCritiquedAttributeId);
-        feedback.isPositiveFeedback(mIsPositiveCritique);
 
         Critique critique = new Critique();
         critique.item(mItem);

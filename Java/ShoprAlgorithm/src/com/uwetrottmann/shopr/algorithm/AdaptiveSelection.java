@@ -215,7 +215,7 @@ public class AdaptiveSelection {
             Critique critique = new Critique();
             critique.item(recommendations.get(selection));
             critique.feedback(new Feedback().isPositiveFeedback(isPositiveCritique)
-                    .attributes(attr));
+                    .addAttributes(attr));
 
             return critique;
         } catch (IOException e) {
