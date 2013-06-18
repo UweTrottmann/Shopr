@@ -3,10 +3,12 @@ package com.uwetrottmann.shopr.ui;
 
 import android.os.Bundle;
 
-import com.google.android.gms.maps.GoogleMap.OnMapLongClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.uwetrottmann.shopr.model.Shop;
+import com.uwetrottmann.shopr.utils.ShopUtils;
+
+import java.util.List;
 
 public class ShopMapFragment extends SupportMapFragment {
 
@@ -14,20 +16,24 @@ public class ShopMapFragment extends SupportMapFragment {
         return new ShopMapFragment();
     }
 
+    private List<Shop> mShops;
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
         // enable my location feature
         getMap().setMyLocationEnabled(true);
-        getMap().setOnMapLongClickListener(new OnMapLongClickListener() {
 
-            @Override
-            public void onMapLongClick(LatLng latLng) {
-                // Add marker at tap position
-                getMap().addMarker(new MarkerOptions().position(latLng).title(latLng.toString()));
-            }
-        });
+        mShops = ShopUtils.getShopsSamples();
 
+        onDisplayShops();
+
+    }
+
+    private void onDisplayShops() {
+        for (Shop shop : mShops) {
+            getMap().addMarker(new MarkerOptions().position(shop.location()).title(shop.name()));
+        }
     }
 }
