@@ -22,6 +22,7 @@ import com.uwetrottmann.shopr.utils.ShopUtils;
 import de.greenrobot.event.EventBus;
 
 import java.util.List;
+import java.util.Map;
 
 public class ShopMapFragment extends SupportMapFragment {
 
@@ -86,35 +87,31 @@ public class ShopMapFragment extends SupportMapFragment {
         }
     }
 
-    public void onEvent(LocationUpdateEvent event) {
-        onInitializeMap();
-    }
-
-    public void onEvent(ShopUpdateEvent event) {
+    private void onUpdateShops(Map<Integer, Integer> shopItemMap) {
         // remove existing markers
         if (mShopMarkers != null) {
             for (Marker marker : mShopMarkers) {
                 marker.remove();
             }
         }
-
+    
         // TODO replace with actual shop data
         List<Shop> shopsSamples = ShopUtils.getShopsSamples();
-
+    
         List<Marker> shopMarkersNew = Lists.newArrayList();
-
+    
         for (Shop shop : shopsSamples) {
             // determine color and recom. items in this shop
             float color;
             int itemCount;
-            if (event.shopMap.containsKey(shop.id())) {
-                itemCount = event.shopMap.get(shop.id());
+            if (shopItemMap.containsKey(shop.id())) {
+                itemCount = shopItemMap.get(shop.id());
                 color = BitmapDescriptorFactory.HUE_VIOLET;
             } else {
                 itemCount = 0;
                 color = BitmapDescriptorFactory.HUE_AZURE;
             }
-
+    
             // place marker
             Marker marker = getMap().addMarker(
                     new MarkerOptions()
@@ -124,8 +121,16 @@ public class ShopMapFragment extends SupportMapFragment {
                             .icon(BitmapDescriptorFactory.defaultMarker(color)));
             shopMarkersNew.add(marker);
         }
-
+    
         mShopMarkers = shopMarkersNew;
+    }
+
+    public void onEvent(LocationUpdateEvent event) {
+        onInitializeMap();
+    }
+
+    public void onEvent(ShopUpdateEvent event) {
+        onUpdateShops(event.shopMap);
     }
 
 }
