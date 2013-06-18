@@ -53,7 +53,7 @@ public class ShopMapFragment extends SupportMapFragment {
 
     private void onInitializeMap() {
         if (!mIsInitialized) {
-            mLocation = ((MainActivity) getActivity()).getLocation();
+            mLocation = ((MainActivity) getActivity()).getLastLocation();
             if (mLocation == null) {
                 return;
             }

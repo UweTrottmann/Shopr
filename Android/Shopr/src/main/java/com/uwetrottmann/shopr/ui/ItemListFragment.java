@@ -3,6 +3,7 @@ package com.uwetrottmann.shopr.ui;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
@@ -90,7 +91,8 @@ public class ItemListFragment extends Fragment implements LoaderCallbacks<List<I
 
     @Override
     public Loader<List<Item>> onCreateLoader(int loaderId, Bundle args) {
-        return new ItemLoader(getActivity());
+        Location location = ((MainActivity) getActivity()).getLastLocation();
+        return new ItemLoader(getActivity(), location);
     }
 
     @Override

@@ -54,6 +54,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
     private LocationClient mLocationClient;
 
+    private Location mLastLocation;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -210,6 +212,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     @Override
     public void onConnected(Bundle dataBundle) {
         Toast.makeText(this, "Connected to location service", Toast.LENGTH_SHORT).show();
+        getLocation();
     }
 
     @Override
@@ -311,13 +314,16 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         }
     }
 
-    public Location getLocation() {
+    public void getLocation() {
         // If Google Play Services is available
         if (servicesConnected()) {
             // Get the current location
-            return mLocationClient.getLastLocation();
+            mLastLocation = mLocationClient.getLastLocation();
         }
-        return null;
+    }
+
+    public Location getLastLocation() {
+        return mLastLocation;
     }
 
 }
