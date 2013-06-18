@@ -11,9 +11,12 @@ public class ShopUtils {
     public static List<Shop> getShopsSamples() {
         List<Shop> shops = Lists.newArrayList();
 
-        Shop shop = new Shop();
-        shop.id(1).name("Sport u. Mode Soller").location(new LatLng(48.249246, 11.64988));
-        shops.add(shop);
+        shops.add(new Shop().id(1).name("Armani Shop").location(new LatLng(48.249246, 11.64988)));
+        shops.add(new Shop().id(2).name("Hugo Shop").location(new LatLng(48.250878, 11.651548)));
+        shops.add(new Shop().id(3).name("Chanel Shop").location(new LatLng(48.249346, 11.651854)));
+        shops.add(new Shop().id(4).name("Dolce Shop").location(new LatLng(48.249403, 11.648378)));
+        shops.add(new Shop().id(5).name("Karl Shop").location(new LatLng(48.250353, 11.645679)));
+        shops.add(new Shop().id(6).name("Empty Shop").location(new LatLng(48.250403, 11.655056)));
 
         return shops;
     }
