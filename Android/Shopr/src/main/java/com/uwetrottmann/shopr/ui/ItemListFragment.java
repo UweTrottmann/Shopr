@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import com.uwetrottmann.androidutils.Maps;
 import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.adapters.ItemAdapter;
 import com.uwetrottmann.shopr.adapters.ItemAdapter.OnItemCritiqueListener;
@@ -32,6 +33,7 @@ import com.uwetrottmann.shopr.ui.MainActivity.LocationUpdateEvent;
 import de.greenrobot.event.EventBus;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Shows a list of clothing items the user can critique by tapping an up or down
@@ -120,6 +122,39 @@ public class ItemListFragment extends Fragment implements LoaderCallbacks<List<I
         mAdapter.clear();
         mAdapter.addAll(data);
         onUpdateReason();
+        onUpdateShops(data);
+    }
+
+    public class ShopUpdateEvent {
+        /**
+         * Holds a list of shop ids and how many recommendations are shown for
+         * each shop.
+         */
+        Map<Integer, Integer> shopMap;
+    }
+
+    /**
+     * Post {@link ShopUpdateEvent} based on current list of recommendations.
+     * 
+     * @param data
+     */
+    private void onUpdateShops(List<Item> data) {
+        ShopUpdateEvent event = new ShopUpdateEvent();
+
+        // get shops and number of items per shop
+        event.shopMap = Maps.newHashMap();
+        for (Item item : data) {
+            int shopId = item.shopId();
+            int count = 1;
+
+            if (event.shopMap.containsKey(shopId)) {
+                count = event.shopMap.get(shopId);
+            }
+
+            event.shopMap.put(shopId, count);
+        }
+
+        EventBus.getDefault().post(event);
     }
 
     private void onUpdateReason() {
