@@ -22,7 +22,7 @@ import java.util.List;
 public class ShopMapFragment extends SupportMapFragment {
 
     private static final int RADIUS_METERS = 2000;
-    private static final int ZOOM_LEVEL_INITIAL = 13;
+    private static final int ZOOM_LEVEL_INITIAL = 14;
     public static final String TAG = "Shops Map";
 
     public static ShopMapFragment newInstance() {
