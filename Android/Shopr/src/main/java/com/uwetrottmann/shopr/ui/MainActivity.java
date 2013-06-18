@@ -4,6 +4,8 @@ package com.uwetrottmann.shopr.ui;
 import android.app.ActionBar;
 import android.app.Dialog;
 import android.app.FragmentTransaction;
+import android.content.IntentSender;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -13,16 +15,27 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.location.LocationClient;
 import com.uwetrottmann.shopr.R;
 
 import java.util.Locale;
 
-public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
+public class MainActivity extends FragmentActivity implements ActionBar.TabListener,
+        GooglePlayServicesClient.ConnectionCallbacks,
+        GooglePlayServicesClient.OnConnectionFailedListener {
 
     private static final String TAG = "Shopr";
+
+    /*
+     * Define a request code to send to Google Play services. This code is
+     * returned in Activity.onActivityResult.
+     */
+    public static final int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -39,6 +52,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
      */
     ViewPager mViewPager;
 
+    private LocationClient mLocationClient;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +67,12 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         if (!servicesConnected()) {
             return;
         }
+
+        /*
+         * Create a new location client, using the enclosing class to handle
+         * callbacks.
+         */
+        mLocationClient = new LocationClient(this, this, this);
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the app.
@@ -82,6 +103,18 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                             .setText(mSectionsPagerAdapter.getPageTitle(i))
                             .setTabListener(this));
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mLocationClient.connect();
+    }
+
+    @Override
+    public void onStop() {
+        mLocationClient.disconnect();
+        super.onStop();
     }
 
     @Override
@@ -174,6 +207,75 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         }
     }
 
+    @Override
+    public void onConnected(Bundle dataBundle) {
+        Toast.makeText(this, "Connected to location service", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onDisconnected() {
+        Toast.makeText(this, "Disconnected from location service, please reconnect.",
+                Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+        /*
+         * Google Play services can resolve some errors it detects. If the error
+         * has a resolution, try sending an Intent to start a Google Play
+         * services activity that can resolve error.
+         */
+        if (connectionResult.hasResolution()) {
+            try {
+                // Start an Activity that tries to resolve the error
+                connectionResult.startResolutionForResult(
+                        this,
+                        CONNECTION_FAILURE_RESOLUTION_REQUEST);
+                /*
+                 * Thrown if Google Play services canceled the original
+                 * PendingIntent
+                 */
+            } catch (IntentSender.SendIntentException e) {
+                // Log the error
+                e.printStackTrace();
+            }
+        } else {
+            /*
+             * If no resolution is available, display a dialog to the user with
+             * the error.
+             */
+            showErrorDialog(connectionResult.getErrorCode());
+        }
+    }
+
+    /**
+     * Show a dialog returned by Google Play services for the connection error
+     * code
+     * 
+     * @param errorCode An error code returned from onConnectionFailed
+     */
+    private void showErrorDialog(int errorCode) {
+
+        // Get the error dialog from Google Play services
+        Dialog errorDialog = GooglePlayServicesUtil.getErrorDialog(
+                errorCode,
+                this,
+                CONNECTION_FAILURE_RESOLUTION_REQUEST);
+
+        // If Google Play services can provide an error dialog
+        if (errorDialog != null) {
+
+            // Create a new DialogFragment in which to show the error dialog
+            ErrorDialogFragment errorFragment = new ErrorDialogFragment();
+
+            // Set the dialog in the DialogFragment
+            errorFragment.setDialog(errorDialog);
+
+            // Show the error dialog in the DialogFragment
+            errorFragment.show(getSupportFragmentManager(), TAG);
+        }
+    }
+
     /**
      * Define a DialogFragment to display the error dialog generated in
      * showErrorDialog.
@@ -207,6 +309,15 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             return mDialog;
         }
+    }
+
+    public Location getLocation() {
+        // If Google Play Services is available
+        if (servicesConnected()) {
+            // Get the current location
+            return mLocationClient.getLastLocation();
+        }
+        return null;
     }
 
 }
