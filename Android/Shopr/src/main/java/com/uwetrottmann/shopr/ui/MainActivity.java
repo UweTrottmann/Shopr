@@ -23,6 +23,8 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.LocationClient;
 import com.uwetrottmann.shopr.R;
 
+import de.greenrobot.event.EventBus;
+
 import java.util.Locale;
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener,
@@ -319,11 +321,15 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         if (servicesConnected()) {
             // Get the current location
             mLastLocation = mLocationClient.getLastLocation();
+            EventBus.getDefault().post(new LocationUpdateEvent());
         }
     }
 
     public Location getLastLocation() {
         return mLastLocation;
+    }
+
+    public class LocationUpdateEvent {
     }
 
 }

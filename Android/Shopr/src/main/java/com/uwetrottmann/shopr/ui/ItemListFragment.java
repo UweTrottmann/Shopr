@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,6 +27,9 @@ import com.uwetrottmann.shopr.algorithm.Query;
 import com.uwetrottmann.shopr.algorithm.Utils;
 import com.uwetrottmann.shopr.algorithm.model.Item;
 import com.uwetrottmann.shopr.loaders.ItemLoader;
+import com.uwetrottmann.shopr.ui.MainActivity.LocationUpdateEvent;
+
+import de.greenrobot.event.EventBus;
 
 import java.util.List;
 
@@ -36,12 +40,16 @@ import java.util.List;
 public class ItemListFragment extends Fragment implements LoaderCallbacks<List<Item>>,
         OnItemCritiqueListener {
 
+    public static final String TAG = "Item List";
+
     // I = 9, T = 20
     private static final int LOADER_ID = 920;
     private static final int REQUEST_CODE = 12;
     private TextView mTextViewReason;
     private GridView mGridView;
     private ItemAdapter mAdapter;
+
+    private boolean mIsInitialized;
 
     public static ItemListFragment newInstance() {
         return new ItemListFragment();
@@ -70,6 +78,18 @@ public class ItemListFragment extends Fragment implements LoaderCallbacks<List<I
         getLoaderManager().initLoader(LOADER_ID, null, this);
 
         setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this, LocationUpdateEvent.class);
+    }
+
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
     }
 
     @Override
@@ -128,6 +148,15 @@ public class ItemListFragment extends Fragment implements LoaderCallbacks<List<I
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE) {
+            Log.d(TAG, "Received recommendation update, requerying");
+            getLoaderManager().restartLoader(LOADER_ID, null, this);
+        }
+    }
+
+    public void onEvent(LocationUpdateEvent event) {
+        if (!mIsInitialized) {
+            Log.d(TAG, "Received location update, requerying");
+            mIsInitialized = true;
             getLoaderManager().restartLoader(LOADER_ID, null, this);
         }
     }
