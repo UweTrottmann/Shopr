@@ -2,5 +2,6 @@
 <resources>
 
     <color name="lilac">#ff5D1291</color>
+    <color name="lilac_transparent">#505D1291</color>
 
 </resources>
