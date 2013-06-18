@@ -23,8 +23,8 @@ import com.uwetrottmann.shopr.adapters.ItemAdapter.OnItemCritiqueListener;
 import com.uwetrottmann.shopr.algorithm.AdaptiveSelection;
 import com.uwetrottmann.shopr.algorithm.Query;
 import com.uwetrottmann.shopr.algorithm.Utils;
+import com.uwetrottmann.shopr.algorithm.model.Item;
 import com.uwetrottmann.shopr.loaders.ItemLoader;
-import com.uwetrottmann.shopr.model.Item;
 
 import java.util.List;
 

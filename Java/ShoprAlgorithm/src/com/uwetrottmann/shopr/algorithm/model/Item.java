@@ -14,6 +14,8 @@ public class Item {
 
     private BigDecimal price;
 
+    private int shop_id;
+
     private Attributes attrs;
 
     private double querySimilarity;
@@ -44,6 +46,15 @@ public class Item {
 
     public Item price(BigDecimal price) {
         this.price = price;
+        return this;
+    }
+
+    public int shopId() {
+        return shop_id;
+    }
+
+    public Item shopId(int shop_id) {
+        this.shop_id = shop_id;
         return this;
     }
 

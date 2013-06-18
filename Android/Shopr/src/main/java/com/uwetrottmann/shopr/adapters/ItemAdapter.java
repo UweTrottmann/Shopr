@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.uwetrottmann.shopr.R;
-import com.uwetrottmann.shopr.model.Item;
+import com.uwetrottmann.shopr.algorithm.model.Item;
 
 import java.text.NumberFormat;
 import java.util.Locale;
@@ -57,7 +57,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 
         final Item item = getItem(position);
         holder.name.setText(item.name());
-        holder.label.setText(item.label());
+        holder.label.setText(item.attributes().label().currentValue().descriptor());
         holder.price.setText(NumberFormat.getCurrencyInstance(Locale.GERMANY).format(
                 item.price().doubleValue()));
         holder.buttonLike.setOnClickListener(new OnClickListener() {
