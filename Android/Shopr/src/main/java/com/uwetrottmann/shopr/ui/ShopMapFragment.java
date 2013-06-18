@@ -7,11 +7,15 @@ import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.uwetrottmann.androidutils.Lists;
 import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.model.Shop;
+import com.uwetrottmann.shopr.ui.ItemListFragment.ShopUpdateEvent;
 import com.uwetrottmann.shopr.ui.MainActivity.LocationUpdateEvent;
 import com.uwetrottmann.shopr.utils.ShopUtils;
 
@@ -29,7 +33,7 @@ public class ShopMapFragment extends SupportMapFragment {
         return new ShopMapFragment();
     }
 
-    private List<Shop> mShops;
+    private List<Marker> mShopMarkers;
     private Location mLocation;
     private boolean mIsInitialized;
 
@@ -42,15 +46,13 @@ public class ShopMapFragment extends SupportMapFragment {
         // enable my location feature
         getMap().setMyLocationEnabled(true);
 
-        mShops = ShopUtils.getShopsSamples();
-        onDisplayShops();
     }
 
     @Override
     public void onStart() {
         super.onStart();
-
-        EventBus.getDefault().register(this, LocationUpdateEvent.class);
+        EventBus.getDefault()
+                .registerSticky(this, LocationUpdateEvent.class, ShopUpdateEvent.class);
     }
 
     @Override
@@ -84,14 +86,46 @@ public class ShopMapFragment extends SupportMapFragment {
         }
     }
 
-    private void onDisplayShops() {
-        for (Shop shop : mShops) {
-            getMap().addMarker(new MarkerOptions().position(shop.location()).title(shop.name()));
-        }
-    }
-
     public void onEvent(LocationUpdateEvent event) {
         onInitializeMap();
+    }
+
+    public void onEvent(ShopUpdateEvent event) {
+        // remove existing markers
+        if (mShopMarkers != null) {
+            for (Marker marker : mShopMarkers) {
+                marker.remove();
+            }
+        }
+
+        // TODO replace with actual shop data
+        List<Shop> shopsSamples = ShopUtils.getShopsSamples();
+
+        List<Marker> shopMarkersNew = Lists.newArrayList();
+
+        for (Shop shop : shopsSamples) {
+            // determine color and recom. items in this shop
+            float color;
+            int itemCount;
+            if (event.shopMap.containsKey(shop.id())) {
+                itemCount = event.shopMap.get(shop.id());
+                color = BitmapDescriptorFactory.HUE_VIOLET;
+            } else {
+                itemCount = 0;
+                color = BitmapDescriptorFactory.HUE_AZURE;
+            }
+
+            // place marker
+            Marker marker = getMap().addMarker(
+                    new MarkerOptions()
+                            .position(shop.location())
+                            .title(shop.name())
+                            .snippet(getString(R.string.has_x_recommendations, itemCount))
+                            .icon(BitmapDescriptorFactory.defaultMarker(color)));
+            shopMarkersNew.add(marker);
+        }
+
+        mShopMarkers = shopMarkersNew;
     }
 
 }

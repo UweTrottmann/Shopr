@@ -19,5 +19,6 @@
     <string name="type">Type</string>
     <string name="action_restart">Start over</string>
     <string name="getting_your_location">Getting your location...</string>
+    <string name="has_x_recommendations">carries %s recommended items</string>
 
 </resources>

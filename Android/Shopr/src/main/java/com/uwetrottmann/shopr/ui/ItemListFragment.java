@@ -154,7 +154,7 @@ public class ItemListFragment extends Fragment implements LoaderCallbacks<List<I
             event.shopMap.put(shopId, count);
         }
 
-        EventBus.getDefault().post(event);
+        EventBus.getDefault().postSticky(event);
     }
 
     private void onUpdateReason() {

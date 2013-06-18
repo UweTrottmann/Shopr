@@ -321,7 +321,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         if (servicesConnected()) {
             // Get the current location
             mLastLocation = mLocationClient.getLastLocation();
-            EventBus.getDefault().post(new LocationUpdateEvent());
+            EventBus.getDefault().postSticky(new LocationUpdateEvent());
         }
     }
 
