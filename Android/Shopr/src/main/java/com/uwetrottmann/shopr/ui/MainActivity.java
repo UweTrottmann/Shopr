@@ -2,24 +2,27 @@
 package com.uwetrottmann.shopr.ui;
 
 import android.app.ActionBar;
+import android.app.Dialog;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.uwetrottmann.shopr.R;
-import com.uwetrottmann.shopr.R.id;
-import com.uwetrottmann.shopr.R.layout;
-import com.uwetrottmann.shopr.R.menu;
-import com.uwetrottmann.shopr.R.string;
 
 import java.util.Locale;
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
+
+    private static final String TAG = "Shopr";
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -44,6 +47,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         // Set up the action bar.
         final ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+        // Check if Google Play services is installed
+        if (!servicesConnected()) {
+            return;
+        }
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the app.
@@ -132,6 +140,72 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                     return getString(R.string.title_map).toUpperCase(l);
             }
             return null;
+        }
+    }
+
+    /**
+     * Verify that Google Play services is available before making a request.
+     * 
+     * @return true if Google Play services is available, otherwise false
+     */
+    private boolean servicesConnected() {
+
+        // Check that Google Play services is available
+        int resultCode =
+                GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+
+        // If Google Play services is available
+        if (ConnectionResult.SUCCESS == resultCode) {
+            // In debug mode, log the status
+            Log.d(TAG, "Google Play services available");
+
+            // Continue
+            return true;
+            // Google Play services was not available for some reason
+        } else {
+            // Display an error dialog
+            Dialog dialog = GooglePlayServicesUtil.getErrorDialog(resultCode, this, 0);
+            if (dialog != null) {
+                ErrorDialogFragment errorFragment = new ErrorDialogFragment();
+                errorFragment.setDialog(dialog);
+                errorFragment.show(getSupportFragmentManager(), TAG);
+            }
+            return false;
+        }
+    }
+
+    /**
+     * Define a DialogFragment to display the error dialog generated in
+     * showErrorDialog.
+     */
+    public static class ErrorDialogFragment extends DialogFragment {
+
+        // Global field to contain the error dialog
+        private Dialog mDialog;
+
+        /**
+         * Default constructor. Sets the dialog field to null
+         */
+        public ErrorDialogFragment() {
+            super();
+            mDialog = null;
+        }
+
+        /**
+         * Set the dialog to display
+         * 
+         * @param dialog An error dialog
+         */
+        public void setDialog(Dialog dialog) {
+            mDialog = dialog;
+        }
+
+        /*
+         * This method must return a Dialog to the DialogFragment.
+         */
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            return mDialog;
         }
     }
 
