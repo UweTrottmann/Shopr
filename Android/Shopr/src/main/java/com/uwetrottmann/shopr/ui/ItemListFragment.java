@@ -149,6 +149,7 @@ public class ItemListFragment extends Fragment implements LoaderCallbacks<List<I
 
             if (event.shopMap.containsKey(shopId)) {
                 count = event.shopMap.get(shopId);
+                count++;
             }
 
             event.shopMap.put(shopId, count);
