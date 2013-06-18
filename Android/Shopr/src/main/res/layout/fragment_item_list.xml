@@ -16,10 +16,22 @@
     <GridView
         android:id="@+id/gridViewItemList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:horizontalSpacing="4dp"
         android:numColumns="@integer/gridview_num_columns"
-        android:verticalSpacing="4dp" >
+        android:verticalSpacing="4dp"
+        android:visibility="gone" >
     </GridView>
+
+    <TextView
+        android:id="@+id/textViewItemListEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="@string/getting_your_location"
+        android:textAppearance="@style/TextAppearance.Small.Dim" />
 
 </LinearLayout>

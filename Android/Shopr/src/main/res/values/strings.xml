@@ -18,5 +18,6 @@
     <string name="label">Label</string>
     <string name="type">Type</string>
     <string name="action_restart">Start over</string>
+    <string name="getting_your_location">Getting your location...</string>
 
 </resources>

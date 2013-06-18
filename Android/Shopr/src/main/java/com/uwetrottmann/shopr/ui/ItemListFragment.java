@@ -52,6 +52,8 @@ public class ItemListFragment extends Fragment implements LoaderCallbacks<List<I
 
         mTextViewReason = (TextView) v.findViewById(R.id.textViewItemListReason);
         mGridView = (GridView) v.findViewById(R.id.gridViewItemList);
+        View emtpyView = v.findViewById(R.id.textViewItemListEmpty);
+        mGridView.setEmptyView(emtpyView);
 
         return v;
     }
