@@ -35,8 +35,8 @@ public class Utils {
                     // named after type and label + id
                     ClothingType typeValue = new ClothingType(type);
                     Label labelValue = new Label(label);
-                    String name = typeValue.currentValue().toString() + " "
-                            + labelValue.currentValue().toString() + id;
+                    String name = typeValue.currentValue().descriptor() + " "
+                            + labelValue.currentValue().descriptor() + id;
 
                     cases.add(new Item()
                             .id(id)
