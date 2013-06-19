@@ -1,8 +1,11 @@
 
 package com.uwetrottmann.shopr.algorithm.model;
 
+import com.uwetrottmann.shopr.algorithm.Query;
 import com.uwetrottmann.shopr.algorithm.model.Attributes.Attribute;
 import com.uwetrottmann.shopr.algorithm.model.Attributes.AttributeValue;
+
+import java.util.Arrays;
 
 public abstract class GenericAttribute implements Attribute {
 
@@ -87,4 +90,80 @@ public abstract class GenericAttribute implements Attribute {
         return reason.toString();
     }
 
+    /**
+     * Updates the given {@link Query}s {@link Attributes} given the positive or
+     * negative critique based on the {@link #currentValue()} of this
+     * {@link Attribute}.
+     */
+    public void critiqueQuery(Query query, boolean isPositive) {
+        // get value weight index, current weights
+        Attribute queryAttr = query.attributes().getAttributeById(id());
+        if (queryAttr == null) {
+            query.attributes().initializeAttribute(this);
+        }
+
+        int valueIndex = currentValue().index();
+        double[] weights = query.attributes().getAttributeById(id()).getValueWeights();
+
+        // calculate new weights
+        if (isPositive) {
+            likeValue(valueIndex, weights);
+        } else {
+            dislikeValue(valueIndex, weights);
+        }
+    }
+
+    /**
+     * Doubles the weight of the liked value, clamps to one. Subtracts the
+     * difference evenly from other weights, clamps them to zero if necessary.
+     */
+    public static void likeValue(int valueIndex, double[] weights) {
+        // increase by the average weight
+        double likedWeight = 1.0 / weights.length;
+
+        weights[valueIndex] += likedWeight;
+
+        // sum can not exceed 1.0
+        if (weights[valueIndex] > 1.0) {
+            Arrays.fill(weights, 0.0);
+            weights[valueIndex] = 1.0;
+            return;
+        }
+
+        // subtract average from other weights
+        double redistributed = likedWeight / (weights.length - 1);
+        for (int i = 0; i < weights.length; i++) {
+            if (i != valueIndex) {
+                weights[i] -= redistributed;
+                // floor at 0.0
+                if (weights[i] < 0) {
+                    weights[i] = 0.0;
+                }
+            }
+        }
+    }
+
+    /**
+     * Sets the disliked values weight to zero, distributes its ex-weight evenly
+     * to other weights.
+     */
+    public static void dislikeValue(int valueIndex, double[] weights) {
+        double dislikedWeight = weights[valueIndex];
+
+        weights[valueIndex] = 0.0;
+
+        int nonZeroCount = 0;
+        for (int i = 0; i < weights.length; i++) {
+            if (weights[i] != 0) {
+                nonZeroCount++;
+            }
+        }
+
+        double redistributed = dislikedWeight / nonZeroCount;
+        for (int i = 0; i < weights.length; i++) {
+            if (weights[i] != 0) {
+                weights[i] += redistributed;
+            }
+        }
+    }
 }

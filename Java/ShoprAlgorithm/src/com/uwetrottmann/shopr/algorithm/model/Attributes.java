@@ -1,6 +1,8 @@
 
 package com.uwetrottmann.shopr.algorithm.model;
 
+import com.uwetrottmann.shopr.algorithm.Query;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,6 +22,8 @@ public class Attributes {
         public String getValueWeightsString();
 
         public String getReasonString();
+
+        public void critiqueQuery(Query query, boolean isPositive);
     }
 
     public interface AttributeValue {
