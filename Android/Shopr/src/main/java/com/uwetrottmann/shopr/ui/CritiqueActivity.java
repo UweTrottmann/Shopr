@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -36,7 +37,6 @@ import java.util.List;
 
 public class CritiqueActivity extends Activity {
 
-    private TextView mQuestion;
     private ListView mListView;
     private Button mButtonUpdate;
 
@@ -88,9 +88,13 @@ public class CritiqueActivity extends Activity {
     }
 
     private void setupViews() {
-        mQuestion = (TextView) findViewById(R.id.textViewCritiqueQuestion);
-        mQuestion.setText(getString(mIsPositiveCritique ? R.string.detail_like
+        TextView question = (TextView) findViewById(R.id.textViewCritiqueQuestion);
+        question.setText(getString(mIsPositiveCritique ? R.string.detail_like
                 : R.string.detail_dislike, mItem.name()));
+
+        ImageView icon = (ImageView) findViewById(R.id.imageViewCritiqueIcon);
+        icon.setImageResource(mIsPositiveCritique ? R.drawable.ic_action_like
+                : R.drawable.ic_action_dontlike);
 
         mListView = (ListView) findViewById(R.id.listViewCritique);
 
