@@ -30,6 +30,7 @@ import com.uwetrottmann.shopr.algorithm.model.ClothingType;
 import com.uwetrottmann.shopr.algorithm.model.Color;
 import com.uwetrottmann.shopr.algorithm.model.Item;
 import com.uwetrottmann.shopr.algorithm.model.Label;
+import com.uwetrottmann.shopr.algorithm.model.Price;
 
 import java.util.List;
 
@@ -211,6 +212,8 @@ public class CritiqueActivity extends Activity {
                 title = getContext().getString(R.string.label);
             } else if (id == ClothingType.ID) {
                 title = getContext().getString(R.string.type);
+            } else if (id == Price.ID) {
+                title = getContext().getString(R.string.price);
             }
 
             holder.title.setText(title);
