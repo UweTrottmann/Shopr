@@ -55,7 +55,7 @@ public class Price extends GenericAttribute {
         } else {
             value = Value.ABOVE_100;
         }
-        
+
         mValueWeights[value.ordinal()] = 1.0;
         currentValue(value);
     }
@@ -68,6 +68,17 @@ public class Price extends GenericAttribute {
     @Override
     public AttributeValue[] getValueSymbols() {
         return Value.values();
+    }
+
+    /**
+     * Changes the behavior to also increase the weight of neighboring weights.
+     * E.g. a user might like items priced in a little more expensive or a
+     * little cheaper based on the price range he liked.
+     */
+    @Override
+    public void likeValue(int valueIndex, double[] weights) {
+        // TODO Auto-generated method stub
+        super.likeValue(valueIndex, weights);
     }
 
 }
