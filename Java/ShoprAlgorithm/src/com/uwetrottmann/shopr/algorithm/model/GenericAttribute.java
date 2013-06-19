@@ -118,7 +118,7 @@ public abstract class GenericAttribute implements Attribute {
      * clamps to 1.0. Subtracts the difference evenly from other weights, clamps
      * them to zero if liked value weight is 1.0.
      */
-    public static void likeValue(int valueIndex, double[] weights) {
+    public void likeValue(int valueIndex, double[] weights) {
         // increase by the average weight
         double likedWeight = 1.0 / weights.length;
 
@@ -148,7 +148,7 @@ public abstract class GenericAttribute implements Attribute {
      * Sets the disliked values weight to zero, distributes its ex-weight evenly
      * to other weights.
      */
-    public static void dislikeValue(int valueIndex, double[] weights) {
+    public void dislikeValue(int valueIndex, double[] weights) {
         double dislikedWeight = weights[valueIndex];
 
         weights[valueIndex] = 0.0;
