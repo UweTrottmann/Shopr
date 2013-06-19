@@ -114,8 +114,9 @@ public abstract class GenericAttribute implements Attribute {
     }
 
     /**
-     * Doubles the weight of the liked value, clamps to one. Subtracts the
-     * difference evenly from other weights, clamps them to zero if necessary.
+     * Increases the weight of the liked value by {@code 1 / weights.length},
+     * clamps to 1.0. Subtracts the difference evenly from other weights, clamps
+     * them to zero if liked value weight is 1.0.
      */
     public static void likeValue(int valueIndex, double[] weights) {
         // increase by the average weight
