@@ -94,6 +94,7 @@ public class CritiqueActivity extends Activity {
         mListView = (ListView) findViewById(R.id.listViewCritique);
 
         mButtonUpdate = (Button) findViewById(R.id.buttonRecommend);
+        mButtonUpdate.setEnabled(false);
         mButtonUpdate.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -189,6 +190,16 @@ public class CritiqueActivity extends Activity {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     mCheckedPositions.put(position, isChecked);
+
+                    // enable update button if at least one item is selected
+                    boolean isButtonEnabled = false;
+                    for (int i = 0; i < mCheckedPositions.size(); i++) {
+                        if (mCheckedPositions.valueAt(i)) {
+                            isButtonEnabled = true;
+                            break;
+                        }
+                    }
+                    mButtonUpdate.setEnabled(isButtonEnabled);
                 }
             });
 
