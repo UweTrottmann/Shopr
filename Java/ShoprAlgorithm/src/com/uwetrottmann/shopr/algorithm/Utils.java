@@ -47,10 +47,10 @@ public class Utils {
                             // use label to define shop
                             .shopId(label.ordinal())
                             .attributes(new Attributes()
-                                    .addAttribute(new Color(color))
-                                    .addAttribute(typeValue)
-                                    .addAttribute(labelValue)
-                                    .addAttribute(new Price(price))));
+                                    .putAttribute(new Color(color))
+                                    .putAttribute(typeValue)
+                                    .putAttribute(labelValue)
+                                    .putAttribute(new Price(price))));
                 }
             }
         }

@@ -43,7 +43,11 @@ public class Attributes {
         return attributes.get(id);
     }
 
-    public Attributes addAttribute(Attribute attribute) {
+    /**
+     * Adds the new attribute mapped by its {@link Attribute#id()} or replaces
+     * an existing one.
+     */
+    public Attributes putAttribute(Attribute attribute) {
         attributes.put(attribute.id(), attribute);
         return this;
     }
@@ -92,14 +96,14 @@ public class Attributes {
     }
 
     /**
-     * Calls {@link #addAttribute(Attribute)} with a {@link GenericAttribute}
+     * Calls {@link #putAttribute(Attribute)} with a {@link GenericAttribute}
      * implementation matching the given id.
      */
     public void initializeAttribute(Attribute attribute) {
         try {
             Class<?> attrClass = Class.forName(attribute.getClass().getCanonicalName());
             Attribute newAttr = (Attribute) attrClass.newInstance();
-            addAttribute(newAttr);
+            putAttribute(newAttr);
         } catch (ClassNotFoundException ex) {
             System.err.println(ex + " Interpreter class must be in class path.");
         } catch (InstantiationException ex) {
