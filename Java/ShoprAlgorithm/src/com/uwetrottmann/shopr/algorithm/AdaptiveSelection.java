@@ -6,6 +6,7 @@ import com.uwetrottmann.shopr.algorithm.model.ClothingType;
 import com.uwetrottmann.shopr.algorithm.model.Color;
 import com.uwetrottmann.shopr.algorithm.model.Item;
 import com.uwetrottmann.shopr.algorithm.model.Label;
+import com.uwetrottmann.shopr.algorithm.model.Price;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,7 +16,7 @@ import java.util.List;
 
 public class AdaptiveSelection {
 
-    private static final int NUM_RECOMMENDATIONS_DEFAULT = 2;
+    private static final int NUM_RECOMMENDATIONS_DEFAULT = 8;
     private static final int BOUND_DEFAULT = 5;
     private static final boolean DUMP_INVENTORY = false;
 
@@ -198,25 +199,30 @@ public class AdaptiveSelection {
             boolean isPositiveCritique = Integer.valueOf(in.readLine()) == 1;
 
             // TODO: allow multiple attributes
-            System.out.print("Color (0), type (1) or label(2)?: ");
-            int attribute = Integer.valueOf(in.readLine());
-            Attribute attr = null;
-            switch (attribute) {
-                case 0:
-                    attr = new Color();
-                    break;
-                case 1:
-                    attr = new ClothingType();
-                    break;
-                case 2:
-                    attr = new Label();
-                    break;
+            System.out.print("Color (0), type (1), label(2), price(3)? Enter , separated: ");
+            String input = in.readLine();
+            String[] attrs = input.split(",");
+            Feedback feedback = new Feedback();
+            for (int i = 0; i < attrs.length; i++) {
+                switch (Integer.valueOf(attrs[i])) {
+                    case 0:
+                        feedback.addAttributes(new Color());
+                        break;
+                    case 1:
+                        feedback.addAttributes(new ClothingType());
+                        break;
+                    case 2:
+                        feedback.addAttributes(new Label());
+                        break;
+                    case 3:
+                        feedback.addAttributes(new Price());
+                        break;
+                }
             }
 
             Critique critique = new Critique();
             critique.item(recommendations.get(selection));
-            critique.feedback(new Feedback().isPositiveFeedback(isPositiveCritique)
-                    .addAttributes(attr));
+            critique.feedback(feedback.isPositiveFeedback(isPositiveCritique));
 
             return critique;
         } catch (IOException e) {
