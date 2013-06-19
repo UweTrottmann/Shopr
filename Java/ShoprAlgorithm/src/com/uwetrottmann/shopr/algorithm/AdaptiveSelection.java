@@ -6,13 +6,11 @@ import com.uwetrottmann.shopr.algorithm.model.ClothingType;
 import com.uwetrottmann.shopr.algorithm.model.Color;
 import com.uwetrottmann.shopr.algorithm.model.Item;
 import com.uwetrottmann.shopr.algorithm.model.Label;
-import com.uwetrottmann.shopr.algorithm.model.Price;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class AdaptiveSelection {
@@ -234,107 +232,10 @@ public class AdaptiveSelection {
      * critique.
      */
     private static void queryRevise(Query query, Critique critique) {
-        int valueIndex = -1;
-        double[] weights = null;
-
         List<Attribute> attributes = critique.feedback().attributes();
         for (Attribute attribute : attributes) {
-            // get value weight index, current weights
-
-            String id = attribute.id();
-            if (id == Color.ID) {
-                if (query.attributes().color() == null) {
-                    // initialize with evenly weighted values
-                    query.attributes().color(new Color());
-                }
-                valueIndex = critique.item().attributes().color().currentValue().index();
-                weights = query.attributes().color().getValueWeights();
-            } else if (id == ClothingType.ID) {
-                if (query.attributes().type() == null) {
-                    // initialize with evenly weighted values
-                    query.attributes().type(new ClothingType());
-                }
-                valueIndex = critique.item().attributes().type().currentValue().index();
-                weights = query.attributes().type().getValueWeights();
-            } else if (id == Label.ID) {
-                if (query.attributes().label() == null) {
-                    // initialize with evenly weighted values
-                    query.attributes().label(new Label());
-                }
-                valueIndex = critique.item().attributes().label().currentValue().index();
-                weights = query.attributes().label().getValueWeights();
-            } else if (id == Price.ID) {
-                if (query.attributes().price() == null) {
-                    // initialize with evenly weighted values
-                    query.attributes().price(new Price());
-                }
-                valueIndex = critique.item().attributes().price().currentValue().index();
-                weights = query.attributes().price().getValueWeights();
-            }
-
-            // calculate new weights
-            if (valueIndex != -1 && weights != null) {
-                if (critique.feedback().isPositiveFeedback()) {
-                    likeValue(valueIndex, weights);
-                } else {
-                    dislikeValue(valueIndex, weights);
-                }
-            }
+            critique.item().attributes().getAttributeById(attribute.id())
+                    .critiqueQuery(query, critique.feedback().isPositiveFeedback());
         }
     }
-
-    /**
-     * Doubles the weight of the liked value, clamps to one. Subtracts the
-     * difference evenly from other weights, clamps them to zero if necessary.
-     */
-    public static void likeValue(int valueIndex, double[] weights) {
-        // increase by the average weight
-        double likedWeight = 1.0 / weights.length;
-
-        weights[valueIndex] += likedWeight;
-
-        // sum can not exceed 1.0
-        if (weights[valueIndex] > 1.0) {
-            Arrays.fill(weights, 0.0);
-            weights[valueIndex] = 1.0;
-            return;
-        }
-
-        // subtract average from other weights
-        double redistributed = likedWeight / (weights.length - 1);
-        for (int i = 0; i < weights.length; i++) {
-            if (i != valueIndex) {
-                weights[i] -= redistributed;
-                // floor at 0.0
-                if (weights[i] < 0) {
-                    weights[i] = 0.0;
-                }
-            }
-        }
-    }
-
-    /**
-     * Sets the disliked values weight to zero, distributes its ex-weight evenly
-     * to other weights.
-     */
-    public static void dislikeValue(int valueIndex, double[] weights) {
-        double dislikedWeight = weights[valueIndex];
-
-        weights[valueIndex] = 0.0;
-
-        int nonZeroCount = 0;
-        for (int i = 0; i < weights.length; i++) {
-            if (weights[i] != 0) {
-                nonZeroCount++;
-            }
-        }
-
-        double redistributed = dislikedWeight / nonZeroCount;
-        for (int i = 0; i < weights.length; i++) {
-            if (weights[i] != 0) {
-                weights[i] += redistributed;
-            }
-        }
-    }
-
 }

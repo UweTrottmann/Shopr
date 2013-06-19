@@ -15,27 +15,27 @@ public class SimilarityTest {
     @Test
     public void testSimilarity() {
         Attributes a1 = new Attributes();
-        a1.color(new Color(Color.Value.RED));
-        a1.type(new ClothingType(ClothingType.Value.DRESS));
+        a1.putAttribute(new Color(Color.Value.RED));
+        a1.putAttribute(new ClothingType(ClothingType.Value.DRESS));
 
         Attributes a2 = new Attributes();
-        a2.color(new Color(Color.Value.BLACK));
-        a2.type(null);
+        a2.putAttribute(new Color(Color.Value.BLACK));
 
         // different color
         assertThat(Similarity.similarity(a1, a2)).isEqualTo(0.0);
 
         // same color
-        a1.color(new Color(Color.Value.BLACK));
+        a1.putAttribute(new Color(Color.Value.BLACK));
         assertThat(Similarity.similarity(a1, a2)).isEqualTo(1.0);
 
         // return 0 on no comparable attributes
-        a1.color(null);
-        assertThat(Similarity.similarity(a1, a2)).isEqualTo(0.0);
+        Attributes a3 = new Attributes();
+        a3.putAttribute(new ClothingType(ClothingType.Value.DRESS));
+        assertThat(Similarity.similarity(a3, a2)).isEqualTo(0.0);
 
         // different color, same type
-        a1.color(new Color(Color.Value.RED));
-        a2.type(new ClothingType(ClothingType.Value.DRESS));
+        a1.putAttribute(new Color(Color.Value.RED));
+        a2.putAttribute(new ClothingType(ClothingType.Value.DRESS));
         assertThat(Similarity.similarity(a1, a2)).isEqualTo(0.5);
     }
 
