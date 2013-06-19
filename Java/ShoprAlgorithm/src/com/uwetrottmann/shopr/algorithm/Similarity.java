@@ -4,26 +4,28 @@ package com.uwetrottmann.shopr.algorithm;
 import com.uwetrottmann.shopr.algorithm.model.Attributes;
 import com.uwetrottmann.shopr.algorithm.model.Attributes.Attribute;
 
+import java.util.List;
+
 public class Similarity {
 
     public static double similarity(Attributes first, Attributes second) {
-        Attribute[] attrsFirst = first.getAllAttributes();
-        Attribute[] attrsSecond = second.getAllAttributes();
+        List<Attribute> attrsFirst = first.getAllAttributes();
 
         int count = 0;
         double similarity = 0;
 
         // sum up similarity values for all attributes
-        for (int i = 0; i < attrsFirst.length; i++) {
+        for (Attribute attrFirst : attrsFirst) {
             /*
              * The query does only store new vectors for a feature once it has
              * been critiqued (others remain null). This speeds up processing by
              * avoiding useless comparisons (calculating similarity for
              * un-critiqued features).
              */
-            if (attrsFirst[i] != null && attrsSecond[i] != null) {
+            Attribute attrSecond = second.getAttributeById(attrFirst.id());
+            if (attrSecond != null) {
                 count++;
-                similarity += attributeSimilarity(attrsFirst[i], attrsSecond[i]);
+                similarity += attributeSimilarity(attrFirst, attrSecond);
             }
         }
 

@@ -1,6 +1,10 @@
 
 package com.uwetrottmann.shopr.algorithm.model;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 /**
  * Holds a list of possible attributes of an item.
  */
@@ -33,36 +37,31 @@ public class Attributes {
         public String descriptor();
     }
 
-    private ClothingType type;
+    private HashMap<String, Attribute> attributes = new HashMap<String, Attributes.Attribute>();
 
-    private Color color;
+    public Attribute getAttributeById(String id) {
+        return attributes.get(id);
+    }
 
-    private Label label;
+    public Attributes addAttribute(Attribute attribute) {
+        attributes.put(attribute.id(), attribute);
+        return this;
+    }
 
-    private Price price;
+    public List<Attribute> getAllAttributes() {
+        List<Attribute> attributeList = new ArrayList<Attribute>();
+        attributeList.addAll(attributes.values());
 
-    public Attribute[] getAllAttributes() {
-        Attribute[] attrs = new Attribute[4];
-
-        attrs[0] = type();
-        attrs[1] = color();
-        attrs[2] = label();
-        attrs[3] = price();
-
-        return attrs;
+        return attributeList;
     }
 
     public String getAllAttributesString() {
         StringBuilder attrsStr = new StringBuilder("");
 
-        Attribute[] allAttributes = getAllAttributes();
-        for (int i = 0; i < allAttributes.length; i++) {
-            if (allAttributes[i] != null) {
-                attrsStr.append(allAttributes[i].getValueWeightsString());
-            } else {
-                attrsStr.append("[not set]");
-            }
-            if (i != allAttributes.length - 1) {
+        List<Attribute> allAttributes = getAllAttributes();
+        for (int i = 0; i < allAttributes.size(); i++) {
+            attrsStr.append(allAttributes.get(i).getValueWeightsString());
+            if (i != allAttributes.size() - 1) {
                 attrsStr.append(" ");
             }
         }
@@ -77,13 +76,9 @@ public class Attributes {
     public String getReasonString() {
         StringBuilder reason = new StringBuilder();
 
-        Attribute[] allAttributes = getAllAttributes();
-        for (int i = 0; i < allAttributes.length; i++) {
-            if (allAttributes[i] == null) {
-                continue;
-            }
-
-            Attribute attribute = allAttributes[i];
+        List<Attribute> allAttributes = getAllAttributes();
+        for (int i = 0; i < allAttributes.size(); i++) {
+            Attribute attribute = allAttributes.get(i);
             String attrString = attribute.getReasonString();
             if (attrString != null && attrString.length() != 0) {
                 if (reason.length() != 0) {
@@ -96,40 +91,22 @@ public class Attributes {
         return reason.toString();
     }
 
-    public Color color() {
-        return color;
-    }
-
-    public Attributes color(Color color) {
-        this.color = color;
-        return this;
-    }
-
-    public ClothingType type() {
-        return type;
-    }
-
-    public Attributes type(ClothingType type) {
-        this.type = type;
-        return this;
-    }
-
-    public Label label() {
-        return label;
-    }
-
-    public Attributes label(Label label) {
-        this.label = label;
-        return this;
-    }
-
-    public Price price() {
-        return price;
-    }
-
-    public Attributes price(Price price) {
-        this.price = price;
-        return this;
+    /**
+     * Calls {@link #addAttribute(Attribute)} with a {@link GenericAttribute}
+     * implementation matching the given id.
+     */
+    public void initializeAttribute(Attribute attribute) {
+        try {
+            Class<?> attrClass = Class.forName(attribute.getClass().getCanonicalName());
+            Attribute newAttr = (Attribute) attrClass.newInstance();
+            addAttribute(newAttr);
+        } catch (ClassNotFoundException ex) {
+            System.err.println(ex + " Interpreter class must be in class path.");
+        } catch (InstantiationException ex) {
+            System.err.println(ex + " Interpreter class must be concrete.");
+        } catch (IllegalAccessException ex) {
+            System.err.println(ex + " Interpreter class must have a no-arg constructor.");
+        }
     }
 
 }

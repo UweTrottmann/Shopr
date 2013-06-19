@@ -6,7 +6,6 @@ import com.uwetrottmann.shopr.algorithm.model.ClothingType;
 import com.uwetrottmann.shopr.algorithm.model.Color;
 import com.uwetrottmann.shopr.algorithm.model.Item;
 import com.uwetrottmann.shopr.algorithm.model.Label;
-import com.uwetrottmann.shopr.algorithm.model.Price;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -240,37 +239,16 @@ public class AdaptiveSelection {
         List<Attribute> attributes = critique.feedback().attributes();
         for (Attribute attribute : attributes) {
             // get value weight index, current weights
-
             String id = attribute.id();
-            if (id == Color.ID) {
-                if (query.attributes().color() == null) {
-                    // initialize with evenly weighted values
-                    query.attributes().color(new Color());
-                }
-                valueIndex = critique.item().attributes().color().currentValue().index();
-                weights = query.attributes().color().getValueWeights();
-            } else if (id == ClothingType.ID) {
-                if (query.attributes().type() == null) {
-                    // initialize with evenly weighted values
-                    query.attributes().type(new ClothingType());
-                }
-                valueIndex = critique.item().attributes().type().currentValue().index();
-                weights = query.attributes().type().getValueWeights();
-            } else if (id == Label.ID) {
-                if (query.attributes().label() == null) {
-                    // initialize with evenly weighted values
-                    query.attributes().label(new Label());
-                }
-                valueIndex = critique.item().attributes().label().currentValue().index();
-                weights = query.attributes().label().getValueWeights();
-            } else if (id == Price.ID) {
-                if (query.attributes().price() == null) {
-                    // initialize with evenly weighted values
-                    query.attributes().price(new Price());
-                }
-                valueIndex = critique.item().attributes().price().currentValue().index();
-                weights = query.attributes().price().getValueWeights();
+            Attribute queryAttr = query.attributes().getAttributeById(id);
+            if (queryAttr == null) {
+                query.attributes().initializeAttribute(attribute);
             }
+
+            valueIndex =
+                    critique.item().attributes().getAttributeById(id).currentValue().index();
+            weights =
+                    query.attributes().getAttributeById(id).getValueWeights();
 
             // calculate new weights
             if (valueIndex != -1 && weights != null) {
