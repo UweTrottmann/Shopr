@@ -39,12 +39,15 @@ public class Attributes {
 
     private Label label;
 
+    private Price price;
+
     public Attribute[] getAllAttributes() {
-        Attribute[] attrs = new Attribute[3];
+        Attribute[] attrs = new Attribute[4];
 
         attrs[0] = type();
         attrs[1] = color();
         attrs[2] = label();
+        attrs[3] = price();
 
         return attrs;
     }
@@ -117,6 +120,15 @@ public class Attributes {
 
     public Attributes label(Label label) {
         this.label = label;
+        return this;
+    }
+
+    public Price price() {
+        return price;
+    }
+
+    public Attributes price(Price price) {
+        this.price = price;
         return this;
     }
 

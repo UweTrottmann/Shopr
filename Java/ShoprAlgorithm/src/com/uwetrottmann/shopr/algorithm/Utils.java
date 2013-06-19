@@ -6,6 +6,7 @@ import com.uwetrottmann.shopr.algorithm.model.ClothingType;
 import com.uwetrottmann.shopr.algorithm.model.Color;
 import com.uwetrottmann.shopr.algorithm.model.Item;
 import com.uwetrottmann.shopr.algorithm.model.Label;
+import com.uwetrottmann.shopr.algorithm.model.Price;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -38,16 +39,18 @@ public class Utils {
                     String name = typeValue.currentValue().descriptor() + " "
                             + labelValue.currentValue().descriptor() + id;
 
+                    BigDecimal price = new BigDecimal(random);
                     cases.add(new Item()
                             .id(id)
                             .name(name)
-                            .price(new BigDecimal(random))
+                            .price(price)
                             // use label to define shop
                             .shopId(label.ordinal())
                             .attributes(new Attributes()
                                     .color(new Color(color))
                                     .type(typeValue)
-                                    .label(labelValue)));
+                                    .label(labelValue)
+                                    .price(new Price(price))));
                 }
             }
         }
