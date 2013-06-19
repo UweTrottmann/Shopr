@@ -16,6 +16,4 @@ How to add a new attribute
 --------------------------
 
 1. Create a new class in shopr.algorithm.model extending GenericAttribute.
-2. Add getter and setter in Attributes.
-3. Add support in AdaptiveSelection.queryRevise().
-4. Define end-user name in CritiqueActivity's ItemFeatureAdapter.getView().
+2. Define end-user name in CritiqueActivity's ItemFeatureAdapter.getView().
