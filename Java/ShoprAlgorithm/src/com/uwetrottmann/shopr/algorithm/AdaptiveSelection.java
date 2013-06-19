@@ -273,7 +273,7 @@ public class AdaptiveSelection {
             }
 
             // calculate new weights
-            if (valueIndex != -1 || weights != null) {
+            if (valueIndex != -1 && weights != null) {
                 if (critique.feedback().isPositiveFeedback()) {
                     likeValue(valueIndex, weights);
                 } else {
