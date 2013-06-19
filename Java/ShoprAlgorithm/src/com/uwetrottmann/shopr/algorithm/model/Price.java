@@ -67,8 +67,7 @@ public class Price extends GenericAttribute {
 
     @Override
     public AttributeValue[] getValueSymbols() {
-        // TODO Auto-generated method stub
-        return null;
+        return Value.values();
     }
 
 }
