@@ -6,6 +6,7 @@ import com.uwetrottmann.shopr.algorithm.model.ClothingType;
 import com.uwetrottmann.shopr.algorithm.model.Color;
 import com.uwetrottmann.shopr.algorithm.model.Item;
 import com.uwetrottmann.shopr.algorithm.model.Label;
+import com.uwetrottmann.shopr.algorithm.model.Price;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -262,6 +263,13 @@ public class AdaptiveSelection {
                 }
                 valueIndex = critique.item().attributes().label().currentValue().index();
                 weights = query.attributes().label().getValueWeights();
+            } else if (id == Price.ID) {
+                if (query.attributes().price() == null) {
+                    // initialize with evenly weighted values
+                    query.attributes().price(new Price());
+                }
+                valueIndex = critique.item().attributes().price().currentValue().index();
+                weights = query.attributes().price().getValueWeights();
             }
 
             // calculate new weights
