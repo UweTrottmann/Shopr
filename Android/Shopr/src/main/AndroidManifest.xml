@@ -32,6 +32,17 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyCSN5CufQbIY3c5oiMUAPgpHD_fuTM9swA" />
+
+        <!-- Content provider -->
+        <provider
+            android:name="com.uwetrottmann.shopr.provider.ShoprProvider"
+            android:authorities="com.uwetrottmann.shopr.provider"
+            android:exported="false" >
+        </provider>
+
         <activity
             android:name="com.uwetrottmann.shopr.ui.MainActivity"
             android:label="@string/app_name" >
@@ -41,11 +52,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <meta-data
-            android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyCSN5CufQbIY3c5oiMUAPgpHD_fuTM9swA" />
-
         <activity
             android:name="com.uwetrottmann.shopr.ui.CritiqueActivity"
             android:parentActivityName="com.uwetrottmann.shopr.ui.MainActivity"
