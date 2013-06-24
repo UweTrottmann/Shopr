@@ -7,6 +7,9 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.net.Uri;
 
+import com.uwetrottmann.shopr.provider.ShoprContract.Items;
+import com.uwetrottmann.shopr.provider.ShoprContract.Shops;
+
 public class ShoprProvider extends ContentProvider {
 
 	private static UriMatcher sUriMatcher;
@@ -39,14 +42,25 @@ public class ShoprProvider extends ContentProvider {
 	@Override
 	public boolean onCreate() {
 		final Context context = getContext();
-        sUriMatcher = buildUriMatcher(context);
-        return true;
+		sUriMatcher = buildUriMatcher(context);
+		return true;
 	}
 
 	@Override
 	public String getType(Uri uri) {
-		// TODO Auto-generated method stub
-		return null;
+		final int match = sUriMatcher.match(uri);
+		switch (match) {
+		case ITEMS:
+			return Items.CONTENT_TYPE;
+		case ITEM_ID:
+			return Items.CONTENT_ITEM_TYPE;
+		case SHOPS:
+			return Shops.CONTENT_TYPE;
+		case SHOP_ID:
+			return Shops.CONTENT_ITEM_TYPE;
+		default:
+			throw new UnsupportedOperationException("Unknown uri: " + uri);
+		}
 	}
 
 	@Override
