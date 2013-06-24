@@ -1,3 +1,4 @@
+
 package com.uwetrottmann.shopr.provider;
 
 import android.content.Context;
@@ -10,68 +11,68 @@ import com.uwetrottmann.shopr.provider.ShoprContract.Shops;
 
 public class ShoprDatabase extends SQLiteOpenHelper {
 
-	public static final String DATABASE_NAME = "shopr.db";
+    public static final String DATABASE_NAME = "shopr.db";
 
-	public static final int DBVER_INITIAL = 1;
+    public static final int DBVER_INITIAL = 1;
 
-	public static final int DATABASE_VERSION = DBVER_INITIAL;
+    public static final int DATABASE_VERSION = DBVER_INITIAL;
 
-	public interface Tables {
-		String ITEMS = "items";
+    public interface Tables {
+        String ITEMS = "items";
 
-		String SHOPS = "shops";
-	}
+        String SHOPS = "shops";
+    }
 
-	public interface References {
-		String SHOP_ID = "REFERENCES " + Tables.SHOPS + "(" + Shops._ID + ")";
-	}
+    public interface References {
+        String SHOP_ID = "REFERENCES " + Tables.SHOPS + "(" + Shops._ID + ")";
+    }
 
-	private static final String CREATE_ITEMS_TABLE = "CREATE TABLE "
-			+ Tables.ITEMS + " ("
+    private static final String CREATE_ITEMS_TABLE = "CREATE TABLE "
+            + Tables.ITEMS + " ("
 
-			+ Items._ID + " INTEGER PRIMARY KEY,"
+            + Items._ID + " INTEGER PRIMARY KEY,"
 
-			+ Shops.REF_SHOP_ID + " INTEGER " + References.SHOP_ID
+            + Shops.REF_SHOP_ID + " INTEGER " + References.SHOP_ID
 
-			+ ");";
+            + ");";
 
-	private static final String CREATE_SHOPS_TABLE = "CREATE TABLE "
-			+ Tables.SHOPS + " ("
+    private static final String CREATE_SHOPS_TABLE = "CREATE TABLE "
+            + Tables.SHOPS + " ("
 
-			+ Shops._ID + " INTEGER PRIMARY KEY,"
+            + Shops._ID + " INTEGER PRIMARY KEY,"
 
-			+ ");";
+            + ");";
 
-	private static final String TAG = "ShoprDatabase";
+    private static final String TAG = "ShoprDatabase";
 
-	public ShoprDatabase(Context context) {
-		super(context, DATABASE_NAME, null, DATABASE_VERSION);
-	}
+    public ShoprDatabase(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    }
 
-	@Override
-	public void onCreate(SQLiteDatabase db) {
-		db.execSQL(CREATE_SHOPS_TABLE);
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        db.execSQL(CREATE_SHOPS_TABLE);
 
-		// items refs shop ids, so create shops table first
-		db.execSQL(CREATE_ITEMS_TABLE);
-	}
+        // items refs shop ids, so create shops table first
+        db.execSQL(CREATE_ITEMS_TABLE);
+    }
 
-	@Override
-	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		// always start from scratch
-		onResetDatabase(db);
-	}
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        // always start from scratch
+        onResetDatabase(db);
+    }
 
-	/**
-	 * Drops all tables and creates an empty database.
-	 */
-	private void onResetDatabase(SQLiteDatabase db) {
-		Log.w(TAG, "Database has incompatible version, starting from scratch");
+    /**
+     * Drops all tables and creates an empty database.
+     */
+    private void onResetDatabase(SQLiteDatabase db) {
+        Log.w(TAG, "Database has incompatible version, starting from scratch");
 
-		db.execSQL("DROP TABLE IF EXISTS " + Tables.ITEMS);
-		db.execSQL("DROP TABLE IF EXISTS " + Tables.SHOPS);
+        db.execSQL("DROP TABLE IF EXISTS " + Tables.ITEMS);
+        db.execSQL("DROP TABLE IF EXISTS " + Tables.SHOPS);
 
-		onCreate(db);
-	}
+        onCreate(db);
+    }
 
 }

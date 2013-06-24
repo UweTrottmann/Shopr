@@ -94,12 +94,12 @@ public class ShopMapFragment extends SupportMapFragment {
                 marker.remove();
             }
         }
-    
+
         // TODO replace with actual shop data
         List<Shop> shopsSamples = ShopUtils.getShopsSamples();
-    
+
         List<Marker> shopMarkersNew = Lists.newArrayList();
-    
+
         for (Shop shop : shopsSamples) {
             // determine color and recom. items in this shop
             float color;
@@ -111,7 +111,7 @@ public class ShopMapFragment extends SupportMapFragment {
                 itemCount = 0;
                 color = BitmapDescriptorFactory.HUE_AZURE;
             }
-    
+
             // place marker
             Marker marker = getMap().addMarker(
                     new MarkerOptions()
@@ -121,7 +121,7 @@ public class ShopMapFragment extends SupportMapFragment {
                             .icon(BitmapDescriptorFactory.defaultMarker(color)));
             shopMarkersNew.add(marker);
         }
-    
+
         mShopMarkers = shopMarkersNew;
     }
 
