@@ -122,14 +122,53 @@ public class ShoprProvider extends ContentProvider {
     @Override
     public int update(Uri uri, ContentValues values, String selection,
             String[] selectionArgs) {
-        // TODO Auto-generated method stub
-        return 0;
+        if (LOGV)
+            Log.v(TAG, "update(uri=" + uri + ", values=" + values.toString() + ")");
+        final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+        final SelectionBuilder builder = buildSimpleSelection(uri);
+        int retVal = builder.where(selection, selectionArgs).update(db, values);
+        getContext().getContentResolver().notifyChange(uri, null);
+        return retVal;
     }
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-        // TODO Auto-generated method stub
-        return 0;
+        if (LOGV)
+            Log.v(TAG, "delete(uri=" + uri + ")");
+        final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+        final SelectionBuilder builder = buildSimpleSelection(uri);
+        int retVal = builder.where(selection, selectionArgs).delete(db);
+        getContext().getContentResolver().notifyChange(uri, null);
+        return retVal;
+    }
+
+    /**
+     * Build a simple {@link SelectionBuilder} to match the requested
+     * {@link Uri}. This is usually enough to support {@link #insert},
+     * {@link #update}, and {@link #delete} operations.
+     */
+    private SelectionBuilder buildSimpleSelection(Uri uri) {
+        final SelectionBuilder builder = new SelectionBuilder();
+        final int match = sUriMatcher.match(uri);
+        switch (match) {
+            case ITEMS: {
+                return builder.table(Tables.ITEMS);
+            }
+            case ITEM_ID: {
+                final String id = Items.getItemId(uri);
+                return builder.table(Tables.ITEMS).where(Items._ID + "=?", id);
+            }
+            case SHOPS: {
+                return builder.table(Tables.SHOPS);
+            }
+            case SHOP_ID: {
+                final String id = Shops.getShopId(uri);
+                return builder.table(Tables.SHOPS).where(Shops._ID + "=?", id);
+            }
+            default: {
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
+            }
+        }
     }
 
     /**
