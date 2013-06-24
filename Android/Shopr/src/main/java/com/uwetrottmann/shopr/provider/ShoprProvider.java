@@ -5,10 +5,13 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.util.Log;
 
 import com.uwetrottmann.shopr.provider.ShoprContract.Items;
 import com.uwetrottmann.shopr.provider.ShoprContract.Shops;
+import com.uwetrottmann.shopr.provider.ShoprDatabase.Tables;
 
 public class ShoprProvider extends ContentProvider {
 
@@ -19,6 +22,10 @@ public class ShoprProvider extends ContentProvider {
 
 	private static final int SHOPS = 200;
 	private static final int SHOP_ID = 201;
+
+	private static final String TAG = "ShoprProvider";
+
+	private static final boolean LOGV = false;
 
 	/**
 	 * Build and return a {@link UriMatcher} that catches all {@link Uri}
@@ -39,10 +46,13 @@ public class ShoprProvider extends ContentProvider {
 		return matcher;
 	}
 
+	private ShoprDatabase mOpenHelper;
+
 	@Override
 	public boolean onCreate() {
 		final Context context = getContext();
 		sUriMatcher = buildUriMatcher(context);
+		mOpenHelper = new ShoprDatabase(context);
 		return true;
 	}
 
@@ -72,8 +82,26 @@ public class ShoprProvider extends ContentProvider {
 
 	@Override
 	public Uri insert(Uri uri, ContentValues values) {
-		// TODO Auto-generated method stub
-		return null;
+		if (LOGV)
+			Log.v(TAG, "insert(uri=" + uri + ", values=" + values.toString()
+					+ ")");
+		final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+		final int match = sUriMatcher.match(uri);
+		switch (match) {
+		case ITEMS: {
+			db.insertOrThrow(Tables.ITEMS, null, values);
+			getContext().getContentResolver().notifyChange(uri, null);
+			return Items.buildItemUri(values.getAsInteger(Items._ID));
+		}
+		case SHOPS: {
+			db.insertOrThrow(Tables.SHOPS, null, values);
+			getContext().getContentResolver().notifyChange(uri, null);
+			return Shops.buildShopUri(values.getAsInteger(Shops._ID));
+		}
+		default: {
+			throw new UnsupportedOperationException("Unknown uri: " + uri);
+		}
+		}
 	}
 
 	@Override
