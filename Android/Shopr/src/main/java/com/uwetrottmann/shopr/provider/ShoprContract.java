@@ -5,6 +5,8 @@ import android.provider.BaseColumns;
 
 public class ShoprContract {
 
+	public static final String CONTENT_AUTHORITY = "com.uwetrottmann.shopr.provider";
+
 	interface ItemsColumns {
 
 	}
@@ -12,8 +14,6 @@ public class ShoprContract {
 	interface ShopsColumns {
 
 	}
-
-	private static final String CONTENT_AUTHORITY = "com.uwetrottmann.shopr.provider";
 
 	private static final Uri BASE_CONTENT_URI = Uri.parse("content://"
 			+ CONTENT_AUTHORITY);
