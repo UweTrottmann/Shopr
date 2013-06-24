@@ -41,6 +41,10 @@ public class ShoprContract {
             return CONTENT_URI.buildUpon().appendPath(String.valueOf(itemId))
                     .build();
         }
+
+        public static String getItemId(Uri uri) {
+            return uri.getLastPathSegment();
+        }
     }
 
     /**
@@ -59,6 +63,10 @@ public class ShoprContract {
         public static Uri buildShopUri(int shopId) {
             return CONTENT_URI.buildUpon().appendPath(String.valueOf(shopId))
                     .build();
+        }
+
+        public static String getShopId(Uri uri) {
+            return uri.getLastPathSegment();
         }
     }
 }

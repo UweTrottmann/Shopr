@@ -13,6 +13,9 @@ import android.util.Log;
 import com.uwetrottmann.shopr.provider.ShoprContract.Items;
 import com.uwetrottmann.shopr.provider.ShoprContract.Shops;
 import com.uwetrottmann.shopr.provider.ShoprDatabase.Tables;
+import com.uwetrottmann.shopr.utils.SelectionBuilder;
+
+import java.util.Arrays;
 
 public class ShoprProvider extends ContentProvider {
 
@@ -77,8 +80,19 @@ public class ShoprProvider extends ContentProvider {
     @Override
     public Cursor query(Uri uri, String[] projection, String selection,
             String[] selectionArgs, String sortOrder) {
-        // TODO Auto-generated method stub
-        return null;
+        if (LOGV) {
+            Log.v(TAG, "query(uri=" + uri + ", proj=" + Arrays.toString(projection) + ")");
+        }
+        final SQLiteDatabase db = mOpenHelper.getReadableDatabase();
+
+        final int match = sUriMatcher.match(uri);
+
+        // Currently all cases are handled with expanded SelectionBuilder
+        final SelectionBuilder builder = buildExpandedSelection(uri, match);
+        Cursor query = builder.where(selection, selectionArgs).query(db, projection,
+                sortOrder);
+        query.setNotificationUri(getContext().getContentResolver(), uri);
+        return query;
     }
 
     @Override
@@ -116,6 +130,34 @@ public class ShoprProvider extends ContentProvider {
     public int delete(Uri uri, String selection, String[] selectionArgs) {
         // TODO Auto-generated method stub
         return 0;
+    }
+
+    /**
+     * Build an advanced {@link SelectionBuilder} to match the requested
+     * {@link Uri}. This is usually only used by {@link #query}, since it
+     * performs table joins useful for {@link Cursor} data.
+     */
+    private SelectionBuilder buildExpandedSelection(Uri uri, int match) {
+        final SelectionBuilder builder = new SelectionBuilder();
+        switch (match) {
+            case ITEMS: {
+                return builder.table(Tables.ITEMS);
+            }
+            case ITEM_ID: {
+                final String id = Items.getItemId(uri);
+                return builder.table(Tables.ITEMS).where(Items._ID + "=?", id);
+            }
+            case SHOPS: {
+                return builder.table(Tables.SHOPS);
+            }
+            case SHOP_ID: {
+                final String id = Shops.getShopId(uri);
+                return builder.table(Tables.SHOPS).where(Shops._ID + "=?", id);
+            }
+            default: {
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
+            }
+        }
     }
 
 }
