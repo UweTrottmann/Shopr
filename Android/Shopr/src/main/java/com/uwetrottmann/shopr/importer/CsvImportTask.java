@@ -75,6 +75,12 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Integer> {
             if (firstLine == null) {
                 return -1;
             }
+            if ((mType == Type.IMPORT_ITEMS && firstLine.length != 7) ||
+                    mType == Type.IMPORT_SHOPS && firstLine.length != 8) {
+                Log.d(TAG, "Invalid column count.");
+                return -1;
+            }
+
             Log.d(TAG, "Importing the following CSV schema: " + Arrays.toString(firstLine));
 
             String[] line;
