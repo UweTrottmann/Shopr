@@ -41,6 +41,14 @@ public class ShoprDatabase extends SQLiteOpenHelper {
 
             + Shops._ID + " INTEGER PRIMARY KEY,"
 
+            + Shops.NAME + " TEXT NOT NULL,"
+
+            + Shops.OPENING_HOURS + " TEXT,"
+
+            + Shops.LAT + " REAL,"
+
+            + Shops.LONG + " REAL"
+
             + ");";
 
     private static final String TAG = "ShoprDatabase";
