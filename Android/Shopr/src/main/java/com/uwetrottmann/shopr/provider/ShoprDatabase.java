@@ -15,7 +15,9 @@ public class ShoprDatabase extends SQLiteOpenHelper {
 
     public static final int DBVER_INITIAL = 1;
 
-    public static final int DATABASE_VERSION = DBVER_INITIAL;
+    public static final int DBVER_ITEM_COLUMNS = 2;
+
+    public static final int DATABASE_VERSION = DBVER_ITEM_COLUMNS;
 
     public interface Tables {
         String ITEMS = "items";
