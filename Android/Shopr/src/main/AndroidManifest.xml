@@ -60,6 +60,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.uwetrottmann.shopr.MainActivity" />
         </activity>
+        <activity
+            android:name="com.uwetrottmann.shopr.importer.ImporterActivity"
+            android:label="@string/title_activity_importer"
+            android:parentActivityName="com.uwetrottmann.shopr.ui.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.uwetrottmann.shopr.ui.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
