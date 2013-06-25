@@ -90,7 +90,7 @@ public class ImporterActivity extends Activity {
     }
 
     protected void onImportItems(Uri uri) {
-
+        CsvImporter.importItemsCsvToDatabase(this, uri);
     }
 
     @Override
