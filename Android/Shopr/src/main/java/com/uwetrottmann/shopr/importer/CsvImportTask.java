@@ -37,6 +37,8 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Integer> {
     private Uri mUri;
     private Type mType;
 
+    private InputStream mInputStream;
+
     public CsvImportTask(Context context, Uri uri, CsvImportTask.Type type) {
         mContext = context;
         mUri = uri;
@@ -44,18 +46,23 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Integer> {
     }
 
     @Override
-    protected Integer doInBackground(Void... params) {
+    protected void onPreExecute() {
+        // get input stream on main thread to avoid it being cleaned up
         Log.d(TAG, "Opening file.");
-        // get input stream
-        InputStream in;
         try {
-            in = mContext.getContentResolver().openInputStream(mUri);
+            mInputStream = mContext.getContentResolver().openInputStream(mUri);
         } catch (FileNotFoundException e) {
             Log.e(TAG, "Could not open file. " + e.getMessage());
+        }
+    }
+
+    @Override
+    protected Integer doInBackground(Void... params) {
+        if (mInputStream == null) {
             return -1;
         }
 
-        CSVReader reader = new CSVReader(new InputStreamReader(in));
+        CSVReader reader = new CSVReader(new InputStreamReader(mInputStream));
 
         // read shops line by line
         Log.d(TAG, "Reading values.");
