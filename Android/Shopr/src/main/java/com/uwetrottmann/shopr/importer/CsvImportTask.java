@@ -47,6 +47,8 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Integer> {
 
     @Override
     protected void onPreExecute() {
+        Toast.makeText(mContext, R.string.action_import, Toast.LENGTH_SHORT).show();
+
         // get input stream on main thread to avoid it being cleaned up
         Log.d(TAG, "Opening file.");
         try {
