@@ -22,6 +22,7 @@ public class CsvImporter {
     private static final String TAG = "Importer";
 
     public static void importShopsCsvToDatabase(Context context, Uri uri) {
+        Log.d(TAG, "Opening file.");
         // get input stream
         InputStream in;
         try {
@@ -34,6 +35,7 @@ public class CsvImporter {
         CSVReader reader = new CSVReader(new InputStreamReader(in));
 
         // read shops line by line
+        Log.d(TAG, "Reading values.");
         ArrayList<ContentValues> newValues = Lists.newArrayList();
         try {
             reader.readNext(); // skip first line
@@ -60,12 +62,15 @@ public class CsvImporter {
         }
 
         // clear existing table
+        Log.d(TAG, "Clearing existing data.");
         context.getContentResolver().delete(Shops.CONTENT_URI, null, null);
 
         // insert into database in one transaction
+        Log.d(TAG, "Inserting new data...");
         ContentValues[] valuesArray = new ContentValues[newValues.size()];
         valuesArray = newValues.toArray(valuesArray);
         context.getContentResolver().bulkInsert(Shops.CONTENT_URI, valuesArray);
+        Log.d(TAG, "Inserting new data...DONE");
     }
 
 }
