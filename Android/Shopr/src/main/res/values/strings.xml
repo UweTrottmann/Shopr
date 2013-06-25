@@ -26,5 +26,6 @@
     <string name="import_shops">Import shops</string>
     <string name="import_no_file_manager">Importing requires a file manager to be installed.</string>
     <string name="import_a_csv_file">Import a CSV file</string>
+    <string name="action_import">Import data</string>
 
 </resources>
