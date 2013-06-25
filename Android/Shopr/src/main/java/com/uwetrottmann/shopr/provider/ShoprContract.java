@@ -9,7 +9,17 @@ public class ShoprContract {
     public static final String CONTENT_AUTHORITY = "com.uwetrottmann.shopr.provider";
 
     interface ItemsColumns {
+        String CLOTHING_TYPE = "item_clothing_type";
 
+        String BRAND = "item_brand";
+
+        String SEX = "item_sex";
+
+        String COLOR = "item_color";
+
+        String PRICE = "item_price";
+
+        String IMAGE_URL = "item_image";
     }
 
     interface ShopsColumns {
