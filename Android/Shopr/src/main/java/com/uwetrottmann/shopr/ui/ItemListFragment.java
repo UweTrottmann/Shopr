@@ -191,6 +191,10 @@ public class ItemListFragment extends Fragment implements LoaderCallbacks<List<I
     }
 
     public void onEvent(LocationUpdateEvent event) {
+        onInitializeItems();
+    }
+
+    private void onInitializeItems() {
         if (!mIsInitialized) {
             AdaptiveSelection.get().setInitialCaseBase(Utils.getLimitedCaseBase());
 
