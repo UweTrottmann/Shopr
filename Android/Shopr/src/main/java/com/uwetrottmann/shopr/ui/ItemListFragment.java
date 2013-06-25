@@ -25,10 +25,8 @@ import com.uwetrottmann.shopr.adapters.ItemAdapter;
 import com.uwetrottmann.shopr.adapters.ItemAdapter.OnItemCritiqueListener;
 import com.uwetrottmann.shopr.algorithm.AdaptiveSelection;
 import com.uwetrottmann.shopr.algorithm.Query;
-import com.uwetrottmann.shopr.algorithm.Utils;
 import com.uwetrottmann.shopr.algorithm.model.Item;
 import com.uwetrottmann.shopr.loaders.ItemLoader;
-import com.uwetrottmann.shopr.settings.AppSettings;
 import com.uwetrottmann.shopr.ui.MainActivity.LocationUpdateEvent;
 
 import de.greenrobot.event.EventBus;
@@ -78,7 +76,9 @@ public class ItemListFragment extends Fragment implements LoaderCallbacks<List<I
 
         mGridView.setAdapter(mAdapter);
 
-        getLoaderManager().initLoader(LOADER_ID, null, this);
+        Bundle args = new Bundle();
+        args.putBoolean("isinit", false);
+        getLoaderManager().initLoader(LOADER_ID, args, this);
 
         setHasOptionsMenu(true);
     }
@@ -104,8 +104,7 @@ public class ItemListFragment extends Fragment implements LoaderCallbacks<List<I
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_restart:
-                AdaptiveSelection.get().setInitialCaseBase(Utils.getLimitedCaseBase());
-                getLoaderManager().restartLoader(LOADER_ID, null, this);
+                onInitializeItems();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -114,8 +113,12 @@ public class ItemListFragment extends Fragment implements LoaderCallbacks<List<I
 
     @Override
     public Loader<List<Item>> onCreateLoader(int loaderId, Bundle args) {
+        boolean isInit = false;
+        if (args != null) {
+            isInit = args.getBoolean("isinit");
+        }
         Location location = ((MainActivity) getActivity()).getLastLocation();
-        return new ItemLoader(getActivity(), location);
+        return new ItemLoader(getActivity(), location, isInit);
     }
 
     @Override
@@ -191,19 +194,16 @@ public class ItemListFragment extends Fragment implements LoaderCallbacks<List<I
     }
 
     public void onEvent(LocationUpdateEvent event) {
-        onInitializeItems();
+        if (!mIsInitialized) {
+            Log.d(TAG, "Received location update, requerying");
+            mIsInitialized = true;
+            onInitializeItems();
+        }
     }
 
     private void onInitializeItems() {
-        if (!mIsInitialized) {
-            AdaptiveSelection.get().setInitialCaseBase(Utils.getLimitedCaseBase());
-
-            int maxRecommendations = AppSettings.getMaxRecommendations(getActivity());
-            AdaptiveSelection.get().setMaxRecommendations(maxRecommendations);
-
-            Log.d(TAG, "Received location update, requerying");
-            mIsInitialized = true;
-            getLoaderManager().restartLoader(LOADER_ID, null, this);
-        }
+        Bundle args = new Bundle();
+        args.putBoolean("isinit", true);
+        getLoaderManager().restartLoader(LOADER_ID, args, this);
     }
 }
