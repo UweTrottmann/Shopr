@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Imports items or shops from a CSV file into the database.
@@ -70,7 +71,11 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Integer> {
         Log.d(TAG, "Reading values.");
         ArrayList<ContentValues> newValues = Lists.newArrayList();
         try {
-            reader.readNext(); // skip first line
+            String[] firstLine = reader.readNext(); // skip first line
+            if (firstLine == null) {
+                return -1;
+            }
+            Log.d(TAG, "Importing the following CSV schema: " + Arrays.toString(firstLine));
 
             String[] line;
             while ((line = reader.readNext()) != null) {
@@ -86,6 +91,16 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Integer> {
                         break;
                     case IMPORT_ITEMS:
                         // add values for one item
+                        values.put(Items.CLOTHING_TYPE, line[0]);
+                        values.put(Items.SEX, line[1]);
+                        values.put(Items.COLOR, line[2]);
+                        values.put(Items.BRAND, line[3]);
+                        values.put(Items.PRICE, line[4]);
+                        // extract first image
+                        String imageUrl = line[5];
+                        imageUrl = imageUrl.substring(1, imageUrl.length() - 1);
+                        imageUrl = imageUrl.split(",")[0];
+                        values.put(Items.IMAGE_URL, imageUrl);
                         break;
                 }
 
