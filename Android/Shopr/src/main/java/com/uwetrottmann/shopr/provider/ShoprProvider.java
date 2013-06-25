@@ -120,6 +120,49 @@ public class ShoprProvider extends ContentProvider {
     }
 
     @Override
+    public int bulkInsert(Uri uri, ContentValues[] values) {
+        /*
+         * A more efficient version of bulkInsert which matches the URI only
+         * once.
+         */
+        int numValues;
+        final int match = sUriMatcher.match(uri);
+        switch (match) {
+            case ITEMS: {
+                numValues = bulkInsertHelper(Tables.ITEMS, values);
+                getContext().getContentResolver().notifyChange(uri, null);
+                break;
+            }
+            case SHOPS: {
+                numValues = bulkInsertHelper(Tables.SHOPS, values);
+                getContext().getContentResolver().notifyChange(uri, null);
+                break;
+            }
+            default: {
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
+            }
+        }
+
+        return numValues;
+    }
+
+    private int bulkInsertHelper(String table, ContentValues[] values) {
+        final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+        db.beginTransaction();
+        try {
+            int numValues = values.length;
+            for (int i = 0; i < numValues; i++) {
+                db.insertOrThrow(table, null, values[i]);
+                db.yieldIfContendedSafely();
+            }
+            db.setTransactionSuccessful();
+            return numValues;
+        } finally {
+            db.endTransaction();
+        }
+    }
+
+    @Override
     public int update(Uri uri, ContentValues values, String selection,
             String[] selectionArgs) {
         if (LOGV)

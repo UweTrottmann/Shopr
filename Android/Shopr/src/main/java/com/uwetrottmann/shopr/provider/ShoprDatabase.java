@@ -15,7 +15,9 @@ public class ShoprDatabase extends SQLiteOpenHelper {
 
     public static final int DBVER_INITIAL = 1;
 
-    public static final int DATABASE_VERSION = DBVER_INITIAL;
+    public static final int DBVER_ITEM_COLUMNS = 2;
+
+    public static final int DATABASE_VERSION = DBVER_ITEM_COLUMNS;
 
     public interface Tables {
         String ITEMS = "items";
@@ -32,7 +34,19 @@ public class ShoprDatabase extends SQLiteOpenHelper {
 
             + Items._ID + " INTEGER PRIMARY KEY,"
 
-            + Shops.REF_SHOP_ID + " INTEGER " + References.SHOP_ID
+            + Shops.REF_SHOP_ID + " INTEGER " + References.SHOP_ID + ","
+
+            + Items.BRAND + " TEXT,"
+
+            + Items.CLOTHING_TYPE + " TEXT,"
+
+            + Items.COLOR + " TEXT,"
+
+            + Items.PRICE + " REAL,"
+
+            + Items.SEX + " TEXT,"
+
+            + Items.IMAGE_URL + " TEXT"
 
             + ");";
 
@@ -40,6 +54,14 @@ public class ShoprDatabase extends SQLiteOpenHelper {
             + Tables.SHOPS + " ("
 
             + Shops._ID + " INTEGER PRIMARY KEY,"
+
+            + Shops.NAME + " TEXT NOT NULL,"
+
+            + Shops.OPENING_HOURS + " TEXT,"
+
+            + Shops.LAT + " REAL,"
+
+            + Shops.LONG + " REAL"
 
             + ");";
 
