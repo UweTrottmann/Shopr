@@ -32,7 +32,19 @@ public class ShoprDatabase extends SQLiteOpenHelper {
 
             + Items._ID + " INTEGER PRIMARY KEY,"
 
-            + Shops.REF_SHOP_ID + " INTEGER " + References.SHOP_ID
+            + Shops.REF_SHOP_ID + " INTEGER " + References.SHOP_ID + ","
+
+            + Items.BRAND + " TEXT,"
+
+            + Items.CLOTHING_TYPE + " TEXT,"
+
+            + Items.COLOR + " TEXT,"
+
+            + Items.PRICE + " REAL,"
+
+            + Items.SEX + " TEXT,"
+
+            + Items.IMAGE_URL + " TEXT"
 
             + ");";
 
