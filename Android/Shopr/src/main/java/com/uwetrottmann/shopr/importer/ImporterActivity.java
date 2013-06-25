@@ -60,7 +60,7 @@ public class ImporterActivity extends Activity {
 
     private void onDisplayChooser(int requestCode) {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("*/*");
+        intent.setType("file/*");
         intent.addCategory(Intent.CATEGORY_OPENABLE);
 
         try {
