@@ -15,6 +15,14 @@ public class ShoprContract {
     interface ShopsColumns {
         /** NOT in this table! Used to reference ID from other tables. */
         String REF_SHOP_ID = "shop_id";
+
+        String NAME = "shop_name";
+
+        String LAT = "shop_lat";
+
+        String LONG = "shop_long";
+
+        String OPENING_HOURS = "shop_opening_hours";
     }
 
     private static final Uri BASE_CONTENT_URI = Uri.parse("content://"
