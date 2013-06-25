@@ -25,7 +25,7 @@ import java.util.Arrays;
 /**
  * Imports items or shops from a CSV file into the database.
  */
-public class CsvImportTask extends AsyncTask<Void, Integer, Integer> {
+public class CsvImportTask extends AsyncTask<Void, Integer, String> {
 
     public enum Type {
         IMPORT_SHOPS,
@@ -60,9 +60,9 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Integer> {
     }
 
     @Override
-    protected Integer doInBackground(Void... params) {
+    protected String doInBackground(Void... params) {
         if (mInputStream == null) {
-            return -1;
+            return "Input stream is null.";
         }
 
         CSVReader reader = new CSVReader(new InputStreamReader(mInputStream));
@@ -73,12 +73,12 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Integer> {
         try {
             String[] firstLine = reader.readNext(); // skip first line
             if (firstLine == null) {
-                return -1;
+                return "No data.";
             }
             if ((mType == Type.IMPORT_ITEMS && firstLine.length != 7) ||
                     mType == Type.IMPORT_SHOPS && firstLine.length != 8) {
                 Log.d(TAG, "Invalid column count.");
-                return -1;
+                return "Invalid column count.";
             }
 
             Log.d(TAG, "Importing the following CSV schema: " + Arrays.toString(firstLine));
@@ -114,7 +114,7 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Integer> {
             }
         } catch (IOException e) {
             Log.e(TAG, "Could not read file. " + e.getMessage());
-            return -1;
+            return "Could not read file. " + e.getMessage();
         } finally {
             try {
                 reader.close();
@@ -132,7 +132,7 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Integer> {
                 uri = Items.CONTENT_URI;
                 break;
             default:
-                return -1;
+                return "Invalid import type.";
         }
 
         // clear existing table
@@ -146,12 +146,15 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Integer> {
         mContext.getContentResolver().bulkInsert(uri, valuesArray);
         Log.d(TAG, "Inserting new data...DONE");
 
-        return 0;
+        return null;
     }
 
     @Override
-    protected void onPostExecute(Integer result) {
-        Toast.makeText(mContext, result == 0 ? R.string.import_successful : R.string.import_failed,
+    protected void onPostExecute(String result) {
+        Toast.makeText(
+                mContext, result == null ?
+                        mContext.getString(R.string.import_successful)
+                        : mContext.getString(R.string.import_failed) + " " + result,
                 Toast.LENGTH_SHORT).show();
     }
 

@@ -28,7 +28,7 @@
     <string name="import_a_csv_file">Import a CSV file</string>
     <string name="action_import">Import data</string>
     <string name="import_start">Importing…</string>
-    <string name="import_successful">Import successful</string>
-    <string name="import_failed">Import failed</string>
+    <string name="import_successful">Import successful.</string>
+    <string name="import_failed">Import failed.</string>
 
 </resources>
