@@ -28,6 +28,7 @@ import com.uwetrottmann.shopr.algorithm.Query;
 import com.uwetrottmann.shopr.algorithm.Utils;
 import com.uwetrottmann.shopr.algorithm.model.Item;
 import com.uwetrottmann.shopr.loaders.ItemLoader;
+import com.uwetrottmann.shopr.settings.AppSettings;
 import com.uwetrottmann.shopr.ui.MainActivity.LocationUpdateEvent;
 
 import de.greenrobot.event.EventBus;
@@ -191,6 +192,11 @@ public class ItemListFragment extends Fragment implements LoaderCallbacks<List<I
 
     public void onEvent(LocationUpdateEvent event) {
         if (!mIsInitialized) {
+            AdaptiveSelection.get().setInitialCaseBase(Utils.getLimitedCaseBase());
+
+            int maxRecommendations = AppSettings.getMaxRecommendations(getActivity());
+            AdaptiveSelection.get().setMaxRecommendations(maxRecommendations);
+
             Log.d(TAG, "Received location update, requerying");
             mIsInitialized = true;
             getLoaderManager().restartLoader(LOADER_ID, null, this);
