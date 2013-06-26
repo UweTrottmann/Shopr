@@ -9,6 +9,7 @@ import android.util.Log;
 import com.uwetrottmann.androidutils.Lists;
 import com.uwetrottmann.shopr.algorithm.AdaptiveSelection;
 import com.uwetrottmann.shopr.algorithm.model.Attributes;
+import com.uwetrottmann.shopr.algorithm.model.Color;
 import com.uwetrottmann.shopr.algorithm.model.Item;
 import com.uwetrottmann.shopr.algorithm.model.Price;
 import com.uwetrottmann.shopr.provider.ShoprContract.Items;
@@ -61,9 +62,12 @@ public class ItemLoader extends GenericSimpleLoader<List<Item>> {
         // TODO Implement all attributes
         List<Item> caseBase = Lists.newArrayList();
 
-        Cursor query = getContext().getContentResolver().query(Items.CONTENT_URI, new String[] {
-                Items._ID, Items.CLOTHING_TYPE, Items.BRAND, Items.PRICE, Items.IMAGE_URL
-        }, null, null, null);
+        Cursor query = getContext().getContentResolver().query(
+                Items.CONTENT_URI,
+                new String[] {
+                        Items._ID, Items.CLOTHING_TYPE, Items.BRAND, Items.PRICE, Items.IMAGE_URL,
+                        Items.COLOR
+                }, null, null, null);
 
         if (query != null) {
             while (query.moveToNext()) {
@@ -81,6 +85,7 @@ public class ItemLoader extends GenericSimpleLoader<List<Item>> {
                 item.price(price);
                 // critiquable attributes
                 item.attributes(new Attributes()
+                        .putAttribute(new Color(query.getString(5)))
                         .putAttribute(new Price(price)));
 
                 caseBase.add(item);
