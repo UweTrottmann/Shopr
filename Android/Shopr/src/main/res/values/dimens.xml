@@ -4,6 +4,7 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="default_margin">8dp</dimen>
+    <dimen name="default_image_size">150dp</dimen>
 
     <integer name="gridview_num_columns">3</integer>
 

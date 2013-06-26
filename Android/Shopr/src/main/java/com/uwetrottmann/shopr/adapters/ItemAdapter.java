@@ -11,9 +11,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.algorithm.model.Item;
-import com.uwetrottmann.shopr.algorithm.model.Label;
 
 import java.text.NumberFormat;
 import java.util.Locale;
@@ -58,8 +58,8 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 
         final Item item = getItem(position);
         holder.name.setText(item.name());
-        holder.label.setText(item.attributes().getAttributeById(Label.ID).currentValue()
-                .descriptor());
+        // holder.label.setText(item.attributes().getAttributeById(Label.ID).currentValue()
+        // .descriptor());
         holder.price.setText(NumberFormat.getCurrencyInstance(Locale.GERMANY).format(
                 item.price().doubleValue()));
         holder.buttonLike.setOnClickListener(new OnClickListener() {
@@ -79,7 +79,14 @@ public class ItemAdapter extends ArrayAdapter<Item> {
             }
         });
 
-        holder.picture.setImageResource(R.drawable.armani);
+        // load picture
+        Picasso.with(getContext())
+                .load(item.image())
+                .placeholder(null)
+                .error(R.drawable.ic_action_tshirt)
+                .resizeDimen(R.dimen.default_image_size, R.dimen.default_image_size)
+                .centerCrop()
+                .into(holder.picture);
 
         return convertView;
     }

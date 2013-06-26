@@ -75,8 +75,8 @@ public class CsvImportTask extends AsyncTask<Void, Integer, String> {
             if (firstLine == null) {
                 return "No data.";
             }
-            if ((mType == Type.IMPORT_ITEMS && firstLine.length != 7) ||
-                    mType == Type.IMPORT_SHOPS && firstLine.length != 8) {
+            if ((mType == Type.IMPORT_ITEMS && firstLine.length != 8) ||
+                    mType == Type.IMPORT_SHOPS && firstLine.length != 9) {
                 Log.d(TAG, "Invalid column count.");
                 return "Invalid column count.";
             }
@@ -90,20 +90,22 @@ public class CsvImportTask extends AsyncTask<Void, Integer, String> {
                 switch (mType) {
                     case IMPORT_SHOPS:
                         // add values for one shop
-                        values.put(Shops.NAME, line[0]);
-                        values.put(Shops.OPENING_HOURS, line[1]);
-                        values.put(Shops.LAT, line[4]);
-                        values.put(Shops.LONG, line[5]);
+                        values.put(Shops._ID, line[0]);
+                        values.put(Shops.NAME, line[1]);
+                        values.put(Shops.OPENING_HOURS, line[2]);
+                        values.put(Shops.LAT, line[5]);
+                        values.put(Shops.LONG, line[6]);
                         break;
                     case IMPORT_ITEMS:
                         // add values for one item
-                        values.put(Items.CLOTHING_TYPE, line[0]);
-                        values.put(Items.SEX, line[1]);
-                        values.put(Items.COLOR, line[2]);
-                        values.put(Items.BRAND, line[3]);
-                        values.put(Items.PRICE, line[4]);
+                        values.put(Items._ID, line[0]);
+                        values.put(Items.CLOTHING_TYPE, line[1]);
+                        values.put(Items.SEX, line[2]);
+                        values.put(Items.COLOR, line[3]);
+                        values.put(Items.BRAND, line[4]);
+                        values.put(Items.PRICE, line[5]);
                         // extract first image
-                        String imageUrl = line[5];
+                        String imageUrl = line[6];
                         imageUrl = imageUrl.substring(1, imageUrl.length() - 1);
                         imageUrl = imageUrl.split(",")[0];
                         values.put(Items.IMAGE_URL, imageUrl);

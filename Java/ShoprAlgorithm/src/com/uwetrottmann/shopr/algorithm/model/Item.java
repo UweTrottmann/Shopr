@@ -14,6 +14,8 @@ public class Item {
 
     private BigDecimal price;
 
+    private String image_url;
+
     private int shop_id;
 
     private Attributes attrs;
@@ -46,6 +48,15 @@ public class Item {
 
     public Item price(BigDecimal price) {
         this.price = price;
+        return this;
+    }
+
+    public String image() {
+        return image_url;
+    }
+
+    public Item image(String image_url) {
+        this.image_url = image_url;
         return this;
     }
 

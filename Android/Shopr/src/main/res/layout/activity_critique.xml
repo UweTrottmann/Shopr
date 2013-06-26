@@ -29,8 +29,7 @@
             android:layout_height="150dp"
             android:layout_weight="1"
             android:contentDescription="@string/description_item_picutre"
-            android:scaleType="centerCrop"
-            android:src="@drawable/armani" />
+            android:scaleType="centerCrop" />
     </LinearLayout>
 
     <Button
