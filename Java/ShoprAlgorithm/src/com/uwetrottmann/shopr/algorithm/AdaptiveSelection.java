@@ -17,7 +17,7 @@ import java.util.List;
 public class AdaptiveSelection {
 
     private static final int NUM_RECOMMENDATIONS_DEFAULT = 8;
-    private static final int BOUND_DEFAULT = 5;
+    private static final int BOUND_DEFAULT = 10;
     private static final boolean DUMP_INVENTORY = false;
 
     private static AdaptiveSelection _instance;
