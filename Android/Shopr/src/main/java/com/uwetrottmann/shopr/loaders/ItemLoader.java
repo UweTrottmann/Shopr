@@ -9,6 +9,7 @@ import android.util.Log;
 import com.uwetrottmann.androidutils.Lists;
 import com.uwetrottmann.shopr.algorithm.AdaptiveSelection;
 import com.uwetrottmann.shopr.algorithm.model.Attributes;
+import com.uwetrottmann.shopr.algorithm.model.ClothingType;
 import com.uwetrottmann.shopr.algorithm.model.Color;
 import com.uwetrottmann.shopr.algorithm.model.Item;
 import com.uwetrottmann.shopr.algorithm.model.Price;
@@ -85,6 +86,7 @@ public class ItemLoader extends GenericSimpleLoader<List<Item>> {
                 item.price(price);
                 // critiquable attributes
                 item.attributes(new Attributes()
+                        .putAttribute(new ClothingType(query.getString(1)))
                         .putAttribute(new Color(query.getString(5)))
                         .putAttribute(new Price(price)));
 
