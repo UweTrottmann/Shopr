@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.algorithm.AdaptiveSelection;
 import com.uwetrottmann.shopr.algorithm.Critique;
@@ -91,6 +92,16 @@ public class CritiqueActivity extends Activity {
         TextView question = (TextView) findViewById(R.id.textViewCritiqueQuestion);
         question.setText(getString(mIsPositiveCritique ? R.string.detail_like
                 : R.string.detail_dislike, mItem.name()));
+
+        ImageView image = (ImageView) findViewById(R.id.imageViewCritiqueImage);
+        // load picture
+        Picasso.with(this)
+                .load(mItem.image())
+                .placeholder(null)
+                .error(R.drawable.ic_action_tshirt)
+                .resizeDimen(R.dimen.default_image_size, R.dimen.default_image_size)
+                .centerCrop()
+                .into(image);
 
         ImageView icon = (ImageView) findViewById(R.id.imageViewCritiqueIcon);
         icon.setImageResource(mIsPositiveCritique ? R.drawable.ic_action_like
