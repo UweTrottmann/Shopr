@@ -8,8 +8,9 @@ import android.util.Log;
 
 import com.uwetrottmann.androidutils.Lists;
 import com.uwetrottmann.shopr.algorithm.AdaptiveSelection;
-import com.uwetrottmann.shopr.algorithm.Utils;
+import com.uwetrottmann.shopr.algorithm.model.Attributes;
 import com.uwetrottmann.shopr.algorithm.model.Item;
+import com.uwetrottmann.shopr.algorithm.model.Price;
 import com.uwetrottmann.shopr.provider.ShoprContract.Items;
 import com.uwetrottmann.shopr.settings.AppSettings;
 
@@ -43,7 +44,7 @@ public class ItemLoader extends GenericSimpleLoader<List<Item>> {
         // get initial case base
         if (mIsInit) {
             Log.d(TAG, "Initializing case base.");
-            List<Item> caseBase = Utils.getLimitedCaseBase();
+            List<Item> caseBase = getInitialCaseBase();
             manager.setInitialCaseBase(caseBase);
 
             int maxRecommendations = AppSettings.getMaxRecommendations(getContext());
@@ -57,7 +58,7 @@ public class ItemLoader extends GenericSimpleLoader<List<Item>> {
     }
 
     private List<Item> getInitialCaseBase() {
-        // TODO Implement
+        // TODO Implement all attributes
         List<Item> caseBase = Lists.newArrayList();
 
         Cursor query = getContext().getContentResolver().query(Items.CONTENT_URI, new String[] {
@@ -67,13 +68,22 @@ public class ItemLoader extends GenericSimpleLoader<List<Item>> {
         if (query != null) {
             while (query.moveToNext()) {
                 Item item = new Item();
+
                 item.id(query.getInt(0));
+                item.image(query.getString(4));
+                item.shopId(1);
+                // name
                 String type = query.getString(1);
                 String brand = query.getString(2);
                 item.name(type + " " + brand);
-                item.price(new BigDecimal(query.getDouble(3)));
-                item.image(query.getString(4));
-                item.shopId(1);
+                // price
+                BigDecimal price = new BigDecimal(query.getDouble(3));
+                item.price(price);
+                // critiquable attributes
+                item.attributes(new Attributes()
+                        .putAttribute(new Price(price)));
+
+                caseBase.add(item);
             }
 
             query.close();
