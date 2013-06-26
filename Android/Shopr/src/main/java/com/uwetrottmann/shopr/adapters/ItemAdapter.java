@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.algorithm.model.Item;
 
@@ -78,7 +79,14 @@ public class ItemAdapter extends ArrayAdapter<Item> {
             }
         });
 
-        holder.picture.setImageResource(R.drawable.armani);
+        // load picture
+        Picasso.with(getContext())
+                .load(item.image())
+                .placeholder(null)
+                .error(R.drawable.ic_action_tshirt)
+                .resizeDimen(R.dimen.default_image_size, R.dimen.default_image_size)
+                .centerCrop()
+                .into(holder.picture);
 
         return convertView;
     }
