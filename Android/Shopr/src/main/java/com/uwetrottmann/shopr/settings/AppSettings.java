@@ -13,6 +13,6 @@ public class AppSettings {
 
     public static int getMaxRecommendations(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context).getInt(
-                KEY_MAX_RECOMMENDATIONS, 8);
+                KEY_MAX_RECOMMENDATIONS, 9);
     }
 }
