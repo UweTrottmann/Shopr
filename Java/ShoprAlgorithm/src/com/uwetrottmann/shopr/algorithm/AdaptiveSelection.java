@@ -176,7 +176,18 @@ public class AdaptiveSelection {
 
         // Carry the critiqued so the user may critique it further.
         if (lastCritique != null && lastCritique.item() != null) {
-            recommendations.add(lastCritique.item());
+            // check if it is already in the list
+            boolean isAlreadyPresent = false;
+            for (Item item : recommendations) {
+                if (item.id() == lastCritique.item().id()) {
+                    isAlreadyPresent = true;
+                    break;
+                }
+            }
+            // add it if not
+            if (!isAlreadyPresent) {
+                recommendations.add(lastCritique.item());
+            }
         }
 
         return recommendations;
