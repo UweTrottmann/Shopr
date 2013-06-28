@@ -13,6 +13,7 @@ import com.uwetrottmann.shopr.algorithm.model.ClothingType;
 import com.uwetrottmann.shopr.algorithm.model.Color;
 import com.uwetrottmann.shopr.algorithm.model.Item;
 import com.uwetrottmann.shopr.algorithm.model.Price;
+import com.uwetrottmann.shopr.algorithm.model.Sex;
 import com.uwetrottmann.shopr.provider.ShoprContract.Items;
 import com.uwetrottmann.shopr.settings.AppSettings;
 
@@ -67,7 +68,7 @@ public class ItemLoader extends GenericSimpleLoader<List<Item>> {
                 Items.CONTENT_URI,
                 new String[] {
                         Items._ID, Items.CLOTHING_TYPE, Items.BRAND, Items.PRICE, Items.IMAGE_URL,
-                        Items.COLOR
+                        Items.COLOR, Items.SEX
                 }, null, null, null);
 
         if (query != null) {
@@ -88,7 +89,8 @@ public class ItemLoader extends GenericSimpleLoader<List<Item>> {
                 item.attributes(new Attributes()
                         .putAttribute(new ClothingType(query.getString(1)))
                         .putAttribute(new Color(query.getString(5)))
-                        .putAttribute(new Price(price)));
+                        .putAttribute(new Price(price))
+                        .putAttribute(new Sex(query.getString(6))));
 
                 caseBase.add(item);
             }
