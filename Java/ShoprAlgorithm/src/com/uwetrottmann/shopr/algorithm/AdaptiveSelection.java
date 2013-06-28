@@ -194,8 +194,10 @@ public class AdaptiveSelection {
                     break;
                 }
             }
-            // add it if not
+            // if not: replace the last one with it
             if (!isAlreadyPresent) {
+                // TODO: Decide between removing previous recs or not
+                recommendations.remove(recommendations.size() - 1);
                 recommendations.add(lastCritique.item());
             }
         }
