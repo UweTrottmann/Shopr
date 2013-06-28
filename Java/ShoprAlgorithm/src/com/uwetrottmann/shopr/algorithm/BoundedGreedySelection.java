@@ -45,7 +45,9 @@ public class BoundedGreedySelection {
 
         List<Item> limitedCaseBase = new ArrayList<Item>();
         for (int i = 0; i < numItems; i++) {
-            limitedCaseBase.add(caseBase.remove(0));
+            // TODO: Decide between removing previous recs or not
+            // limitedCaseBase.add(caseBase.remove(0));
+            limitedCaseBase.add(caseBase.get(i));
         }
 
         // add recommendations
@@ -59,10 +61,11 @@ public class BoundedGreedySelection {
             recommendations.add(limitedCaseBase.remove(0));
         }
 
-        // re-add left over items back to case base
-        for (Item item : limitedCaseBase) {
-            caseBase.add(item);
-        }
+        // TODO: Decide between removing previous recs or not
+        // // re-add left over items back to case base
+        // for (Item item : limitedCaseBase) {
+        // caseBase.add(item);
+        // }
 
         return recommendations;
     }

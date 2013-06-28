@@ -160,7 +160,9 @@ public class AdaptiveSelection {
              */
             Utils.sortBySimilarityToQuery(query, caseBase);
             for (int i = 0; i < numItems; i++) {
-                recommendations.add(caseBase.remove(0));
+                // TODO: Decide between removing previous recs or not
+                // recommendations.add(caseBase.remove(0));
+                recommendations.add(caseBase.get(i));
             }
         } else {
             /*
