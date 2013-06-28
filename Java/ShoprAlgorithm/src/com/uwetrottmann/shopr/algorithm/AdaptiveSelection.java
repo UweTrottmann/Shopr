@@ -98,6 +98,16 @@ public class AdaptiveSelection {
         }
     }
 
+    /**
+     * Returns the last critiqued item. May be {@code null}.
+     */
+    public Item getLastCritiquedItem() {
+        if (mCurrentCritique != null) {
+            return mCurrentCritique.item();
+        }
+        return null;
+    }
+
     public Query getCurrentQuery() {
         return mQuery;
     }
