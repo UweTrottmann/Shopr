@@ -61,7 +61,7 @@ public abstract class GenericAttribute implements Attribute {
                 if (reason.length() != 0) {
                     reason.append(", ");
                 }
-                reason.append("no ").append(values[i].descriptor());
+                reason.append("less ").append(values[i].descriptor());
             } else if (mValueWeights[i] > mValueWeights[maxIndex]) {
                 maxIndex = i;
             }
