@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.uwetrottmann.shopr.R;
+import com.uwetrottmann.shopr.algorithm.AdaptiveSelection;
 import com.uwetrottmann.shopr.algorithm.model.Item;
 
 import java.text.NumberFormat;
@@ -50,6 +51,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
             holder.buttonLike = (ImageButton) convertView.findViewById(R.id.imageButtonItemLike);
             holder.buttonDislike = (ImageButton) convertView
                     .findViewById(R.id.imageButtonItemDislike);
+            holder.lastCritiqueTag = convertView.findViewById(R.id.textViewItemLastCritiqueLabel);
 
             convertView.setTag(holder);
         } else {
@@ -79,6 +81,13 @@ public class ItemAdapter extends ArrayAdapter<Item> {
             }
         });
 
+        // last critique tag
+        int lastCritiquedId = AdaptiveSelection.get().getLastCritiquedItem() != null ?
+                AdaptiveSelection.get().getLastCritiquedItem().id()
+                : -1;
+        holder.lastCritiqueTag.setVisibility(item.id() == lastCritiquedId ? View.VISIBLE
+                : View.GONE);
+
         // load picture
         Picasso.with(getContext())
                 .load(item.image())
@@ -98,6 +107,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
         TextView price;
         ImageButton buttonLike;
         ImageButton buttonDislike;
+        View lastCritiqueTag;
     }
 
 }

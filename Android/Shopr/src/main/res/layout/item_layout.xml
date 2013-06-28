@@ -86,4 +86,18 @@
             android:src="@drawable/ic_action_dontlike" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/textViewItemLastCritiqueLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black_dim"
+        android:paddingBottom="2dp"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:paddingTop="2dp"
+        android:text="@string/last_critique"
+        android:textAppearance="@style/TextAppearance.Small.Dim.Highlight"
+        android:textColor="@color/white"
+        android:visibility="gone" />
+
 </RelativeLayout>

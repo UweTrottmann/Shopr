@@ -31,5 +31,6 @@
     <string name="import_start">Importing…</string>
     <string name="import_successful">Import successful.</string>
     <string name="import_failed">Import failed.</string>
+    <string name="last_critique">Last critique</string>
 
 </resources>
