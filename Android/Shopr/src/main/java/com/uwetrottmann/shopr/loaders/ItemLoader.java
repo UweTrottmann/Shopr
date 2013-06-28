@@ -79,15 +79,15 @@ public class ItemLoader extends GenericSimpleLoader<List<Item>> {
                 item.image(query.getString(4));
                 item.shopId(1);
                 // name
-                String type = query.getString(1);
+                ClothingType type = new ClothingType(query.getString(1));
                 String brand = query.getString(2);
-                item.name(type + " " + brand);
+                item.name(type.currentValue().descriptor() + " " + brand);
                 // price
                 BigDecimal price = new BigDecimal(query.getDouble(3));
                 item.price(price);
                 // critiquable attributes
                 item.attributes(new Attributes()
-                        .putAttribute(new ClothingType(query.getString(1)))
+                        .putAttribute(type)
                         .putAttribute(new Color(query.getString(5)))
                         .putAttribute(new Price(price))
                         .putAttribute(new Sex(query.getString(6))));
