@@ -17,7 +17,6 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
@@ -227,14 +226,13 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
     @Override
     public void onConnected(Bundle dataBundle) {
-        Toast.makeText(this, "Connected to location service", Toast.LENGTH_SHORT).show();
+        Log.d(TAG, "Connected to location service");
         getLocation();
     }
 
     @Override
     public void onDisconnected() {
-        Toast.makeText(this, "Disconnected from location service, please reconnect.",
-                Toast.LENGTH_LONG).show();
+        Log.d(TAG, "Disconnected from location service.");
     }
 
     @Override
