@@ -15,6 +15,7 @@ import com.uwetrottmann.shopr.algorithm.model.Item;
 import com.uwetrottmann.shopr.algorithm.model.Price;
 import com.uwetrottmann.shopr.algorithm.model.Sex;
 import com.uwetrottmann.shopr.provider.ShoprContract.Items;
+import com.uwetrottmann.shopr.provider.ShoprContract.Shops;
 import com.uwetrottmann.shopr.settings.AppSettings;
 
 import java.math.BigDecimal;
@@ -68,7 +69,7 @@ public class ItemLoader extends GenericSimpleLoader<List<Item>> {
                 Items.CONTENT_URI,
                 new String[] {
                         Items._ID, Items.CLOTHING_TYPE, Items.BRAND, Items.PRICE, Items.IMAGE_URL,
-                        Items.COLOR, Items.SEX
+                        Items.COLOR, Items.SEX, Shops.REF_SHOP_ID
                 }, null, null, null);
 
         if (query != null) {
@@ -77,7 +78,7 @@ public class ItemLoader extends GenericSimpleLoader<List<Item>> {
 
                 item.id(query.getInt(0));
                 item.image(query.getString(4));
-                item.shopId(1);
+                item.shopId(query.getInt(7));
                 // name
                 ClothingType type = new ClothingType(query.getString(1));
                 String brand = query.getString(2);
