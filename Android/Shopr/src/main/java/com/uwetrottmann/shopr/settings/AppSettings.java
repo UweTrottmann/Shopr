@@ -9,9 +9,9 @@ import android.preference.PreferenceManager;
  */
 public class AppSettings {
 
-    private static final String KEY_MAX_RECOMMENDATIONS = "com.uwetrottmann.shopr.maxrecommendations";
-    private static final String KEY_FAKE_LOCATION = "com.uwetrottmann.shopr.fakelocation";
-    private static final String KEY_USING_DIVERSITY = "com.uwetrottmann.shopr.usingdiversity";
+    public static final String KEY_MAX_RECOMMENDATIONS = "com.uwetrottmann.shopr.maxrecommendations";
+    public static final String KEY_FAKE_LOCATION = "com.uwetrottmann.shopr.fakelocation";
+    public static final String KEY_USING_DIVERSITY = "com.uwetrottmann.shopr.usingdiversity";
 
     public static int getMaxRecommendations(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context).getInt(
