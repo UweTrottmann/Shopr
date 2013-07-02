@@ -22,8 +22,10 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.LocationClient;
+import com.google.android.gms.maps.model.LatLng;
 import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.importer.ImporterActivity;
+import com.uwetrottmann.shopr.settings.AppSettings;
 
 import de.greenrobot.event.EventBus;
 
@@ -58,7 +60,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
     private LocationClient mLocationClient;
 
-    private Location mLastLocation;
+    private LatLng mLastLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,12 +116,21 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     @Override
     public void onStart() {
         super.onStart();
-        mLocationClient.connect();
+        if (AppSettings.isUsingFakeLocation(this)) {
+            // use fake location (Marienplatz, Munich)
+            mLastLocation = new LatLng(48.137314, 11.575253);
+            // send out location update event immediately
+            EventBus.getDefault().postSticky(new LocationUpdateEvent());
+        } else {
+            mLocationClient.connect();
+        }
     }
 
     @Override
     public void onStop() {
-        mLocationClient.disconnect();
+        if (!AppSettings.isUsingFakeLocation(this)) {
+            mLocationClient.disconnect();
+        }
         super.onStop();
     }
 
@@ -335,12 +346,13 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         // If Google Play Services is available
         if (servicesConnected()) {
             // Get the current location
-            mLastLocation = mLocationClient.getLastLocation();
+            Location lastLocation = mLocationClient.getLastLocation();
+            mLastLocation = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
             EventBus.getDefault().postSticky(new LocationUpdateEvent());
         }
     }
 
-    public Location getLastLocation() {
+    public LatLng getLastLocation() {
         return mLastLocation;
     }
 

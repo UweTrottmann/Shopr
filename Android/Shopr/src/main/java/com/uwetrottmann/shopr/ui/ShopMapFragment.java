@@ -1,7 +1,6 @@
 
 package com.uwetrottmann.shopr.ui;
 
-import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
@@ -49,7 +48,7 @@ public class ShopMapFragment extends SupportMapFragment implements LoaderCallbac
         mIsInitialized = false;
 
         // enable my location feature
-        getMap().setMyLocationEnabled(true);
+        getMap().setMyLocationEnabled(!AppSettings.isUsingFakeLocation(getActivity()));
 
         getLoaderManager().initLoader(LAODER_ID, null, this);
     }
@@ -71,17 +70,9 @@ public class ShopMapFragment extends SupportMapFragment implements LoaderCallbac
         if (!mIsInitialized) {
             Log.d(TAG, "Initializing map.");
 
-            LatLng userPosition;
-            if (AppSettings.isUsingFakeLocation(getActivity())) {
-                // use fake location (Marienplatz, Munich)
-                userPosition = new LatLng(48.137314, 11.575253);
-            } else {
-                // actual user position
-                Location trueLocation = ((MainActivity) getActivity()).getLastLocation();
-                if (trueLocation == null) {
-                    return;
-                }
-                userPosition = new LatLng(trueLocation.getLatitude(), trueLocation.getLongitude());
+            LatLng userPosition = ((MainActivity) getActivity()).getLastLocation();
+            if (userPosition == null) {
+                return;
             }
 
             // move camera to current position

@@ -3,7 +3,6 @@ package com.uwetrottmann.shopr.ui;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
@@ -19,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.uwetrottmann.androidutils.Maps;
 import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.adapters.ItemAdapter;
@@ -86,7 +86,7 @@ public class ItemListFragment extends Fragment implements LoaderCallbacks<List<I
     @Override
     public void onStart() {
         super.onStart();
-        EventBus.getDefault().register(this, LocationUpdateEvent.class);
+        EventBus.getDefault().registerSticky(this, LocationUpdateEvent.class);
     }
 
     @Override
@@ -117,7 +117,7 @@ public class ItemListFragment extends Fragment implements LoaderCallbacks<List<I
         if (args != null) {
             isInit = args.getBoolean("isinit");
         }
-        Location location = ((MainActivity) getActivity()).getLastLocation();
+        LatLng location = ((MainActivity) getActivity()).getLastLocation();
         return new ItemLoader(getActivity(), location, isInit);
     }
 

@@ -3,9 +3,9 @@ package com.uwetrottmann.shopr.loaders;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.location.Location;
 import android.util.Log;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.uwetrottmann.androidutils.Lists;
 import com.uwetrottmann.shopr.algorithm.AdaptiveSelection;
 import com.uwetrottmann.shopr.algorithm.model.Attributes;
@@ -28,10 +28,10 @@ import java.util.List;
 public class ItemLoader extends GenericSimpleLoader<List<Item>> {
 
     private static final String TAG = "ItemLoader";
-    private Location mLocation;
+    private LatLng mLocation;
     private boolean mIsInit;
 
-    public ItemLoader(Context context, Location location, boolean isInit) {
+    public ItemLoader(Context context, LatLng location, boolean isInit) {
         super(context);
         mLocation = location;
         mIsInit = isInit;
