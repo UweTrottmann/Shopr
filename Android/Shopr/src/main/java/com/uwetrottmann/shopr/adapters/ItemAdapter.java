@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.algorithm.AdaptiveSelection;
+import com.uwetrottmann.shopr.algorithm.model.Color;
 import com.uwetrottmann.shopr.algorithm.model.Item;
 
 import java.text.NumberFormat;
@@ -60,8 +61,8 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 
         final Item item = getItem(position);
         holder.name.setText(item.name());
-        // holder.label.setText(item.attributes().getAttributeById(Label.ID).currentValue()
-        // .descriptor());
+        holder.label.setText(item.attributes().getAttributeById(Color.ID).currentValue()
+                .descriptor());
         holder.price.setText(NumberFormat.getCurrencyInstance(Locale.GERMANY).format(
                 item.price().doubleValue()));
         holder.buttonLike.setOnClickListener(new OnClickListener() {
