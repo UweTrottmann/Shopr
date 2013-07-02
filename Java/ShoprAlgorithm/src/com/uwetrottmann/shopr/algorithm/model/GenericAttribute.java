@@ -45,6 +45,30 @@ public abstract class GenericAttribute implements Attribute {
         return builder.toString();
     }
 
+    /**
+     * Returns string for the given attribute having weight 1.0, e.g. only items
+     * that have this value are recommended.
+     */
+    public String getOnlyString(AttributeValue value) {
+        return "only " + value.descriptor();
+    }
+
+    /**
+     * Returns string for the given attribute having a 0.0 weight, e.g. no items
+     * with this value are recommended.
+     */
+    public String getHiddenString(AttributeValue value) {
+        return "hide " + value.descriptor();
+    }
+
+    /**
+     * Returns string for the given attribute having the highest weight of all,
+     * e.g. recommended items are likely to have this value.
+     */
+    public String getPreferablyString(AttributeValue value) {
+        return "preferably " + value.descriptor();
+    }
+
     @Override
     public String getReasonString() {
         StringBuilder reason = new StringBuilder();
@@ -54,14 +78,14 @@ public abstract class GenericAttribute implements Attribute {
         for (int i = 0; i < mValueWeights.length; i++) {
             if (mValueWeights[i] == 1) {
                 // e.g. "only Red"
-                return "only " + values[i].descriptor();
+                return getOnlyString(values[i]);
             }
             if (mValueWeights[i] == 0) {
                 // e.g. ", no Red"
                 if (reason.length() != 0) {
                     reason.append(", ");
                 }
-                reason.append("less ").append(values[i].descriptor());
+                reason.append(getHiddenString(values[i]));
             } else if (mValueWeights[i] > mValueWeights[maxIndex]) {
                 maxIndex = i;
             }
@@ -84,7 +108,7 @@ public abstract class GenericAttribute implements Attribute {
             if (reason.length() != 0) {
                 reason.append(", ");
             }
-            reason.append("mainly ").append(values[maxIndex].descriptor());
+            reason.append(getPreferablyString(values[maxIndex]));
         }
 
         return reason.toString();
