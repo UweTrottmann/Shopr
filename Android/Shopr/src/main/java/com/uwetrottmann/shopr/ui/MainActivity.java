@@ -136,6 +136,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             case R.id.action_import:
                 startActivity(new Intent(this, ImporterActivity.class));
                 return true;
+            case R.id.action_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

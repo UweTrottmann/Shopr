@@ -68,6 +68,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.uwetrottmann.shopr.ui.MainActivity" />
         </activity>
+        <activity android:name="com.uwetrottmann.shopr.ui.SettingsActivity" >
+        </activity>
     </application>
 
 </manifest>
