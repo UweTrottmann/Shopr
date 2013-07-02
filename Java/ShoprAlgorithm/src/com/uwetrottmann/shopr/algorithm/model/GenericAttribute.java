@@ -54,11 +54,12 @@ public abstract class GenericAttribute implements Attribute {
     }
 
     /**
-     * Returns string for the given attribute having a 0.0 weight, e.g. no items
-     * with this value are recommended.
+     * Returns string for the given attribute having a 0.0 weight, e.g. it is
+     * avoided to recommend items with this value unless there are no other
+     * options.
      */
-    public String getHiddenString(AttributeValue value) {
-        return "hide " + value.descriptor();
+    public String getAvoidString(AttributeValue value) {
+        return "avoid " + value.descriptor();
     }
 
     /**
@@ -85,7 +86,7 @@ public abstract class GenericAttribute implements Attribute {
                 if (reason.length() != 0) {
                     reason.append(", ");
                 }
-                reason.append(getHiddenString(values[i]));
+                reason.append(getAvoidString(values[i]));
             } else if (mValueWeights[i] > mValueWeights[maxIndex]) {
                 maxIndex = i;
             }
