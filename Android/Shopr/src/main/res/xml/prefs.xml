@@ -5,5 +5,9 @@
         android:defaultValue="false"
         android:key="com.uwetrottmann.shopr.fakelocation"
         android:title="@string/use_fake_location" />
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="com.uwetrottmann.shopr.usingdiversity"
+        android:title="@string/diversity_on_negative_progress" />
 
 </PreferenceScreen>

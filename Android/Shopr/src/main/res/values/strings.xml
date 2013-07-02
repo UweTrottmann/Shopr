@@ -33,5 +33,6 @@
     <string name="import_failed">Import failed.</string>
     <string name="last_critique">Last critique</string>
     <string name="use_fake_location">Use fake location</string>
+    <string name="diversity_on_negative_progress">Diversity on negative progress</string>
 
 </resources>
