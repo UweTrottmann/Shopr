@@ -4,6 +4,6 @@
     <CheckBoxPreference
         android:defaultValue="false"
         android:key="com.uwetrottmann.shopr.fakelocation"
-        android:title="Use fake location" />
+        android:title="@string/use_fake_location" />
 
 </PreferenceScreen>
