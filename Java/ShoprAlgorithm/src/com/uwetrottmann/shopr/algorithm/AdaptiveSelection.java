@@ -171,7 +171,7 @@ public class AdaptiveSelection {
 
         List<Item> recommendations = new ArrayList<Item>();
 
-        if (!isUsingDiversity ||
+        if ((lastCritique != null && !isUsingDiversity) ||
                 lastCritique != null && lastCritique.item() != null
                 && lastCritique.feedback().isPositiveFeedback()) {
             /*
