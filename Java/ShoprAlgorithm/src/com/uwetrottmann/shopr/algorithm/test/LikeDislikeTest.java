@@ -3,11 +3,12 @@ package com.uwetrottmann.shopr.algorithm.test;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
+import com.uwetrottmann.shopr.algorithm.model.ClothingType;
 import com.uwetrottmann.shopr.algorithm.model.Color;
 
 import org.junit.Test;
 
-public class AdaptiveSelectionTest {
+public class LikeDislikeTest {
 
     @Test
     public void testLikeValue() {
@@ -18,15 +19,40 @@ public class AdaptiveSelectionTest {
         double[] expected = new double[] {
                 0.25 - 0.25 / 3, 0.5, 0.25 - 0.25 / 3, 0.25 - 0.25 / 3
         };
+        new ClothingType().likeValue(1, actual);
+        assertThat(actual).isEqualTo(expected);
+
+        // one getting bigger than zero
+        actual = new double[] {
+                0.05, 0.85, 0.05, 0.05
+        };
+        expected = new double[] {
+                0.0, 1.0, 0.0, 0.0
+        };
+        new ClothingType().likeValue(1, actual);
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    public void testLikeValueWithSimilars() {
+        // all equal
+        double[] actual = new double[] {
+                // BLUE, RED, PINK, VIOLET
+                0.25, 0.25, 0.25, 0.25
+        };
+        double[] expected = new double[] {
+                // BLUE, RED, PINK, VIOLET
+                0.0, 0.5, 0.25, 0.25
+        };
         new Color().likeValue(1, actual);
         assertThat(actual).isEqualTo(expected);
 
         // one getting bigger than zero
         actual = new double[] {
-                0.4 / 3, 0.6, 0.4 / 3, 0.4 / 3
+                0.05, 0.85, 0.05, 0.05
         };
         expected = new double[] {
-                0.05, 0.85, 0.05, 0.05
+                0.0, 1.0, 0.0, 0.0
         };
         new Color().likeValue(1, actual);
         assertThat(actual).isEqualTo(expected);
@@ -41,7 +67,7 @@ public class AdaptiveSelectionTest {
         double[] expected = new double[] {
                 0.25 + 0.25 / 3, 0.0, 0.25 + 0.25 / 3, 0.25 + 0.25 / 3
         };
-        new Color().dislikeValue(1, actual);
+        new ClothingType().dislikeValue(1, actual);
         assertThat(actual).isEqualTo(expected);
 
         // two zero, keep them zero
@@ -51,7 +77,7 @@ public class AdaptiveSelectionTest {
         expected = new double[] {
                 0.0, 0.0, 0.0, 1.0
         };
-        new Color().dislikeValue(1, actual);
+        new ClothingType().dislikeValue(1, actual);
         assertThat(actual).isEqualTo(expected);
     }
 
@@ -64,7 +90,7 @@ public class AdaptiveSelectionTest {
         double[] expected = new double[] {
                 0.25 + 0.25 / 3, 0.0, 0.25 + 0.25 / 3, 0.25 + 0.25 / 3
         };
-        new Color().dislikeValue(1, actual);
+        new ClothingType().dislikeValue(1, actual);
         assertThat(actual).isEqualTo(expected);
 
         // then like again
@@ -73,7 +99,7 @@ public class AdaptiveSelectionTest {
                 0.25 + 0.25 / 3 - 0.5 / 3, 0.5, 0.25 + 0.25 / 3 - 0.5 / 3,
                 0.25 + 0.25 / 3 - 0.5 / 3
         };
-        new Color().likeValue(1, actual);
+        new ClothingType().likeValue(1, actual);
         assertThat(actual).isEqualTo(expected);
     }
 
