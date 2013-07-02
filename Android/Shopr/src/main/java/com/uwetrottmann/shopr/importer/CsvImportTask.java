@@ -21,6 +21,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
 
 /**
  * Imports items or shops from a CSV file into the database.
@@ -84,6 +85,8 @@ public class CsvImportTask extends AsyncTask<Void, Integer, String> {
             Log.d(TAG, "Importing the following CSV schema: " + Arrays.toString(firstLine));
 
             String[] line;
+            Random random = new Random(123456); // seed to get fixed
+                                                // distribution
             while ((line = reader.readNext()) != null) {
                 ContentValues values = new ContentValues();
 
@@ -99,6 +102,7 @@ public class CsvImportTask extends AsyncTask<Void, Integer, String> {
                     case IMPORT_ITEMS:
                         // add values for one item
                         values.put(Items._ID, line[0]);
+                        values.put(Shops.REF_SHOP_ID, random.nextInt(129));
                         values.put(Items.CLOTHING_TYPE, line[1]);
                         values.put(Items.SEX, line[2]);
                         values.put(Items.COLOR, line[3]);
