@@ -19,6 +19,7 @@ public class AdaptiveSelection {
     private static final int NUM_RECOMMENDATIONS_DEFAULT = 8;
     private static final int BOUND_DEFAULT = 10;
     private static final boolean DUMP_INVENTORY = false;
+    private static final boolean IS_USING_DIVERSITY_DEFAULT = true;
 
     private static AdaptiveSelection _instance;
 
@@ -41,21 +42,24 @@ public class AdaptiveSelection {
     private Critique mCurrentCritique;
     private int mNumRecommendations;
     private List<Item> mCurrentRecommendations;
+    private boolean mIsUsingDiversity;
 
     private AdaptiveSelection() {
         mCaseBase = new ArrayList<Item>();
         mQuery = new Query();
         mNumRecommendations = NUM_RECOMMENDATIONS_DEFAULT;
+        mIsUsingDiversity = IS_USING_DIVERSITY_DEFAULT;
     }
 
     /**
      * Call before {@link #getRecommendations(Critique)} to set the initial data
      * set. Resets the query.
      */
-    public void setInitialCaseBase(List<Item> caseBase) {
+    public void setInitialCaseBase(List<Item> caseBase, boolean isUsingDiversity) {
         mQuery = new Query();
         mCurrentCritique = null;
         mCaseBase = caseBase;
+        mIsUsingDiversity = isUsingDiversity;
     }
 
     /**
@@ -75,7 +79,7 @@ public class AdaptiveSelection {
     public List<Item> getRecommendations() {
         // build a new set of recommendations
         List<Item> recommendations = itemRecommend(mCaseBase, mQuery, mNumRecommendations,
-                BOUND_DEFAULT, mCurrentCritique);
+                BOUND_DEFAULT, mIsUsingDiversity, mCurrentCritique);
 
         mCurrentRecommendations = recommendations;
 
@@ -113,6 +117,15 @@ public class AdaptiveSelection {
     }
 
     /**
+     * Toggles usage of diverse recommendations when the last critique indicated
+     * negative progress (adaptive selection). If disabled always uses
+     * similarity based recommendations.
+     */
+    public void setIsUsingDiversity(boolean isUsingDiversity) {
+        mIsUsingDiversity = isUsingDiversity;
+    }
+
+    /**
      * **DO NOT USE** Only for testing of the Adaptive Selection cycle using a
      * console program.
      */
@@ -136,7 +149,7 @@ public class AdaptiveSelection {
 
         while (!isAbort) {
             List<Item> recommendations = itemRecommend(caseBase, query,
-                    NUM_RECOMMENDATIONS_DEFAULT, BOUND_DEFAULT,
+                    NUM_RECOMMENDATIONS_DEFAULT, BOUND_DEFAULT, IS_USING_DIVERSITY_DEFAULT,
                     critique);
             critique = userReview(recommendations, query);
             queryRevise(query, critique);
@@ -154,11 +167,12 @@ public class AdaptiveSelection {
      * critique. Returns a list of recommended items based on the case-base.
      */
     private static List<Item> itemRecommend(List<Item> caseBase, Query query, int numItems,
-            int bound, Critique lastCritique) {
+            int bound, boolean isUsingDiversity, Critique lastCritique) {
 
         List<Item> recommendations = new ArrayList<Item>();
 
-        if (lastCritique != null && lastCritique.item() != null
+        if (!isUsingDiversity ||
+                lastCritique != null && lastCritique.item() != null
                 && lastCritique.feedback().isPositiveFeedback()) {
             /*
              * Positive progress: user liked one or more features of one of the
