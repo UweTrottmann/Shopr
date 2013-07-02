@@ -3,6 +3,8 @@ package com.uwetrottmann.shopr.ui;
 
 import android.location.Location;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager.LoaderCallbacks;
+import android.support.v4.content.Loader;
 import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -14,21 +16,22 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.uwetrottmann.androidutils.Lists;
 import com.uwetrottmann.shopr.R;
+import com.uwetrottmann.shopr.loaders.ShopLoader;
 import com.uwetrottmann.shopr.model.Shop;
 import com.uwetrottmann.shopr.ui.ItemListFragment.ShopUpdateEvent;
 import com.uwetrottmann.shopr.ui.MainActivity.LocationUpdateEvent;
-import com.uwetrottmann.shopr.utils.ShopUtils;
 
 import de.greenrobot.event.EventBus;
 
 import java.util.List;
 import java.util.Map;
 
-public class ShopMapFragment extends SupportMapFragment {
+public class ShopMapFragment extends SupportMapFragment implements LoaderCallbacks<List<Shop>> {
 
     private static final int RADIUS_METERS = 2000;
     private static final int ZOOM_LEVEL_INITIAL = 14;
     public static final String TAG = "Shops Map";
+    private static final int LAODER_ID = 22;
 
     public static ShopMapFragment newInstance() {
         return new ShopMapFragment();
@@ -37,6 +40,8 @@ public class ShopMapFragment extends SupportMapFragment {
     private List<Marker> mShopMarkers;
     private Location mLocation;
     private boolean mIsInitialized;
+    private List<Shop> mShops;
+    private Map<Integer, Integer> mShopsWithItems;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -47,6 +52,7 @@ public class ShopMapFragment extends SupportMapFragment {
         // enable my location feature
         getMap().setMyLocationEnabled(true);
 
+        getLoaderManager().initLoader(LAODER_ID, null, this);
     }
 
     @Override
@@ -87,7 +93,7 @@ public class ShopMapFragment extends SupportMapFragment {
         }
     }
 
-    private void onUpdateShops(Map<Integer, Integer> shopItemMap) {
+    private void onUpdateShops(List<Shop> shops) {
         // remove existing markers
         if (mShopMarkers != null) {
             for (Marker marker : mShopMarkers) {
@@ -95,17 +101,14 @@ public class ShopMapFragment extends SupportMapFragment {
             }
         }
 
-        // TODO replace with actual shop data
-        List<Shop> shopsSamples = ShopUtils.getShopsSamples();
-
         List<Marker> shopMarkersNew = Lists.newArrayList();
 
-        for (Shop shop : shopsSamples) {
+        for (Shop shop : shops) {
             // determine color and recom. items in this shop
             float color;
             int itemCount;
-            if (shopItemMap.containsKey(shop.id())) {
-                itemCount = shopItemMap.get(shop.id());
+            if (mShopsWithItems != null && mShopsWithItems.containsKey(shop.id())) {
+                itemCount = mShopsWithItems.get(shop.id());
                 color = BitmapDescriptorFactory.HUE_VIOLET;
             } else {
                 itemCount = 0;
@@ -130,7 +133,22 @@ public class ShopMapFragment extends SupportMapFragment {
     }
 
     public void onEvent(ShopUpdateEvent event) {
-        onUpdateShops(event.shopMap);
+        mShopsWithItems = event.shopMap;
+        getLoaderManager().restartLoader(LAODER_ID, null, this);
+    }
+
+    @Override
+    public Loader<List<Shop>> onCreateLoader(int loaderId, Bundle args) {
+        return new ShopLoader(getActivity());
+    }
+
+    @Override
+    public void onLoadFinished(Loader<List<Shop>> loader, List<Shop> data) {
+        onUpdateShops(data);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<List<Shop>> laoder) {
     }
 
 }
