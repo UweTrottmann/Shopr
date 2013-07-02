@@ -18,6 +18,7 @@ import com.uwetrottmann.androidutils.Lists;
 import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.loaders.ShopLoader;
 import com.uwetrottmann.shopr.model.Shop;
+import com.uwetrottmann.shopr.settings.AppSettings;
 import com.uwetrottmann.shopr.ui.ItemListFragment.ShopUpdateEvent;
 import com.uwetrottmann.shopr.ui.MainActivity.LocationUpdateEvent;
 
@@ -38,9 +39,7 @@ public class ShopMapFragment extends SupportMapFragment implements LoaderCallbac
     }
 
     private List<Marker> mShopMarkers;
-    private Location mLocation;
     private boolean mIsInitialized;
-    private List<Shop> mShops;
     private Map<Integer, Integer> mShopsWithItems;
 
     @Override
@@ -72,12 +71,19 @@ public class ShopMapFragment extends SupportMapFragment implements LoaderCallbac
         if (!mIsInitialized) {
             Log.d(TAG, "Initializing map.");
 
-            mLocation = ((MainActivity) getActivity()).getLastLocation();
-            if (mLocation == null) {
-                return;
+            LatLng userPosition;
+            if (AppSettings.isUsingFakeLocation(getActivity())) {
+                // use fake location (Marienplatz, Munich)
+                userPosition = new LatLng(48.137314, 11.575253);
+            } else {
+                // actual user position
+                Location trueLocation = ((MainActivity) getActivity()).getLastLocation();
+                if (trueLocation == null) {
+                    return;
+                }
+                userPosition = new LatLng(trueLocation.getLatitude(), trueLocation.getLongitude());
             }
 
-            LatLng userPosition = new LatLng(mLocation.getLatitude(), mLocation.getLongitude());
             // move camera to current position
             getMap().moveCamera(
                     CameraUpdateFactory.newLatLngZoom(userPosition, ZOOM_LEVEL_INITIAL));
