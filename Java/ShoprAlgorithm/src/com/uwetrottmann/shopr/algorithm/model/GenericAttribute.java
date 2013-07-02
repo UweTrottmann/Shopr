@@ -120,9 +120,17 @@ public abstract class GenericAttribute implements Attribute {
      */
     public void likeValue(int valueIndex, double[] weights) {
         // increase by the average weight
-        double likedWeight = 1.0 / weights.length;
+        double weightIncrease = 1.0 / weights.length;
 
-        weights[valueIndex] += likedWeight;
+        /*
+         * If the value was 0.0 (disliked) increase double so it will have
+         * definitely have highest weight.
+         */
+        if (weights[valueIndex] == 0.0) {
+            weightIncrease *= 2;
+        }
+
+        weights[valueIndex] += weightIncrease;
 
         // sum can not exceed 1.0
         if (weights[valueIndex] > 1.0) {
@@ -132,7 +140,7 @@ public abstract class GenericAttribute implements Attribute {
         }
 
         // subtract average from other weights
-        double redistributed = likedWeight / (weights.length - 1);
+        double redistributed = weightIncrease / (weights.length - 1);
         for (int i = 0; i < weights.length; i++) {
             if (i != valueIndex) {
                 weights[i] -= redistributed;

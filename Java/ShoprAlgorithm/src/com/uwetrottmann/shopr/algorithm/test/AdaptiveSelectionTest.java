@@ -56,7 +56,7 @@ public class AdaptiveSelectionTest {
     }
 
     @Test
-    public void testLikeDislikeValue() {
+    public void testDislikeLikeValue() {
         // first dislike
         double[] actual = new double[] {
                 0.25, 0.25, 0.25, 0.25
@@ -68,8 +68,10 @@ public class AdaptiveSelectionTest {
         assertThat(actual).isEqualTo(expected);
 
         // then like again
+        // liked value should have highest weight now
         expected = new double[] {
-                0.25, 0.25, 0.25, 0.25
+                0.25 + 0.25 / 3 - 0.5 / 3, 0.5, 0.25 + 0.25 / 3 - 0.5 / 3,
+                0.25 + 0.25 / 3 - 0.5 / 3
         };
         new Color().likeValue(1, actual);
         assertThat(actual).isEqualTo(expected);
