@@ -49,7 +49,7 @@ public class ItemLoader extends GenericSimpleLoader<List<Item>> {
         if (mIsInit) {
             Log.d(TAG, "Initializing case base.");
             List<Item> caseBase = getInitialCaseBase();
-            manager.setInitialCaseBase(caseBase);
+            manager.setInitialCaseBase(caseBase, AppSettings.isUsingDiversity(getContext()));
 
             int maxRecommendations = AppSettings.getMaxRecommendations(getContext());
             AdaptiveSelection.get().setMaxRecommendations(maxRecommendations);
