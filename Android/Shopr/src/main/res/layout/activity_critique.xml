@@ -19,15 +19,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/default_margin"
-            android:layout_weight="2"
+            android:layout_weight="1"
             android:text="@string/detail_like"
             android:textAppearance="@style/TextAppearance" />
 
         <ImageView
             android:id="@+id/imageViewCritiqueImage"
-            android:layout_width="0dp"
-            android:layout_height="150dp"
-            android:layout_weight="1"
+            android:layout_width="150dp"
+            android:layout_height="200dp"
             android:contentDescription="@string/description_item_picutre"
             android:scaleType="centerCrop" />
     </LinearLayout>
