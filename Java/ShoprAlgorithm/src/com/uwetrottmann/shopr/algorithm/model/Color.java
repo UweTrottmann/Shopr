@@ -3,6 +3,11 @@ package com.uwetrottmann.shopr.algorithm.model;
 
 import com.uwetrottmann.shopr.algorithm.model.Attributes.AttributeValue;
 
+import org.jgrapht.UndirectedGraph;
+import org.jgrapht.graph.DefaultEdge;
+import org.jgrapht.graph.SimpleGraph;
+import org.jgrapht.traverse.BreadthFirstIterator;
+
 import java.util.Arrays;
 
 public class Color extends GenericAttribute {
@@ -123,18 +128,39 @@ public class Color extends GenericAttribute {
 
     @Override
     public void likeValue(int valueIndex, double[] weights) {
+        UndirectedGraph<Color.Value, DefaultEdge> g =
+                new SimpleGraph<Color.Value, DefaultEdge>(DefaultEdge.class);
+
+        Value[] values = Value.values();
+        for (Value value : values) {
+            g.addVertex(value);
+        }
+
+        g.addEdge(Value.RED, Value.VIOLET);
+        g.addEdge(Value.RED, Value.PINK);
+
+        BreadthFirstIterator<Value, DefaultEdge> iter =
+                new BreadthFirstIterator<Value, DefaultEdge>(g, Value.RED);
+        // TODO iterate through neighbors
+
         Value[][] similarity = new Value[Value.values().length][];
+        similarity[Value.BLUE.index()] = new Value[] {
+                Value.VIOLET, Value.TURQUOISE
+        };
         similarity[Value.RED.index()] = new Value[] {
                 Value.PINK, Value.VIOLET
         };
-        similarity[Value.BLUE.index()] = new Value[] {
-                Value.VIOLET, Value.TURQUOISE
+        similarity[Value.PINK.index()] = new Value[] {
+                Value.RED, Value.VIOLET
         };
         similarity[Value.WHITE.index()] = new Value[] {
                 Value.GREY, Value.BEIGE
         };
         similarity[Value.BLACK.index()] = new Value[] {
                 Value.GREY, Value.BLUE, Value.BROWN
+        };
+        similarity[Value.VIOLET.index()] = new Value[] {
+                Value.BLUE, Value.PINK, Value.RED
         };
 
         if (similarity[valueIndex] == null) {
@@ -203,11 +229,5 @@ public class Color extends GenericAttribute {
             }
         }
         return false;
-    }
-
-    @Override
-    public void dislikeValue(int valueIndex, double[] weights) {
-        // TODO Auto-generated method stub
-        super.dislikeValue(valueIndex, weights);
     }
 }
