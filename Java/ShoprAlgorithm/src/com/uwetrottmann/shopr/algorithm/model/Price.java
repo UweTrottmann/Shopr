@@ -13,8 +13,11 @@ public class Price extends GenericAttribute {
     public enum Value implements AttributeValue {
         SUB_25("less than 25 €"),
         BETWEEN_25_50("25 to 50 €"),
-        BETWEEN_50_100("50 to 100 €"),
-        ABOVE_100("more than 100 €");
+        BETWEEN_50_75("50 to 75 €"),
+        BETWEEN_75_100("75 to 100 €"),
+        BETWEEN_100_150("100 to 150 €"),
+        BETWEEN_150_200("150 to 200 €"),
+        ABOVE_200("200 € or more");
 
         private String mDescriptor;
 
@@ -50,10 +53,16 @@ public class Price extends GenericAttribute {
             value = Value.SUB_25;
         } else if (price.doubleValue() < 50.0) {
             value = Value.BETWEEN_25_50;
+        } else if (price.doubleValue() < 75.0) {
+            value = Value.BETWEEN_50_75;
         } else if (price.doubleValue() < 100.0) {
-            value = Value.BETWEEN_50_100;
+            value = Value.BETWEEN_75_100;
+        } else if (price.doubleValue() < 150.0) {
+            value = Value.BETWEEN_100_150;
+        } else if (price.doubleValue() < 200.0) {
+            value = Value.BETWEEN_150_200;
         } else {
-            value = Value.ABOVE_100;
+            value = Value.ABOVE_200;
         }
 
         mValueWeights[value.ordinal()] = 1.0;
