@@ -54,12 +54,12 @@ public abstract class GenericAttribute implements Attribute {
     }
 
     /**
-     * Returns string for the given attribute having a 0.0 weight, e.g. it is
-     * avoided to recommend items with this value unless there are no other
-     * options.
+     * Returns the verb to use in conjunction with a list of attribute values
+     * that are avoided when recommending items (unless there are no other
+     * options).
      */
-    public String getAvoidString(AttributeValue value) {
-        return "avoid " + value.descriptor();
+    public String getAvoidString() {
+        return "avoid %s";
     }
 
     /**
@@ -82,14 +82,18 @@ public abstract class GenericAttribute implements Attribute {
                 return getOnlyString(values[i]);
             }
             if (mValueWeights[i] == 0) {
-                // e.g. ", no Red"
-                if (reason.length() != 0) {
-                    reason.append(", ");
+                // e.g. ", avoid Red/Blue/Green"
+                if (reason.length() != 0 && i < mValueWeights.length) {
+                    reason.append("/");
                 }
-                reason.append(getAvoidString(values[i]));
+                reason.append(values[i].descriptor());
             } else if (mValueWeights[i] > mValueWeights[maxIndex]) {
                 maxIndex = i;
             }
+        }
+        if (reason.length() != 0) {
+            // add prefix to get e.g. "avoid Red/Blue/Green"
+            reason = new StringBuilder(String.format(getAvoidString(), reason.toString()));
         }
 
         // check for global maximum
@@ -104,7 +108,7 @@ public abstract class GenericAttribute implements Attribute {
             }
         }
 
-        // e.g. ", mainly Red"
+        // e.g. ", preferably Red"
         if (hasGlobalMaximum) {
             if (reason.length() != 0) {
                 reason.append(", ");
