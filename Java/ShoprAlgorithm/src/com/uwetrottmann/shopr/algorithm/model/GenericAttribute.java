@@ -164,8 +164,15 @@ public abstract class GenericAttribute implements Attribute {
             return;
         }
 
-        // subtract average from other weights
-        double redistributed = weightIncrease / (weights.length - 1);
+        // subtract average from other non-zero weights
+        int count = 0;
+        for (int i = 0; i < weights.length; i++) {
+            if (weights[i] != 0) {
+                count++;
+            }
+        }
+        // calculate share for each value, excluding the liked one
+        double redistributed = weightIncrease / (count - 1);
         for (int i = 0; i < weights.length; i++) {
             if (i != valueIndex) {
                 weights[i] -= redistributed;

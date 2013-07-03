@@ -147,15 +147,22 @@ public class Price extends GenericAttribute {
             }
 
             /*
-             * Subtract added weight evenly from non-liked price regions, BUT
-             * only from non-similar price regions.
+             * Subtract added weight evenly from other price regions, BUT only
+             * from non-similar price regions and those with non-zero weight.
              */
-            double redistributed = weightIncrease
-                    / (weights.length - 1 - similarPriceRegions.size());
+            // get number of non-zero weights
+            int count = 0;
+            for (int i = 0; i < weights.length; i++) {
+                if (weights[i] != 0 && !hasValueWithSameIndex(similarPriceRegions, i)) {
+                    count++;
+                }
+            }
+            // calculate share for each value
+            double redistributed = weightIncrease / (count - 1);
             for (int i = 0; i < weights.length; i++) {
                 if (i != valueIndex && !hasValueWithSameIndex(similarPriceRegions, i)) {
                     weights[i] -= redistributed;
-                    // floor at 0.0
+                    // precaution: floor at 0.0
                     if (weights[i] < 0) {
                         weights[i] = 0.0;
                     }

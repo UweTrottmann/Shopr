@@ -189,11 +189,18 @@ public class Color extends GenericAttribute {
             }
 
             /*
-             * Subtract added weight evenly from non-liked colors, BUT only from
-             * non-similar colors.
+             * Subtract added weight evenly from other colors, BUT only from
+             * non-similar colors and those with non-zero weights.
              */
-            double redistributed = weightIncrease
-                    / (weights.length - 1 - similarColors.size());
+            // get number of non-zero weights
+            int count = 0;
+            for (int i = 0; i < weights.length; i++) {
+                if (weights[i] != 0 && !hasValueWithSameIndex(similarColors, i)) {
+                    count++;
+                }
+            }
+            // calculate share for each value
+            double redistributed = weightIncrease / (count - 1);
             for (int i = 0; i < weights.length; i++) {
                 if (i != valueIndex && !hasValueWithSameIndex(similarColors, i)) {
                     weights[i] -= redistributed;
