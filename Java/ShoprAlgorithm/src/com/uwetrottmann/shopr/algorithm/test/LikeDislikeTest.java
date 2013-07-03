@@ -105,18 +105,17 @@ public class LikeDislikeTest {
         new ClothingType().likeValue(1, actual);
         assertThat(actual).isEqualTo(expected);
 
-        // liking with similars, make all non-similar are zero
+        // liking with similars, make one non-similar zero
         actual = new double[] {
                 1.0 / 7, 1.0 / 7, 1.0 / 7, 1.0 / 7, 1.0 / 7, 1.0 / 7, 1.0 / 7
         };
+        double nonSimilarVal = 1.0 / 6 - ((1.0 / 7) / 4);
         expected = new double[] {
-                0.5 + 1.0 / 7, 1 - (0.5 + 1.0 / 7), 0.0, 0.0, 0.0, 0.0, 0.0
+                1.0 / 6 + 1.0 / 7, 1.0 / 6, nonSimilarVal, nonSimilarVal,
+                nonSimilarVal,
+                nonSimilarVal, 0.0
         };
         new Price().dislikeValue(6, actual);
-        new Price().dislikeValue(5, actual);
-        new Price().dislikeValue(4, actual);
-        new Price().dislikeValue(3, actual);
-        new Price().dislikeValue(2, actual);
         new Price().likeValue(0, actual);
         assertThat(actual).isEqualTo(expected);
     }
