@@ -5,6 +5,7 @@ import static org.fest.assertions.api.Assertions.assertThat;
 
 import com.uwetrottmann.shopr.algorithm.model.ClothingType;
 import com.uwetrottmann.shopr.algorithm.model.Color;
+import com.uwetrottmann.shopr.algorithm.model.Price;
 
 import org.junit.Test;
 
@@ -102,6 +103,21 @@ public class LikeDislikeTest {
                 0.25 + 0.25 / 3 - 0.5 / 3
         };
         new ClothingType().likeValue(1, actual);
+        assertThat(actual).isEqualTo(expected);
+
+        // liking with similars, make all non-similar are zero
+        actual = new double[] {
+                1.0 / 7, 1.0 / 7, 1.0 / 7, 1.0 / 7, 1.0 / 7, 1.0 / 7, 1.0 / 7
+        };
+        expected = new double[] {
+                0.5 + 1.0 / 7, 1 - (0.5 + 1.0 / 7), 0.0, 0.0, 0.0, 0.0, 0.0
+        };
+        new Price().dislikeValue(6, actual);
+        new Price().dislikeValue(5, actual);
+        new Price().dislikeValue(4, actual);
+        new Price().dislikeValue(3, actual);
+        new Price().dislikeValue(2, actual);
+        new Price().likeValue(0, actual);
         assertThat(actual).isEqualTo(expected);
     }
 
