@@ -13,6 +13,29 @@ import java.util.List;
 
 public class Color extends GenericAttribute {
 
+    /** Stores similar color values in an undirected graph. */
+    private static UndirectedGraph<Color.Value, DefaultEdge> sSimilarValues;
+
+    static {
+        sSimilarValues = new SimpleGraph<Color.Value, DefaultEdge>(DefaultEdge.class);
+
+        Value[] values = Value.values();
+        for (Value value : values) {
+            sSimilarValues.addVertex(value);
+        }
+
+        sSimilarValues.addEdge(Value.BLUE, Value.VIOLET);
+        sSimilarValues.addEdge(Value.BLUE, Value.TURQUOISE);
+        sSimilarValues.addEdge(Value.RED, Value.VIOLET);
+        sSimilarValues.addEdge(Value.RED, Value.PINK);
+        sSimilarValues.addEdge(Value.YELLOW, Value.ORANGE);
+        sSimilarValues.addEdge(Value.BLACK, Value.GREY);
+        sSimilarValues.addEdge(Value.WHITE, Value.BEIGE);
+        sSimilarValues.addEdge(Value.WHITE, Value.GREY);
+        sSimilarValues.addEdge(Value.COLORED, Value.MIXED);
+        sSimilarValues.addEdge(Value.BROWN, Value.BEIGE);
+    }
+
     public static final String ID = "color";
 
     public enum Value implements AttributeValue {
@@ -129,21 +152,9 @@ public class Color extends GenericAttribute {
 
     @Override
     public void likeValue(int valueIndex, double[] weights) {
-        UndirectedGraph<Color.Value, DefaultEdge> g =
-                new SimpleGraph<Color.Value, DefaultEdge>(DefaultEdge.class);
-
         Value[] values = Value.values();
-        for (Value value : values) {
-            g.addVertex(value);
-        }
-
-        g.addEdge(Value.RED, Value.VIOLET);
-        g.addEdge(Value.RED, Value.PINK);
-        g.addEdge(Value.BLUE, Value.VIOLET);
-        g.addEdge(Value.BLUE, Value.TURQUOISE);
-
         Value likedColor = values[valueIndex];
-        List<Value> similarColors = Graphs.neighborListOf(g, likedColor);
+        List<Value> similarColors = Graphs.neighborListOf(sSimilarValues, likedColor);
 
         if (similarColors.isEmpty()) {
             // treat like a regular like
