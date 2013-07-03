@@ -14,6 +14,7 @@ import com.uwetrottmann.androidutils.Lists;
 import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.provider.ShoprContract.Items;
 import com.uwetrottmann.shopr.provider.ShoprContract.Shops;
+import com.uwetrottmann.shopr.utils.Utils;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -110,8 +111,7 @@ public class CsvImportTask extends AsyncTask<Void, Integer, String> {
                         values.put(Items.PRICE, line[5]);
                         // extract first image
                         String imageUrl = line[6];
-                        imageUrl = imageUrl.substring(1, imageUrl.length() - 1);
-                        imageUrl = imageUrl.split(",")[0];
+                        imageUrl = Utils.extractFirstUrl(imageUrl);
                         values.put(Items.IMAGE_URL, imageUrl);
                         break;
                 }
