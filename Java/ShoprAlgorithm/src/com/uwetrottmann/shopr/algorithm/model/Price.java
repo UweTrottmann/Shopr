@@ -3,10 +3,38 @@ package com.uwetrottmann.shopr.algorithm.model;
 
 import com.uwetrottmann.shopr.algorithm.model.Attributes.AttributeValue;
 
+import org.jgrapht.Graphs;
+import org.jgrapht.UndirectedGraph;
+import org.jgrapht.graph.DefaultEdge;
+import org.jgrapht.graph.SimpleGraph;
+
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.List;
 
 public class Price extends GenericAttribute {
+
+    private static UndirectedGraph<Price.Value, DefaultEdge> sSimilarValues;
+
+    static {
+        sSimilarValues = new SimpleGraph<Price.Value, DefaultEdge>(DefaultEdge.class);
+
+        Value[] values = Value.values();
+        for (Value value : values) {
+            sSimilarValues.addVertex(value);
+        }
+
+        /**
+         * Stores similar price values in an undirected graph. Price regions
+         * right above or below are similar.
+         */
+        sSimilarValues.addEdge(Value.SUB_25, Value.BETWEEN_25_50);
+        sSimilarValues.addEdge(Value.BETWEEN_25_50, Value.BETWEEN_50_75);
+        sSimilarValues.addEdge(Value.BETWEEN_50_75, Value.BETWEEN_75_100);
+        sSimilarValues.addEdge(Value.BETWEEN_75_100, Value.BETWEEN_100_150);
+        sSimilarValues.addEdge(Value.BETWEEN_100_150, Value.BETWEEN_150_200);
+        sSimilarValues.addEdge(Value.BETWEEN_150_200, Value.ABOVE_200);
+    }
 
     public static final String ID = "price";
 
@@ -86,8 +114,87 @@ public class Price extends GenericAttribute {
      */
     @Override
     public void likeValue(int valueIndex, double[] weights) {
-        // TODO Auto-generated method stub
-        super.likeValue(valueIndex, weights);
+        Value[] values = Value.values();
+        Value likedPriceRegion = values[valueIndex];
+        List<Value> similarPriceRegions = Graphs.neighborListOf(sSimilarValues, likedPriceRegion);
+
+        if (similarPriceRegions.isEmpty()) {
+            // treat like a regular like
+            super.likeValue(valueIndex, weights);
+        } else {
+            // do not touch similar price weights
+
+            // calculate average weight
+            double weightIncrease = 1.0 / weights.length;
+
+            /*
+             * If the value was 0.0 (disliked) increase double so it will
+             * definitely have highest weight.
+             */
+            if (weights[valueIndex] == 0.0) {
+                weightIncrease *= 2;
+            }
+
+            // add weight to liked value
+            weights[valueIndex] += weightIncrease;
+
+            // if liked value weight exceeds 1.0, sum exceeds 1.0
+            if (weights[valueIndex] > 1.0) {
+                // all other weights have to be 0.0
+                Arrays.fill(weights, 0.0);
+                weights[valueIndex] = 1.0;
+                return;
+            }
+
+            /*
+             * Subtract added weight evenly from non-liked price regions, BUT
+             * only from non-similar price regions.
+             */
+            double redistributed = weightIncrease
+                    / (weights.length - 1 - similarPriceRegions.size());
+            for (int i = 0; i < weights.length; i++) {
+                if (i != valueIndex && !hasValueWithSameIndex(similarPriceRegions, i)) {
+                    weights[i] -= redistributed;
+                    // floor at 0.0
+                    if (weights[i] < 0) {
+                        weights[i] = 0.0;
+                    }
+                }
+            }
+
+            // sum can not exceed 1.0
+            double sum = 0;
+            for (int i = 0; i < weights.length; i++) {
+                sum += weights[i];
+            }
+            if (sum > 1.0) {
+                // distribute remaining weight evenly over all similar values
+                double redistribute = (1 - weights[valueIndex]) / similarPriceRegions.size();
+                for (int i = 0; i < weights.length; i++) {
+                    if (i == valueIndex) {
+                        // weight for liked price region already set
+                        continue;
+                    }
+                    if (hasValueWithSameIndex(similarPriceRegions, i)) {
+                        weights[i] = redistribute;
+                    } else {
+                        weights[i] = 0.0;
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Checks whether one of the values has the given index.
+     */
+    private boolean hasValueWithSameIndex(List<Value> values, int index) {
+        for (Value value : values) {
+            if (value.index() == index) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

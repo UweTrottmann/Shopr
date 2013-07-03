@@ -13,7 +13,6 @@ import java.util.List;
 
 public class Color extends GenericAttribute {
 
-    /** Stores similar color values in an undirected graph. */
     private static UndirectedGraph<Color.Value, DefaultEdge> sSimilarValues;
 
     static {
@@ -24,6 +23,11 @@ public class Color extends GenericAttribute {
             sSimilarValues.addVertex(value);
         }
 
+        /**
+         * Stores similar price values in an undirected graph. This is rather
+         * subjective, e.g. white is similar to grey. Red is similar to pink,
+         * etc.
+         */
         sSimilarValues.addEdge(Value.BLUE, Value.PURPLE);
         sSimilarValues.addEdge(Value.BLUE, Value.TURQUOISE);
         sSimilarValues.addEdge(Value.RED, Value.PURPLE);
