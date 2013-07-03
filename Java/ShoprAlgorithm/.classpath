@@ -7,7 +7,7 @@
 	<classpathentry kind="lib" path="libs/fest-test-2.1.0.jar"/>
 	<classpathentry kind="lib" path="libs/fest-util-1.2.5.jar"/>
 	<classpathentry kind="lib" path="libs/mockito-all-1.9.0.jar"/>
-	<classpathentry kind="lib" path="libs/jgraph.jar"/>
-	<classpathentry kind="lib" path="libs/jgrapht-jdk1.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/jgraph.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/jgrapht-jdk1.6.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
