@@ -8,6 +8,7 @@
     <CheckBoxPreference
         android:defaultValue="true"
         android:key="com.uwetrottmann.shopr.usingdiversity"
-        android:title="@string/diversity_on_negative_progress" />
+        android:title="@string/diversity_on_negative_progress"
+        android:summary="@string/no_item_dropping" />
 
 </PreferenceScreen>
