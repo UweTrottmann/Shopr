@@ -3,12 +3,13 @@ package com.uwetrottmann.shopr.algorithm.model;
 
 import com.uwetrottmann.shopr.algorithm.model.Attributes.AttributeValue;
 
+import org.jgrapht.Graphs;
 import org.jgrapht.UndirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
-import org.jgrapht.traverse.BreadthFirstIterator;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class Color extends GenericAttribute {
 
@@ -138,60 +139,48 @@ public class Color extends GenericAttribute {
 
         g.addEdge(Value.RED, Value.VIOLET);
         g.addEdge(Value.RED, Value.PINK);
+        g.addEdge(Value.BLUE, Value.VIOLET);
+        g.addEdge(Value.BLUE, Value.TURQUOISE);
 
-        BreadthFirstIterator<Value, DefaultEdge> iter =
-                new BreadthFirstIterator<Value, DefaultEdge>(g, Value.RED);
-        // TODO iterate through neighbors
+        Value likedColor = values[valueIndex];
+        List<Value> similarColors = Graphs.neighborListOf(g, likedColor);
 
-        Value[][] similarity = new Value[Value.values().length][];
-        similarity[Value.BLUE.index()] = new Value[] {
-                Value.VIOLET, Value.TURQUOISE
-        };
-        similarity[Value.RED.index()] = new Value[] {
-                Value.PINK, Value.VIOLET
-        };
-        similarity[Value.PINK.index()] = new Value[] {
-                Value.RED, Value.VIOLET
-        };
-        similarity[Value.WHITE.index()] = new Value[] {
-                Value.GREY, Value.BEIGE
-        };
-        similarity[Value.BLACK.index()] = new Value[] {
-                Value.GREY, Value.BLUE, Value.BROWN
-        };
-        similarity[Value.VIOLET.index()] = new Value[] {
-                Value.BLUE, Value.PINK, Value.RED
-        };
-
-        if (similarity[valueIndex] == null) {
+        if (similarColors.isEmpty()) {
+            // treat like a regular like
             super.likeValue(valueIndex, weights);
         } else {
-            // increase by the average weight
+            // do not touch similar colors weights
+
+            // calculate average weight
             double weightIncrease = 1.0 / weights.length;
 
             /*
-             * If the value was 0.0 (disliked) increase double so it will have
+             * If the value was 0.0 (disliked) increase double so it will
              * definitely have highest weight.
              */
             if (weights[valueIndex] == 0.0) {
                 weightIncrease *= 2;
             }
 
+            // add weight to liked value
             weights[valueIndex] += weightIncrease;
 
-            // sum can not exceed 1.0
+            // if liked value weight exceeds 1.0, sum exceeds 1.0
             if (weights[valueIndex] > 1.0) {
+                // all other weights have to be 0.0
                 Arrays.fill(weights, 0.0);
                 weights[valueIndex] = 1.0;
                 return;
             }
 
-            // subtract average from other weights, BUT only from non-similar
-            // values
+            /*
+             * Subtract added weight evenly from non-liked colors, BUT only from
+             * non-similar colors.
+             */
             double redistributed = weightIncrease
-                    / (weights.length - 1 - similarity[valueIndex].length);
+                    / (weights.length - 1 - similarColors.size());
             for (int i = 0; i < weights.length; i++) {
-                if (i != valueIndex && !isSimilarValue(similarity[valueIndex], i)) {
+                if (i != valueIndex && !hasValueWithSameIndex(similarColors, i)) {
                     weights[i] -= redistributed;
                     // floor at 0.0
                     if (weights[i] < 0) {
@@ -206,10 +195,14 @@ public class Color extends GenericAttribute {
                 sum += weights[i];
             }
             if (sum > 1.0) {
-                // distribute remaining weight over all similar values
-                double redistribute = 1 - weights[valueIndex];
+                // distribute remaining weight evenly over all similar values
+                double redistribute = (1 - weights[valueIndex]) / similarColors.size();
                 for (int i = 0; i < weights.length; i++) {
-                    if (i != valueIndex && isSimilarValue(similarity[valueIndex], i)) {
+                    if (i == valueIndex) {
+                        // weight for liked color already set
+                        continue;
+                    }
+                    if (hasValueWithSameIndex(similarColors, i)) {
                         weights[i] = redistribute;
                     } else {
                         weights[i] = 0.0;
@@ -222,9 +215,9 @@ public class Color extends GenericAttribute {
     /**
      * Checks whether one of the values has the given index.
      */
-    private boolean isSimilarValue(Value[] values, int index) {
-        for (int i = 0; i < values.length; i++) {
-            if (values[i].index() == index) {
+    private boolean hasValueWithSameIndex(List<Value> values, int index) {
+        for (Value value : values) {
+            if (value.index() == index) {
                 return true;
             }
         }
