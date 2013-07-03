@@ -24,9 +24,9 @@ public class Color extends GenericAttribute {
             sSimilarValues.addVertex(value);
         }
 
-        sSimilarValues.addEdge(Value.BLUE, Value.VIOLET);
+        sSimilarValues.addEdge(Value.BLUE, Value.PURPLE);
         sSimilarValues.addEdge(Value.BLUE, Value.TURQUOISE);
-        sSimilarValues.addEdge(Value.RED, Value.VIOLET);
+        sSimilarValues.addEdge(Value.RED, Value.PURPLE);
         sSimilarValues.addEdge(Value.RED, Value.PINK);
         sSimilarValues.addEdge(Value.YELLOW, Value.ORANGE);
         sSimilarValues.addEdge(Value.BLACK, Value.GREY);
@@ -42,7 +42,7 @@ public class Color extends GenericAttribute {
         BLUE("Blue"),
         RED("Red"),
         PINK("Pink"), // rosa zu Deutsch
-        VIOLET("Violet"),
+        PURPLE("Purple"),
         YELLOW("Yellow"),
         BROWN("Brown"),
         COLORED("Colored"),
@@ -123,7 +123,7 @@ public class Color extends GenericAttribute {
             setWeights(Color.Value.TURQUOISE);
         }
         else if ("Violett".equals(value)) {
-            setWeights(Color.Value.VIOLET);
+            setWeights(Color.Value.PURPLE);
         }
         else if ("Weiß".equals(value)) {
             setWeights(Color.Value.WHITE);
