@@ -47,12 +47,14 @@ public class LikeDislikeTest {
         new Color().likeValue(1, actual);
         assertThat(actual).isEqualTo(expected);
 
-        // one getting bigger than zero
+        // sum getting bigger than 1.0
         actual = new double[] {
-                0.05, 0.85, 0.05, 0.05
+                // BLUE, RED, PINK, VIOLET
+                1.0 / 3, 0.0, 1.0 / 3, 1.0 / 3
         };
         expected = new double[] {
-                0.0, 1.0, 0.0, 0.0
+                // BLUE, RED, PINK, VIOLET
+                0.0, 0.5, 0.25, 0.25
         };
         new Color().likeValue(1, actual);
         assertThat(actual).isEqualTo(expected);
