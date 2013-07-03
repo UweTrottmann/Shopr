@@ -78,8 +78,16 @@ public class AdaptiveSelection {
      */
     public List<Item> getRecommendations() {
         // build a new set of recommendations
-        List<Item> recommendations = itemRecommend(mCaseBase, mQuery, mNumRecommendations,
-                BOUND_DEFAULT, mIsUsingDiversity, mCurrentCritique);
+        List<Item> recommendations;
+        if (mIsUsingDiversity) {
+            // using adaptive selection (diversity on negative progress)
+            recommendations = itemRecommend(mCaseBase, mQuery, mNumRecommendations,
+                    BOUND_DEFAULT, mIsUsingDiversity, mCurrentCritique);
+        } else {
+            // using similarity based recommendations
+            recommendations = itemRecommendSimOnly(mCaseBase, mQuery, mNumRecommendations,
+                    BOUND_DEFAULT, mCurrentCritique);
+        }
 
         mCurrentRecommendations = recommendations;
 
@@ -212,6 +220,55 @@ public class AdaptiveSelection {
             if (!isAlreadyPresent) {
                 // TODO: Decide between removing previous recs or not
                 recommendations.remove(recommendations.size() - 1);
+                recommendations.add(lastCritique.item());
+            }
+        }
+
+        return recommendations;
+    }
+
+    /**
+     * Takes the current query, number of recommended items to return, the last
+     * critique. Returns a list of recommended items based on the case-base.
+     */
+    private static List<Item> itemRecommendSimOnly(List<Item> caseBase, Query query, int numItems,
+            int bound, Critique lastCritique) {
+        List<Item> recommendations = new ArrayList<Item>();
+
+        if (lastCritique != null) {
+            /*
+             * REFINE: Show similar recommendations by sorting the case-base in
+             * decreasing similarity to current query. Return top k items.
+             */
+            Utils.sortBySimilarityToQuery(query, caseBase);
+            for (int i = 0; i < numItems; i++) {
+                // TODO: Decide between removing previous recs or not
+                recommendations.add(caseBase.remove(0));
+                // recommendations.add(caseBase.get(i));
+            }
+        } else {
+            /*
+             * First run: show diverse results.
+             */
+            // REFOCUS: show diverse recommendations
+            recommendations = BoundedGreedySelection
+                    .boundedGreedySelection(query, caseBase, numItems, bound);
+        }
+
+        // Carry the critiqued so the user may critique it further.
+        if (lastCritique != null && lastCritique.item() != null) {
+            // check if it is already in the list
+            boolean isAlreadyPresent = false;
+            for (Item item : recommendations) {
+                if (item.id() == lastCritique.item().id()) {
+                    isAlreadyPresent = true;
+                    break;
+                }
+            }
+            // if not: replace the last one with it
+            if (!isAlreadyPresent) {
+                // TODO: Decide between removing previous recs or not
+                caseBase.add(recommendations.remove(recommendations.size() - 1));
                 recommendations.add(lastCritique.item());
             }
         }

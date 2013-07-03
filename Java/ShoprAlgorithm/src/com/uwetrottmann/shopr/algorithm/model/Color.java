@@ -3,26 +3,55 @@ package com.uwetrottmann.shopr.algorithm.model;
 
 import com.uwetrottmann.shopr.algorithm.model.Attributes.AttributeValue;
 
+import org.jgrapht.Graphs;
+import org.jgrapht.UndirectedGraph;
+import org.jgrapht.graph.DefaultEdge;
+import org.jgrapht.graph.SimpleGraph;
+
 import java.util.Arrays;
+import java.util.List;
 
 public class Color extends GenericAttribute {
+
+    /** Stores similar color values in an undirected graph. */
+    private static UndirectedGraph<Color.Value, DefaultEdge> sSimilarValues;
+
+    static {
+        sSimilarValues = new SimpleGraph<Color.Value, DefaultEdge>(DefaultEdge.class);
+
+        Value[] values = Value.values();
+        for (Value value : values) {
+            sSimilarValues.addVertex(value);
+        }
+
+        sSimilarValues.addEdge(Value.BLUE, Value.VIOLET);
+        sSimilarValues.addEdge(Value.BLUE, Value.TURQUOISE);
+        sSimilarValues.addEdge(Value.RED, Value.VIOLET);
+        sSimilarValues.addEdge(Value.RED, Value.PINK);
+        sSimilarValues.addEdge(Value.YELLOW, Value.ORANGE);
+        sSimilarValues.addEdge(Value.BLACK, Value.GREY);
+        sSimilarValues.addEdge(Value.WHITE, Value.BEIGE);
+        sSimilarValues.addEdge(Value.WHITE, Value.GREY);
+        sSimilarValues.addEdge(Value.COLORED, Value.MIXED);
+        sSimilarValues.addEdge(Value.BROWN, Value.BEIGE);
+    }
 
     public static final String ID = "color";
 
     public enum Value implements AttributeValue {
         BLUE("Blue"),
+        RED("Red"),
+        PINK("Pink"), // rosa zu Deutsch
+        VIOLET("Violet"),
+        YELLOW("Yellow"),
         BROWN("Brown"),
         COLORED("Colored"),
-        YELLOW("Yellow"),
         MIXED("Mixed"),
         GREY("Grey"),
         GREEN("Green"),
         ORANGE("Orange"),
-        PINK("Pink"), // rosa zu Deutsch
-        RED("Red"),
         BLACK("Black"),
         TURQUOISE("Turquoise"),
-        VIOLET("Violet"),
         WHITE("White"),
         BEIGE("Beige");
 
@@ -119,5 +148,90 @@ public class Color extends GenericAttribute {
     @Override
     public AttributeValue[] getValueSymbols() {
         return Value.values();
+    }
+
+    @Override
+    public void likeValue(int valueIndex, double[] weights) {
+        Value[] values = Value.values();
+        Value likedColor = values[valueIndex];
+        List<Value> similarColors = Graphs.neighborListOf(sSimilarValues, likedColor);
+
+        if (similarColors.isEmpty()) {
+            // treat like a regular like
+            super.likeValue(valueIndex, weights);
+        } else {
+            // do not touch similar colors weights
+
+            // calculate average weight
+            double weightIncrease = 1.0 / weights.length;
+
+            /*
+             * If the value was 0.0 (disliked) increase double so it will
+             * definitely have highest weight.
+             */
+            if (weights[valueIndex] == 0.0) {
+                weightIncrease *= 2;
+            }
+
+            // add weight to liked value
+            weights[valueIndex] += weightIncrease;
+
+            // if liked value weight exceeds 1.0, sum exceeds 1.0
+            if (weights[valueIndex] > 1.0) {
+                // all other weights have to be 0.0
+                Arrays.fill(weights, 0.0);
+                weights[valueIndex] = 1.0;
+                return;
+            }
+
+            /*
+             * Subtract added weight evenly from non-liked colors, BUT only from
+             * non-similar colors.
+             */
+            double redistributed = weightIncrease
+                    / (weights.length - 1 - similarColors.size());
+            for (int i = 0; i < weights.length; i++) {
+                if (i != valueIndex && !hasValueWithSameIndex(similarColors, i)) {
+                    weights[i] -= redistributed;
+                    // floor at 0.0
+                    if (weights[i] < 0) {
+                        weights[i] = 0.0;
+                    }
+                }
+            }
+
+            // sum can not exceed 1.0
+            double sum = 0;
+            for (int i = 0; i < weights.length; i++) {
+                sum += weights[i];
+            }
+            if (sum > 1.0) {
+                // distribute remaining weight evenly over all similar values
+                double redistribute = (1 - weights[valueIndex]) / similarColors.size();
+                for (int i = 0; i < weights.length; i++) {
+                    if (i == valueIndex) {
+                        // weight for liked color already set
+                        continue;
+                    }
+                    if (hasValueWithSameIndex(similarColors, i)) {
+                        weights[i] = redistribute;
+                    } else {
+                        weights[i] = 0.0;
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Checks whether one of the values has the given index.
+     */
+    private boolean hasValueWithSameIndex(List<Value> values, int index) {
+        for (Value value : values) {
+            if (value.index() == index) {
+                return true;
+            }
+        }
+        return false;
     }
 }
