@@ -2,6 +2,7 @@
 package com.uwetrottmann.shopr.ui;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -46,10 +47,15 @@ public class TestSetupActivity extends Activity {
     protected void onStartTest() {
         // TODO Auto-generated method stub
         // record name, time and type (maybe create singleton to hold stuff)
+
+        // set diversity on or off
         PreferenceManager.getDefaultSharedPreferences(this).edit()
                 .putBoolean(AppSettings.KEY_USING_DIVERSITY, mDiversityCheckBox.isChecked())
                 .commit();
         Log.d(TAG, "Setting diversity to : " + (mDiversityCheckBox.isChecked() ? "ON" : "OFF"));
+
+        // start the task
+        startActivity(new Intent(this, MainActivity.class));
     }
 
     @Override
