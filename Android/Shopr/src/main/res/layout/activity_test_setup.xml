@@ -9,37 +9,37 @@
     tools:context=".TestSetupActivity" >
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/textViewTestSetup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/test_setup"
         android:textAppearance="@style/TextAppearance.Light" />
 
     <EditText
-        android:id="@+id/editText1"
+        android:id="@+id/editTextTestSetupName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView1"
+        android:layout_below="@+id/textViewTestSetup"
         android:hint="@string/your_name_or_pseudonym" >
 
         <requestFocus />
     </EditText>
 
     <CheckBox
-        android:id="@+id/checkBox1"
+        android:id="@+id/checkBoxTestSetupDiversity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView1"
-        android:layout_below="@+id/editText1"
+        android:layout_alignLeft="@+id/textViewTestSetup"
+        android:layout_below="@+id/editTextTestSetupName"
         android:layout_marginBottom="@dimen/default_margin"
         android:layout_marginTop="@dimen/default_margin"
         android:text="@string/diversity_on_negative_progress" />
 
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/buttonTestSetupStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/checkBox1"
+        android:layout_below="@+id/checkBoxTestSetupDiversity"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/default_margin"
         android:text="@string/start" />

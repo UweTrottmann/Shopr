@@ -71,7 +71,7 @@
         <activity android:name="com.uwetrottmann.shopr.ui.SettingsActivity" >
         </activity>
         <activity
-            android:name="com.uwetrottmann.shopr.TestSetupActivity"
+            android:name="com.uwetrottmann.shopr.ui.TestSetupActivity"
             android:label="@string/title_activity_test_setup" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
