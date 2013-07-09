@@ -86,7 +86,8 @@ public class CritiqueActivity extends Activity {
      * Set up the {@link android.app.ActionBar}.
      */
     private void setupActionBar() {
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(false);
+        getActionBar().setDisplayHomeAsUpEnabled(false);
         getActionBar().setDisplayShowTitleEnabled(false);
         getActionBar().setBackgroundDrawable(null);
     }
