@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.uwetrottmann.shopr.provider.ShoprContract.Items;
 import com.uwetrottmann.shopr.provider.ShoprContract.Shops;
+import com.uwetrottmann.shopr.provider.ShoprContract.Stats;
 
 public class ShoprDatabase extends SQLiteOpenHelper {
 
@@ -17,12 +18,16 @@ public class ShoprDatabase extends SQLiteOpenHelper {
 
     public static final int DBVER_ITEM_COLUMNS = 2;
 
-    public static final int DATABASE_VERSION = DBVER_ITEM_COLUMNS;
+    public static final int DBVER_STATS = 3;
+
+    public static final int DATABASE_VERSION = DBVER_STATS;
 
     public interface Tables {
         String ITEMS = "items";
 
         String SHOPS = "shops";
+
+        String STATS = "stats";
     }
 
     public interface References {
@@ -65,6 +70,21 @@ public class ShoprDatabase extends SQLiteOpenHelper {
 
             + ");";
 
+    private static final String CREATE_STATS_TABLE = "CREATE TABLE "
+            + Tables.STATS + " ("
+
+            + Stats._ID + " INTEGER PRIMARY KEY,"
+
+            + Stats.USERNAME + " TEXT,"
+
+            + Stats.DURATION + " INTEGER,"
+
+            + Stats.CYCLE_COUNT + " INTEGER,"
+
+            + Stats.TASK_TYPE + " TEXT"
+
+            + ");";
+
     private static final String TAG = "ShoprDatabase";
 
     public ShoprDatabase(Context context) {
@@ -77,6 +97,8 @@ public class ShoprDatabase extends SQLiteOpenHelper {
 
         // items refs shop ids, so create shops table first
         db.execSQL(CREATE_ITEMS_TABLE);
+
+        db.execSQL(CREATE_STATS_TABLE);
     }
 
     @Override
@@ -93,6 +115,7 @@ public class ShoprDatabase extends SQLiteOpenHelper {
 
         db.execSQL("DROP TABLE IF EXISTS " + Tables.ITEMS);
         db.execSQL("DROP TABLE IF EXISTS " + Tables.SHOPS);
+        db.execSQL("DROP TABLE IF EXISTS " + Tables.STATS);
 
         onCreate(db);
     }
