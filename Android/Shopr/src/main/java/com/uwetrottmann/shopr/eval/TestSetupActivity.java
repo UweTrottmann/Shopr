@@ -1,5 +1,5 @@
 
-package com.uwetrottmann.shopr.ui;
+package com.uwetrottmann.shopr.eval;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.settings.AppSettings;
-import com.uwetrottmann.shopr.utils.Statistics;
+import com.uwetrottmann.shopr.ui.MainActivity;
 
 import java.util.Random;
 

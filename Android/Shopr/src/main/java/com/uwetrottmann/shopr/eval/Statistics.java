@@ -1,5 +1,5 @@
 
-package com.uwetrottmann.shopr.utils;
+package com.uwetrottmann.shopr.eval;
 
 import android.content.ContentValues;
 import android.content.Context;

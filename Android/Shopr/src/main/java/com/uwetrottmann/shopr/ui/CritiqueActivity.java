@@ -35,7 +35,7 @@ import com.uwetrottmann.shopr.algorithm.model.Item;
 import com.uwetrottmann.shopr.algorithm.model.Label;
 import com.uwetrottmann.shopr.algorithm.model.Price;
 import com.uwetrottmann.shopr.algorithm.model.Sex;
-import com.uwetrottmann.shopr.utils.Statistics;
+import com.uwetrottmann.shopr.eval.Statistics;
 
 import java.util.List;
 

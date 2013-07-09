@@ -1,5 +1,5 @@
 
-package com.uwetrottmann.shopr.ui;
+package com.uwetrottmann.shopr.eval;
 
 import android.app.Activity;
 import android.database.Cursor;

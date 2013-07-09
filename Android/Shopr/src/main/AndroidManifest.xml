@@ -71,7 +71,7 @@
         <activity android:name="com.uwetrottmann.shopr.ui.SettingsActivity" >
         </activity>
         <activity
-            android:name="com.uwetrottmann.shopr.ui.TestSetupActivity"
+            android:name="com.uwetrottmann.shopr.eval.TestSetupActivity"
             android:label="@string/title_activity_test_setup" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -80,7 +80,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.uwetrottmann.shopr.ui.ResultsActivity"
+            android:name="com.uwetrottmann.shopr.eval.ResultsActivity"
             android:label="@string/title_activity_results" >
         </activity>
     </application>
