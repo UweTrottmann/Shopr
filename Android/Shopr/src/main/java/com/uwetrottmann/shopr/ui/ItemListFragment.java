@@ -23,6 +23,7 @@ import com.uwetrottmann.androidutils.Maps;
 import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.adapters.ItemAdapter;
 import com.uwetrottmann.shopr.adapters.ItemAdapter.OnItemCritiqueListener;
+import com.uwetrottmann.shopr.adapters.ItemAdapter.OnItemDisplayListener;
 import com.uwetrottmann.shopr.algorithm.AdaptiveSelection;
 import com.uwetrottmann.shopr.algorithm.Query;
 import com.uwetrottmann.shopr.algorithm.model.Item;
@@ -39,7 +40,7 @@ import java.util.Map;
  * vote button.
  */
 public class ItemListFragment extends Fragment implements LoaderCallbacks<List<Item>>,
-        OnItemCritiqueListener {
+        OnItemCritiqueListener, OnItemDisplayListener {
 
     public static final String TAG = "Item List";
 
@@ -72,7 +73,7 @@ public class ItemListFragment extends Fragment implements LoaderCallbacks<List<I
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mAdapter = new ItemAdapter(getActivity(), this);
+        mAdapter = new ItemAdapter(getActivity(), this, this);
 
         mGridView.setAdapter(mAdapter);
 
@@ -176,6 +177,14 @@ public class ItemListFragment extends Fragment implements LoaderCallbacks<List<I
     @Override
     public void onLoaderReset(Loader<List<Item>> loader) {
         mAdapter.clear();
+    }
+
+    @Override
+    public void onItemDisplay(Item item) {
+        // display details
+        Intent intent = new Intent(getActivity(), ItemDetailsActivity.class);
+        intent.putExtra(ItemDetailsActivity.InitBundle.ITEM_ID, item.id());
+        startActivity(intent);
     }
 
     @Override
