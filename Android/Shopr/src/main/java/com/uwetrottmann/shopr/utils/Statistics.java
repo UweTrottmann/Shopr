@@ -32,6 +32,10 @@ public class Statistics {
         return _instance;
     }
 
+    /**
+     * Saves the current time, user name and task type until
+     * {@link #finishTask(Context)} is called.
+     */
     public synchronized void startTask(String username, boolean isDiversity) {
         mIsStarted = true;
         mUserName = username;
@@ -40,14 +44,18 @@ public class Statistics {
         mCycleCount = 0;
     }
 
-    public void incrementCycleCount() {
+    /**
+     * Increases the recommendation cycle count by 1.
+     */
+    public synchronized void incrementCycleCount() {
         mCycleCount++;
     }
 
     /**
      * Stops the task and writes all data to the database.
      * 
-     * @return The {@link Uri} pointing to the new data set.
+     * @return The {@link Uri} pointing to the new data set or {@code null} if
+     *         {@link #startTask(String, boolean)} was not called before.
      */
     public synchronized Uri finishTask(Context context) {
         if (!mIsStarted) {
