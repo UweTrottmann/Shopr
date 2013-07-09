@@ -2,10 +2,12 @@
 package com.uwetrottmann.shopr.eval;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.uwetrottmann.shopr.R;
@@ -65,6 +67,19 @@ public class ResultsActivity extends Activity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.results, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_restart:
+                // go back to setup activity
+                startActivity(new Intent(this, TestSetupActivity.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 }
