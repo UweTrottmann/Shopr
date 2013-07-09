@@ -4,6 +4,7 @@ package com.uwetrottmann.shopr.eval;
 import android.app.Activity;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.view.Menu;
 import android.widget.TextView;
 
@@ -50,7 +51,9 @@ public class ResultsActivity extends Activity {
             if (query.moveToFirst()) {
                 textViewUserName.setText(query.getString(1));
                 textViewTaskType.setText(query.getString(2));
-                textViewDuration.setText(query.getString(3));
+                long duration = query.getLong(3) / DateUtils.SECOND_IN_MILLIS;
+                textViewDuration.setText(String.format("%dh:%02dm:%02ds", duration / 3600,
+                        (duration % 3600) / 60, (duration % 60)));
                 textViewCycles.setText(query.getString(4));
             }
             query.close();
