@@ -21,16 +21,29 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/textViewItemDetailsTitle"
         android:text="@string/choice_instructions"
-        android:textAppearance="@style/TextAppearance.Light" />
+        android:textAppearance="@style/TextAppearance" />
 
     <ImageView
         android:id="@+id/imageViewItemDetails"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_width="150dp"
+        android:layout_height="200dp"
+        android:layout_alignParentRight="true"
         android:layout_below="@+id/textViewItemDetailsSubtitle"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
+        android:scaleType="centerCrop"
         android:src="@drawable/armani" />
+
+    <TextView
+        android:id="@+id/textViewItemDetailsAttributes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textViewItemDetailsSubtitle"
+        android:layout_marginTop="16dp"
+        android:layout_toLeftOf="@+id/imageViewItemDetails"
+        android:lineSpacingMultiplier="1.5"
+        android:text="@string/no_data"
+        android:textAppearance="@style/TextAppearance.Light" />
 
     <Button
         android:id="@+id/buttonItemDetailsFinish"

@@ -46,7 +46,7 @@
     <string name="duration">Duration</string>
     <string name="cycle_count">Cycle count</string>
     <string name="title_activity_item_details">ItemDetailsActivity</string>
-    <string name="choice_confirmation">Are you happy with your choice?</string>
+    <string name="choice_confirmation">Are you happy with \"%s\"?</string>
     <string name="choice_instructions">If not, press back.</string>
     <string name="choice_finish">Select this and finish</string>
 

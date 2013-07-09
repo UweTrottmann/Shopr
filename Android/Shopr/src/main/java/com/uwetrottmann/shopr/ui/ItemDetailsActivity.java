@@ -9,17 +9,23 @@ import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.algorithm.AdaptiveSelection;
+import com.uwetrottmann.shopr.algorithm.model.ClothingType;
+import com.uwetrottmann.shopr.algorithm.model.Color;
 import com.uwetrottmann.shopr.algorithm.model.Item;
+import com.uwetrottmann.shopr.algorithm.model.Sex;
 import com.uwetrottmann.shopr.eval.ResultsActivity;
 import com.uwetrottmann.shopr.eval.Statistics;
 import com.uwetrottmann.shopr.provider.ShoprContract.Stats;
 
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class ItemDetailsActivity extends Activity {
 
@@ -69,6 +75,25 @@ public class ItemDetailsActivity extends Activity {
                 onFinishTask();
             }
         });
+
+        // title
+        TextView itemTitle = (TextView) findViewById(R.id.textViewItemDetailsTitle);
+        itemTitle.setText(getString(R.string.choice_confirmation, mItem.name()));
+
+        // item attributes
+        StringBuilder description = new StringBuilder();
+        description
+                .append(mItem.attributes().getAttributeById(ClothingType.ID).currentValue()
+                        .descriptor())
+                .append("\n")
+                .append(mItem.attributes().getAttributeById(Sex.ID).currentValue().descriptor())
+                .append("\n")
+                .append(mItem.attributes().getAttributeById(Color.ID).currentValue().descriptor())
+                .append("\n")
+                .append(NumberFormat.getCurrencyInstance(Locale.GERMANY).format(
+                        mItem.price().doubleValue()));
+        TextView itemDescription = (TextView) findViewById(R.id.textViewItemDetailsAttributes);
+        itemDescription.setText(description);
     }
 
     protected void onFinishTask() {
