@@ -35,6 +35,7 @@ import com.uwetrottmann.shopr.algorithm.model.Item;
 import com.uwetrottmann.shopr.algorithm.model.Label;
 import com.uwetrottmann.shopr.algorithm.model.Price;
 import com.uwetrottmann.shopr.algorithm.model.Sex;
+import com.uwetrottmann.shopr.eval.Statistics;
 
 import java.util.List;
 
@@ -85,7 +86,8 @@ public class CritiqueActivity extends Activity {
      * Set up the {@link android.app.ActionBar}.
      */
     private void setupActionBar() {
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(false);
+        getActionBar().setDisplayHomeAsUpEnabled(false);
         getActionBar().setDisplayShowTitleEnabled(false);
         getActionBar().setBackgroundDrawable(null);
     }
@@ -173,6 +175,10 @@ public class CritiqueActivity extends Activity {
 
         // Submit to algorithm backend
         AdaptiveSelection.get().submitCritique(critique);
+
+        // Record critiquing cycle
+        Statistics.get().incrementCycleCount();
+
         setResult(RESULT_OK);
         finish();
     }

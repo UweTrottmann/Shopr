@@ -12,6 +12,7 @@ import android.util.Log;
 
 import com.uwetrottmann.shopr.provider.ShoprContract.Items;
 import com.uwetrottmann.shopr.provider.ShoprContract.Shops;
+import com.uwetrottmann.shopr.provider.ShoprContract.Stats;
 import com.uwetrottmann.shopr.provider.ShoprDatabase.Tables;
 import com.uwetrottmann.shopr.utils.SelectionBuilder;
 
@@ -26,6 +27,9 @@ public class ShoprProvider extends ContentProvider {
 
     private static final int SHOPS = 200;
     private static final int SHOP_ID = 201;
+
+    private static final int STATS = 300;
+    private static final int STAT_ID = 301;
 
     private static final String TAG = "ShoprProvider";
 
@@ -46,6 +50,10 @@ public class ShoprProvider extends ContentProvider {
         // Shops
         matcher.addURI(authority, ShoprContract.PATH_SHOPS, SHOPS);
         matcher.addURI(authority, ShoprContract.PATH_SHOPS + "/*", SHOP_ID);
+
+        // Stats
+        matcher.addURI(authority, ShoprContract.PATH_STATS, STATS);
+        matcher.addURI(authority, ShoprContract.PATH_STATS + "/*", STAT_ID);
 
         return matcher;
     }
@@ -72,6 +80,10 @@ public class ShoprProvider extends ContentProvider {
                 return Shops.CONTENT_TYPE;
             case SHOP_ID:
                 return Shops.CONTENT_ITEM_TYPE;
+            case STATS:
+                return Stats.CONTENT_TYPE;
+            case STAT_ID:
+                return Stats.CONTENT_ITEM_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -85,10 +97,9 @@ public class ShoprProvider extends ContentProvider {
         }
         final SQLiteDatabase db = mOpenHelper.getReadableDatabase();
 
-        final int match = sUriMatcher.match(uri);
-
-        // Currently all cases are handled with expanded SelectionBuilder
-        final SelectionBuilder builder = buildExpandedSelection(uri, match);
+        // Currently all cases are handled with simple SelectionBuilder because
+        // we do not require any joins, similar...
+        final SelectionBuilder builder = buildSimpleSelection(uri);
         Cursor query = builder.where(selection, selectionArgs).query(db, projection,
                 sortOrder);
         query.setNotificationUri(getContext().getContentResolver(), uri);
@@ -113,6 +124,11 @@ public class ShoprProvider extends ContentProvider {
                 getContext().getContentResolver().notifyChange(uri, null);
                 return Shops.buildShopUri(values.getAsInteger(Shops._ID));
             }
+            case STATS: {
+                long id = db.insertOrThrow(Tables.STATS, null, values);
+                getContext().getContentResolver().notifyChange(uri, null);
+                return Stats.buildStatUri((int) id);
+            }
             default: {
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
             }
@@ -135,6 +151,11 @@ public class ShoprProvider extends ContentProvider {
             }
             case SHOPS: {
                 numValues = bulkInsertHelper(Tables.SHOPS, values);
+                getContext().getContentResolver().notifyChange(uri, null);
+                break;
+            }
+            case STATS: {
+                numValues = bulkInsertHelper(Tables.STATS, values);
                 getContext().getContentResolver().notifyChange(uri, null);
                 break;
             }
@@ -208,33 +229,12 @@ public class ShoprProvider extends ContentProvider {
                 final String id = Shops.getShopId(uri);
                 return builder.table(Tables.SHOPS).where(Shops._ID + "=?", id);
             }
-            default: {
-                throw new UnsupportedOperationException("Unknown uri: " + uri);
+            case STATS: {
+                return builder.table(Tables.STATS);
             }
-        }
-    }
-
-    /**
-     * Build an advanced {@link SelectionBuilder} to match the requested
-     * {@link Uri}. This is usually only used by {@link #query}, since it
-     * performs table joins useful for {@link Cursor} data.
-     */
-    private SelectionBuilder buildExpandedSelection(Uri uri, int match) {
-        final SelectionBuilder builder = new SelectionBuilder();
-        switch (match) {
-            case ITEMS: {
-                return builder.table(Tables.ITEMS);
-            }
-            case ITEM_ID: {
-                final String id = Items.getItemId(uri);
-                return builder.table(Tables.ITEMS).where(Items._ID + "=?", id);
-            }
-            case SHOPS: {
-                return builder.table(Tables.SHOPS);
-            }
-            case SHOP_ID: {
-                final String id = Shops.getShopId(uri);
-                return builder.table(Tables.SHOPS).where(Shops._ID + "=?", id);
+            case STAT_ID: {
+                final String id = Stats.getStatId(uri);
+                return builder.table(Tables.STATS).where(Stats._ID + "=?", id);
             }
             default: {
                 throw new UnsupportedOperationException("Unknown uri: " + uri);

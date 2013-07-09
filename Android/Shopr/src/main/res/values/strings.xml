@@ -38,5 +38,16 @@
     <string name="test_setup">Test Setup</string>
     <string name="start">Start</string>
     <string name="your_name_or_pseudonym">Your name or pseudonym</string>
+    <string name="title_activity_results">ResultsActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="thank_you_this_task_is_finished_">Thank you, this task is finished!</string>
+    <string name="no_data">no data</string>
+    <string name="task_type">Task type</string>
+    <string name="duration">Duration</string>
+    <string name="cycle_count">Cycle count</string>
+    <string name="title_activity_item_details">ItemDetailsActivity</string>
+    <string name="choice_confirmation">Are you happy with your choice?</string>
+    <string name="choice_instructions">If not, press back.</string>
+    <string name="choice_finish">Select this and finish</string>
 
 </resources>

@@ -28,14 +28,22 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 
     private OnItemCritiqueListener mCritiqueListener;
 
+    private OnItemDisplayListener mItemListener;
+
     public interface OnItemCritiqueListener {
         public void onItemCritique(Item item, boolean isLike);
     }
 
-    public ItemAdapter(Context context, OnItemCritiqueListener critiqueListener) {
+    public interface OnItemDisplayListener {
+        public void onItemDisplay(Item item);
+    }
+
+    public ItemAdapter(Context context, OnItemCritiqueListener critiqueListener,
+            OnItemDisplayListener itemListener) {
         super(context, LAYOUT);
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mCritiqueListener = critiqueListener;
+        mItemListener = itemListener;
     }
 
     @Override
@@ -89,6 +97,14 @@ public class ItemAdapter extends ArrayAdapter<Item> {
         holder.lastCritiqueTag.setVisibility(item.id() == lastCritiquedId ? View.VISIBLE
                 : View.GONE);
 
+        holder.picture.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mItemListener != null) {
+                    mItemListener.onItemDisplay(item);
+                }
+            }
+        });
         // load picture
         Picasso.with(getContext())
                 .load(item.image())

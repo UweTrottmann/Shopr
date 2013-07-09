@@ -35,12 +35,24 @@ public class ShoprContract {
         String OPENING_HOURS = "shop_opening_hours";
     }
 
+    interface StatsColumns {
+        String USERNAME = "stats_user";
+
+        String DURATION = "stats_duration";
+
+        String CYCLE_COUNT = "stats_cycles";
+
+        String TASK_TYPE = "stats_tasktype";
+    }
+
     private static final Uri BASE_CONTENT_URI = Uri.parse("content://"
             + CONTENT_AUTHORITY);
 
     public static final String PATH_ITEMS = "items";
 
     public static final String PATH_SHOPS = "shops";
+
+    public static final String PATH_STATS = "stats";
 
     /**
      * Represents clothing items.
@@ -84,6 +96,29 @@ public class ShoprContract {
         }
 
         public static String getShopId(Uri uri) {
+            return uri.getLastPathSegment();
+        }
+    }
+
+    /**
+     * Represents statistics items from one user task.
+     */
+    public static class Stats implements StatsColumns, BaseColumns {
+        public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon()
+                .appendPath(PATH_STATS).build();
+
+        /** Use if multiple items get returned */
+        public static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.shopr.stats";
+
+        /** Use if a single item is returned */
+        public static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd.shopr.stats";
+
+        public static Uri buildStatUri(int statId) {
+            return CONTENT_URI.buildUpon().appendPath(String.valueOf(statId))
+                    .build();
+        }
+
+        public static String getStatId(Uri uri) {
             return uri.getLastPathSegment();
         }
     }

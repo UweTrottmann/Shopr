@@ -25,6 +25,11 @@
         <item name="android:textSize">14sp</item>
     </style>
 
+    <style name="TextAppearance.Small.Label">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
     <style name="TextAppearance.Small.Light">
         <item name="android:fontFamily" tools:targetApi="jelly_bean">sans-serif-light</item>
     </style>
@@ -36,6 +41,14 @@
     <style name="TextAppearance.Small.Dim.Highlight">
         <item name="android:textStyle">italic</item>
         <item name="android:fontFamily" tools:targetApi="jelly_bean">sans-serif-condensed</item>
+    </style>
+
+    <style name="TextAppearance.Large">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="TextAppearance.Large.Light">
+        <item name="android:fontFamily" tools:targetApi="jelly_bean">sans-serif-light</item>
     </style>
 
 </resources>
