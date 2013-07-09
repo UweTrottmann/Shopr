@@ -125,9 +125,9 @@ public class ShoprProvider extends ContentProvider {
                 return Shops.buildShopUri(values.getAsInteger(Shops._ID));
             }
             case STATS: {
-                db.insertOrThrow(Tables.STATS, null, values);
+                long id = db.insertOrThrow(Tables.STATS, null, values);
                 getContext().getContentResolver().notifyChange(uri, null);
-                return Stats.buildStatUri(values.getAsInteger(Stats._ID));
+                return Stats.buildStatUri((int) id);
             }
             default: {
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
