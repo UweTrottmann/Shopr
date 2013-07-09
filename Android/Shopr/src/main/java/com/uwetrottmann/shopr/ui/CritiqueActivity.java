@@ -35,6 +35,7 @@ import com.uwetrottmann.shopr.algorithm.model.Item;
 import com.uwetrottmann.shopr.algorithm.model.Label;
 import com.uwetrottmann.shopr.algorithm.model.Price;
 import com.uwetrottmann.shopr.algorithm.model.Sex;
+import com.uwetrottmann.shopr.utils.Statistics;
 
 import java.util.List;
 
@@ -173,6 +174,10 @@ public class CritiqueActivity extends Activity {
 
         // Submit to algorithm backend
         AdaptiveSelection.get().submitCritique(critique);
+
+        // Record critiquing cycle
+        Statistics.get().incrementCycleCount();
+
         setResult(RESULT_OK);
         finish();
     }
