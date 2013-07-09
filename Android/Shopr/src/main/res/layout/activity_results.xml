@@ -14,7 +14,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/default_margin"
-        android:text="@string/thank_you_this_task_is_finished_" />
+        android:text="@string/thank_you_this_task_is_finished_"
+        android:textAppearance="@style/TextAppearance.Light" />
 
     <TextView
         android:id="@+id/textViewResultsUsernameTitle"
