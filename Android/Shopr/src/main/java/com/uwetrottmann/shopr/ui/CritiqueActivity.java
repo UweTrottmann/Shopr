@@ -203,8 +203,8 @@ public class CritiqueActivity extends Activity {
                 convertView = mLayoutInflater.inflate(LAYOUT, parent, false);
 
                 holder = new ViewHolder();
-                holder.title = (CheckBox) convertView.findViewById(R.id.checkBoxFeatureTitle);
-                holder.value = (TextView) convertView.findViewById(R.id.textViewFeatureValue);
+                holder.title = (TextView) convertView.findViewById(R.id.textViewFeatureTitle);
+                holder.value = (CheckBox) convertView.findViewById(R.id.checkBoxFeatureValue);
 
                 convertView.setTag(holder);
             } else {
@@ -213,7 +213,7 @@ public class CritiqueActivity extends Activity {
 
             Attribute item = getItem(position);
 
-            holder.title.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+            holder.value.setOnCheckedChangeListener(new OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     mCheckedPositions.put(position, isChecked);
@@ -257,8 +257,8 @@ public class CritiqueActivity extends Activity {
     }
 
     static class ViewHolder {
-        CheckBox title;
-        TextView value;
+        TextView title;
+        CheckBox value;
     }
 
 }
