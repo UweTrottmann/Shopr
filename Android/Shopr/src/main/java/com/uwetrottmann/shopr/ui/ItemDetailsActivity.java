@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.uwetrottmann.shopr.R;
@@ -73,6 +74,10 @@ public class ItemDetailsActivity extends Activity {
     protected void onFinishTask() {
         // finish task, store stats to database
         Uri statUri = Statistics.get().finishTask(this);
+        if (statUri == null) {
+            Toast.makeText(this, "Task was not started.", Toast.LENGTH_LONG).show();
+            return;
+        }
 
         // display results
         Intent intent = new Intent(this, ResultsActivity.class);
