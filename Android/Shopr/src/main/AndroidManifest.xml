@@ -83,6 +83,10 @@
             android:name="com.uwetrottmann.shopr.eval.ResultsActivity"
             android:label="@string/title_activity_results" >
         </activity>
+        <activity
+            android:name="com.uwetrottmann.shopr.ui.ItemDetailsActivity"
+            android:label="@string/title_activity_item_details" >
+        </activity>
     </application>
 
 </manifest>
