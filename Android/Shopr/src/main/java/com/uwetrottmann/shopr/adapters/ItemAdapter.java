@@ -53,6 +53,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
             convertView = mInflater.inflate(LAYOUT, null);
 
             holder = new ViewHolder();
+            holder.pictureContainer = convertView.findViewById(R.id.containerItemPicture);
             holder.picture = (ImageView) convertView.findViewById(R.id.imageViewItemPicture);
             holder.name = (TextView) convertView.findViewById(R.id.textViewItemName);
             holder.label = (TextView) convertView.findViewById(R.id.textViewItemLabel);
@@ -89,6 +90,14 @@ public class ItemAdapter extends ArrayAdapter<Item> {
                 }
             }
         });
+        holder.pictureContainer.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mItemListener != null) {
+                    mItemListener.onItemDisplay(item);
+                }
+            }
+        });
 
         // last critique tag
         int lastCritiquedId = AdaptiveSelection.get().getLastCritiquedItem() != null ?
@@ -97,14 +106,6 @@ public class ItemAdapter extends ArrayAdapter<Item> {
         holder.lastCritiqueTag.setVisibility(item.id() == lastCritiquedId ? View.VISIBLE
                 : View.GONE);
 
-        holder.picture.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mItemListener != null) {
-                    mItemListener.onItemDisplay(item);
-                }
-            }
-        });
         // load picture
         Picasso.with(getContext())
                 .load(item.image())
@@ -118,6 +119,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
     }
 
     static class ViewHolder {
+        View pictureContainer;
         ImageView picture;
         TextView name;
         TextView label;
