@@ -12,7 +12,6 @@ public class ClothingType extends GenericAttribute {
     public enum Value implements AttributeValue {
         SWIMSUIT("Swim suit"),
         TRUNKS("Trunks"),
-        BRA("Bra"),
         BLOUSE("Blouse"),
         SHIRT("Shirt"),
         TROUSERS("Trouser"),
@@ -22,18 +21,10 @@ public class ClothingType extends GenericAttribute {
         POLOSHIRT("Poloshirt"),
         SWEATER("Sweater"), // Pullover
         SKIRT("Skirt"),
-        SLIP("Slip"),
+        SHORTS("Shorts"),
         PANTS("Pants"),
-        BRIEFS("Briefs"), // Slip
-        THONG("Thong"), // String
         CARDIGAN("Cardigan"), // Strickjacke
-        STOCKING("Stocking"), // Strumpf
-        PANTYHOSE("Pantyhose"), // Strumpfhose
-        TSHIRT("T-Shirt"),
-        TOP("Top"),
-        UNDERSHIRT("Undershirt"),
-        UNDERPANTS("Underpants"),
-        SHORTS("Shorts");
+        TOP("Top/T-Shirt");
 
         String mDescriptor;
 
@@ -69,13 +60,10 @@ public class ClothingType extends GenericAttribute {
         else if ("Badehose".equals(name)) {
             setWeights(Value.TRUNKS);
         }
-        else if ("BH".equals(name)) {
-            setWeights(Value.BRA);
-        }
         else if ("Bluse".equals(name)) {
             setWeights(Value.BLOUSE);
         }
-        else if ("Hemd".equals(name) || "Shirt".equals(name)) {
+        else if ("Hemd".equals(name)) {
             setWeights(Value.SHIRT);
         }
         else if ("Hose".equals(name)) {
@@ -99,35 +87,17 @@ public class ClothingType extends GenericAttribute {
         else if ("Rock".equals(name)) {
             setWeights(Value.SKIRT);
         }
-        else if ("Slip".equals(name)) {
-            setWeights(Value.BRIEFS);
-        }
         else if ("Stoffhose".equals(name)) {
             setWeights(Value.PANTS);
         }
         else if ("Strickjacke".equals(name)) {
             setWeights(Value.CARDIGAN);
         }
-        else if ("String".equals(name)) {
-            setWeights(Value.THONG);
-        }
-        else if ("Strumpf".equals(name)) {
-            setWeights(Value.STOCKING);
-        }
-        else if ("Strumpfhose".equals(name)) {
-            setWeights(Value.PANTYHOSE);
-        }
-        else if ("T-Shirt".equals(name)) {
-            setWeights(Value.TSHIRT);
-        }
         else if ("Top".equals(name)) {
             setWeights(Value.TOP);
         }
-        else if ("Unterhemd".equals(name)) {
-            setWeights(Value.UNDERSHIRT);
-        }
-        else if ("Unterhose".equals(name)) {
-            setWeights(Value.UNDERPANTS);
+        else if ("Shorts".equals(name)) {
+            setWeights(Value.SHORTS);
         }
     }
 
