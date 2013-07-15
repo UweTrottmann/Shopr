@@ -77,7 +77,7 @@ public class CsvImportTask extends AsyncTask<Void, Integer, String> {
             if (firstLine == null) {
                 return "No data.";
             }
-            if ((mType == Type.IMPORT_ITEMS && firstLine.length != 8) ||
+            if ((mType == Type.IMPORT_ITEMS && firstLine.length != 9) ||
                     mType == Type.IMPORT_SHOPS && firstLine.length != 9) {
                 Log.d(TAG, "Invalid column count.");
                 return "Invalid column count.";
