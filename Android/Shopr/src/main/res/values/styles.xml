@@ -44,7 +44,7 @@
     </style>
 
     <style name="TextAppearance.Large">
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">22sp</item>
     </style>
 
     <style name="TextAppearance.Large.Light">

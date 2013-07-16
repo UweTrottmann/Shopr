@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/test_setup"
-        android:textAppearance="@style/TextAppearance.Light" />
+        android:textAppearance="@style/TextAppearance.Large.Light" />
 
     <EditText
         android:id="@+id/editTextTestSetupName"

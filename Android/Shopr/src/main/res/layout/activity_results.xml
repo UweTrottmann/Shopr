@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/default_margin"
             android:text="@string/thank_you_this_task_is_finished_"
-            android:textAppearance="@style/TextAppearance.Light" />
+            android:textAppearance="@style/TextAppearance.Large.Light" />
 
         <TextView
             android:id="@+id/textViewResultsUsernameTitle"
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/default_margin"
             android:text="@string/no_data"
-            android:textAppearance="@style/TextAppearance.Large.Light" />
+            android:textAppearance="@style/TextAppearance.Light" />
 
         <TextView
             android:id="@+id/textViewResultsTaskTypeTitle"
@@ -49,7 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/default_margin"
             android:text="@string/no_data"
-            android:textAppearance="@style/TextAppearance.Large.Light" />
+            android:textAppearance="@style/TextAppearance.Light" />
 
         <TextView
             android:id="@+id/textViewResultsDurationTitle"
@@ -64,7 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/default_margin"
             android:text="@string/no_data"
-            android:textAppearance="@style/TextAppearance.Large.Light" />
+            android:textAppearance="@style/TextAppearance.Light" />
 
         <TextView
             android:id="@+id/textViewResultsCyclesTitle"
@@ -78,7 +78,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/no_data"
-            android:textAppearance="@style/TextAppearance.Large.Light" />
+            android:textAppearance="@style/TextAppearance.Light" />
 
         <TextView
             android:id="@+id/textViewResultsItemTitle"
@@ -92,7 +92,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/no_data"
-            android:textAppearance="@style/TextAppearance.Large.Light" />
+            android:textAppearance="@style/TextAppearance.Light" />
 
         <ImageView
             android:id="@+id/imageViewResultsItemPicture"
