@@ -111,7 +111,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
                 .load(item.image())
                 .placeholder(null)
                 .error(R.drawable.ic_action_tshirt)
-                .resizeDimen(R.dimen.default_image_size, R.dimen.default_image_size)
+                .resizeDimen(R.dimen.default_image_width, R.dimen.default_image_height)
                 .centerCrop()
                 .into(holder.picture);
 

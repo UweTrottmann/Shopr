@@ -28,7 +28,7 @@
             android:layout_width="150dp"
             android:layout_height="200dp"
             android:contentDescription="@string/description_item_picutre"
-            android:scaleType="centerCrop" />
+            android:scaleType="fitCenter" />
     </LinearLayout>
 
     <Button
