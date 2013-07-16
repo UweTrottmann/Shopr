@@ -14,15 +14,13 @@ public class ClothingType extends GenericAttribute {
         TRUNKS("Trunks"),
         BLOUSE("Blouse"),
         SHIRT("Shirt"),
-        TROUSERS("Trouser"),
-        JACKET("Jacket"),
+        TROUSERS("Trousers"),
         JEANS("Jeans"),
         DRESS("Dress"),
         POLOSHIRT("Poloshirt"),
         SWEATER("Sweater"), // Pullover
         SKIRT("Skirt"),
         SHORTS("Shorts"),
-        PANTS("Pants"),
         CARDIGAN("Cardigan"), // Strickjacke
         TOP("Top/T-Shirt");
 
@@ -69,9 +67,6 @@ public class ClothingType extends GenericAttribute {
         else if ("Hose".equals(name)) {
             setWeights(Value.TROUSERS);
         }
-        else if ("Jacke".equals(name)) {
-            setWeights(Value.JACKET);
-        }
         else if ("Jeans".equals(name)) {
             setWeights(Value.JEANS);
         }
@@ -86,9 +81,6 @@ public class ClothingType extends GenericAttribute {
         }
         else if ("Rock".equals(name)) {
             setWeights(Value.SKIRT);
-        }
-        else if ("Stoffhose".equals(name)) {
-            setWeights(Value.PANTS);
         }
         else if ("Strickjacke".equals(name)) {
             setWeights(Value.CARDIGAN);
