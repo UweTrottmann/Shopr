@@ -3,9 +3,39 @@ package com.uwetrottmann.shopr.algorithm.model;
 
 import com.uwetrottmann.shopr.algorithm.model.Attributes.AttributeValue;
 
+import org.jgrapht.Graphs;
+import org.jgrapht.UndirectedGraph;
+import org.jgrapht.graph.DefaultEdge;
+import org.jgrapht.graph.SimpleGraph;
+
 import java.util.Arrays;
+import java.util.List;
 
 public class ClothingType extends GenericAttribute {
+
+    private static UndirectedGraph<ClothingType.Value, DefaultEdge> sSimilarValues;
+
+    static {
+        sSimilarValues = new SimpleGraph<ClothingType.Value, DefaultEdge>(DefaultEdge.class);
+
+        Value[] values = Value.values();
+        for (Value value : values) {
+            sSimilarValues.addVertex(value);
+        }
+
+        /**
+         * Store similar clothing type values in an undirected graph.
+         */
+        sSimilarValues.addEdge(Value.SHIRT, Value.POLOSHIRT);
+        sSimilarValues.addEdge(Value.SHIRT, Value.BLOUSE);
+        sSimilarValues.addEdge(Value.TROUSERS, Value.JEANS);
+        sSimilarValues.addEdge(Value.TROUSERS, Value.SHORTS);
+        sSimilarValues.addEdge(Value.TROUSERS, Value.SKIRT);
+        sSimilarValues.addEdge(Value.SKIRT, Value.SHORTS);
+        sSimilarValues.addEdge(Value.CARDIGAN, Value.SWEATER);
+        sSimilarValues.addEdge(Value.TOP, Value.SHIRT);
+        sSimilarValues.addEdge(Value.TOP, Value.BLOUSE);
+    }
 
     public static final String ID = "clothing-type";
 
@@ -108,6 +138,98 @@ public class ClothingType extends GenericAttribute {
     @Override
     public Value[] getValueSymbols() {
         return Value.values();
+    }
+
+    @Override
+    public void likeValue(int valueIndex, double[] weights) {
+        Value[] values = Value.values();
+        Value likedColor = values[valueIndex];
+        List<Value> similarTypes = Graphs.neighborListOf(sSimilarValues, likedColor);
+
+        if (similarTypes.isEmpty()) {
+            // treat like a regular like
+            super.likeValue(valueIndex, weights);
+        } else {
+            // do not touch similar type weights
+
+            // calculate average weight
+            double weightIncrease = 1.0 / weights.length;
+
+            /*
+             * If the value was 0.0 (disliked) increase double so it will
+             * definitely have highest weight.
+             */
+            if (weights[valueIndex] == 0.0) {
+                weightIncrease *= 2;
+            }
+
+            // add weight to liked value
+            weights[valueIndex] += weightIncrease;
+
+            // if liked value weight exceeds 1.0, sum exceeds 1.0
+            if (weights[valueIndex] > 1.0) {
+                // all other weights have to be 0.0
+                Arrays.fill(weights, 0.0);
+                weights[valueIndex] = 1.0;
+                return;
+            }
+
+            /*
+             * Subtract added weight evenly from other types, BUT only from
+             * non-similar types and those with non-zero weights.
+             */
+            // get number of non-zero weights
+            int count = 0;
+            for (int i = 0; i < weights.length; i++) {
+                if (weights[i] != 0 && !hasValueWithSameIndex(similarTypes, i)) {
+                    count++;
+                }
+            }
+            // calculate share for each value
+            double redistributed = weightIncrease / (count - 1);
+            for (int i = 0; i < weights.length; i++) {
+                if (i != valueIndex && !hasValueWithSameIndex(similarTypes, i)) {
+                    weights[i] -= redistributed;
+                    // floor at 0.0
+                    if (weights[i] < 0) {
+                        weights[i] = 0.0;
+                    }
+                }
+            }
+
+            // sum can not exceed 1.0
+            double sum = 0;
+            for (int i = 0; i < weights.length; i++) {
+                sum += weights[i];
+            }
+            if (sum > 1.0) {
+                // distribute remaining weight evenly over all similar values
+                double redistribute = (1 - weights[valueIndex]) / similarTypes.size();
+                for (int i = 0; i < weights.length; i++) {
+                    if (i == valueIndex) {
+                        // weight for liked type already set
+                        continue;
+                    }
+                    if (hasValueWithSameIndex(similarTypes, i)) {
+                        weights[i] = redistribute;
+                    } else {
+                        weights[i] = 0.0;
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Checks whether one of the values has the given index.
+     */
+    private boolean hasValueWithSameIndex(List<Value> values, int index) {
+        for (Value value : values) {
+            if (value.index() == index) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
