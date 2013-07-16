@@ -8,10 +8,16 @@ import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.uwetrottmann.shopr.R;
+import com.uwetrottmann.shopr.algorithm.AdaptiveSelection;
+import com.uwetrottmann.shopr.algorithm.model.Item;
 import com.uwetrottmann.shopr.provider.ShoprContract.Stats;
+
+import java.util.List;
 
 /**
  * Displays the given stats and allows to start a new task.
@@ -20,9 +26,11 @@ public class ResultsActivity extends Activity {
 
     public interface InitBundle {
         String STATS_ID = "stats_id";
+        String ITEM_ID = "item_id";
     }
 
     private int mStatId;
+    private Item mItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +43,17 @@ public class ResultsActivity extends Activity {
             finish();
             return;
         }
+        // get stats for this eval task
         mStatId = extras.getInt(InitBundle.STATS_ID);
+        // get the item the user selected
+        int itemId = extras.getInt(InitBundle.ITEM_ID);
+        List<Item> currentCaseBase = AdaptiveSelection.get().getCurrentRecommendations();
+        for (Item item : currentCaseBase) {
+            if (item.id() == itemId) {
+                mItem = item;
+                break;
+            }
+        }
 
         setupViews();
     }
@@ -60,6 +78,17 @@ public class ResultsActivity extends Activity {
             }
             query.close();
         }
+
+        // display selected item info
+        TextView textViewItem = (TextView) findViewById(R.id.textViewResultsItem);
+        textViewItem.setText(mItem.id() + " " + mItem.name() + " "
+                + mItem.attributes().getReasonString());
+        ImageView imageViewItem = (ImageView) findViewById(R.id.imageViewResultsItemPicture);
+        Picasso.with(this)
+                .load(mItem.image())
+                .resizeDimen(R.dimen.default_image_size, R.dimen.default_image_size)
+                .centerCrop()
+                .into(imageViewItem);
     }
 
     @Override

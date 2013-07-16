@@ -49,5 +49,6 @@
     <string name="choice_confirmation">Are you happy with \"%s\"?</string>
     <string name="choice_instructions">If not, press back.</string>
     <string name="choice_finish">Select this and finish</string>
+    <string name="your_selected_item">Your selected item</string>
 
 </resources>
