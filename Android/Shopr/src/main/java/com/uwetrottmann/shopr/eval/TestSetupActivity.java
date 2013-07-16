@@ -8,6 +8,7 @@ import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.CheckBox;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.settings.AppSettings;
 import com.uwetrottmann.shopr.ui.MainActivity;
+import com.uwetrottmann.shopr.ui.SettingsActivity;
 
 import java.util.Random;
 
@@ -49,6 +51,8 @@ public class TestSetupActivity extends Activity {
         mNameEditText.setText("thisis" + new Random().nextInt(999999));
 
         mDiversityCheckBox = (CheckBox) findViewById(R.id.checkBoxTestSetupDiversity);
+        mDiversityCheckBox.setChecked(AppSettings.isUsingDiversity(this));
+        ;
     }
 
     protected void onStartTest() {
@@ -76,6 +80,17 @@ public class TestSetupActivity extends Activity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.test_setup, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 }
