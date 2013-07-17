@@ -13,4 +13,9 @@
     <!-- Remove the last octet of the IP address -->
     <bool name="ga_anonymizeIp">false</bool>
 
+    <!-- The screen names that will appear in the reports -->
+    <string name="com.uwetrottmann.shopr.ui.MainActivity">Home</string>
+    <string name="com.uwetrottmann.shopr.ui.ItemDetailsActivity">Details</string>
+    <string name="com.uwetrottmann.shopr.ui.CritiqueActivity">Critique</string>
+
 </resources>
