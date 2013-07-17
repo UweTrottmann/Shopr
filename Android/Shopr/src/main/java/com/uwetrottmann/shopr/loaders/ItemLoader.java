@@ -17,6 +17,7 @@ import com.uwetrottmann.shopr.algorithm.model.Sex;
 import com.uwetrottmann.shopr.provider.ShoprContract.Items;
 import com.uwetrottmann.shopr.provider.ShoprContract.Shops;
 import com.uwetrottmann.shopr.settings.AppSettings;
+import com.uwetrottmann.shopr.utils.ValueConverter;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -82,7 +83,9 @@ public class ItemLoader extends GenericSimpleLoader<List<Item>> {
                 // name
                 ClothingType type = new ClothingType(query.getString(1));
                 String brand = query.getString(2);
-                item.name(type.currentValue().descriptor() + " " + brand);
+                item.name(ValueConverter.getLocalizedStringForValue(getContext(), type
+                        .currentValue().descriptor())
+                        + " " + brand);
                 // price
                 BigDecimal price = new BigDecimal(query.getDouble(3));
                 item.price(price);

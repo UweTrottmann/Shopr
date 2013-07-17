@@ -23,6 +23,7 @@ import com.uwetrottmann.shopr.algorithm.model.Sex;
 import com.uwetrottmann.shopr.eval.ResultsActivity;
 import com.uwetrottmann.shopr.eval.Statistics;
 import com.uwetrottmann.shopr.provider.ShoprContract.Stats;
+import com.uwetrottmann.shopr.utils.ValueConverter;
 
 import java.text.NumberFormat;
 import java.util.List;
@@ -84,12 +85,14 @@ public class ItemDetailsActivity extends Activity {
         // item attributes
         StringBuilder description = new StringBuilder();
         description
-                .append(mItem.attributes().getAttributeById(ClothingType.ID).currentValue()
-                        .descriptor())
+                .append(ValueConverter.getLocalizedStringForValue(this, mItem.attributes()
+                        .getAttributeById(ClothingType.ID).currentValue().descriptor()))
                 .append("\n")
-                .append(mItem.attributes().getAttributeById(Sex.ID).currentValue().descriptor())
+                .append(ValueConverter.getLocalizedStringForValue(this, mItem.attributes()
+                        .getAttributeById(Sex.ID).currentValue().descriptor()))
                 .append("\n")
-                .append(mItem.attributes().getAttributeById(Color.ID).currentValue().descriptor())
+                .append(ValueConverter.getLocalizedStringForValue(this, mItem.attributes()
+                        .getAttributeById(Color.ID).currentValue().descriptor()))
                 .append("\n")
                 .append(NumberFormat.getCurrencyInstance(Locale.GERMANY).format(
                         mItem.price().doubleValue()));

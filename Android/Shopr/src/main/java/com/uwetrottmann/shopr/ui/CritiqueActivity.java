@@ -37,6 +37,7 @@ import com.uwetrottmann.shopr.algorithm.model.Label;
 import com.uwetrottmann.shopr.algorithm.model.Price;
 import com.uwetrottmann.shopr.algorithm.model.Sex;
 import com.uwetrottmann.shopr.eval.Statistics;
+import com.uwetrottmann.shopr.utils.ValueConverter;
 
 import java.util.List;
 
@@ -258,7 +259,12 @@ public class CritiqueActivity extends Activity {
             }
 
             holder.title.setText(title);
-            holder.value.setText(item.currentValue().descriptor());
+            if (id != Label.ID) {
+                holder.value.setText(ValueConverter.getLocalizedStringForValue(getContext(), item
+                        .currentValue().descriptor()));
+            } else {
+                holder.value.setText(item.currentValue().descriptor());
+            }
 
             return convertView;
         }

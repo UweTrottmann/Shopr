@@ -17,6 +17,7 @@ import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.algorithm.AdaptiveSelection;
 import com.uwetrottmann.shopr.algorithm.model.Color;
 import com.uwetrottmann.shopr.algorithm.model.Item;
+import com.uwetrottmann.shopr.utils.ValueConverter;
 
 import java.text.NumberFormat;
 import java.util.Locale;
@@ -71,8 +72,9 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 
         final Item item = getItem(position);
         holder.name.setText(item.name());
-        holder.label.setText(item.attributes().getAttributeById(Color.ID).currentValue()
-                .descriptor());
+        holder.label.setText(ValueConverter.getLocalizedStringForValue(getContext(), item
+                .attributes().getAttributeById(Color.ID).currentValue()
+                .descriptor()));
         holder.price.setText(NumberFormat.getCurrencyInstance(Locale.GERMANY).format(
                 item.price().doubleValue()));
         holder.buttonLike.setOnClickListener(new OnClickListener() {
