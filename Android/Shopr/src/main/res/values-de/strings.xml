@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="action_settings">Einstellungen</string>
+    <string name="title_list">Artikel</string>
+    <string name="title_map">Geschäfte</string>
+    <string name="reason_empty">In Ihrer Nähe, Geschäft geöffnet</string>
+    <string name="like">Mir gefällt dieser Artikel</string>
+    <string name="dislike">Mir gefällt dieser Artikel nicht</string>
+    <string name="description_item_picutre">Kleidungsstück</string>
+    <string name="title_activity_critique">Bewertung</string>
+    <string name="detail_like">Was gefällt Ihnen an \"%s\" und wollen Sie mehr sehen?</string>
+    <string name="detail_dislike">Was missfällt Ihnen an \"%s\" und wollen Sie weniger sehen?</string>
+    <string name="update_recommendations">Empfehlungen aktualisieren</string>
+    <string name="price">Preis</string>
+    <string name="color">Farbe</string>
+    <string name="label">Marke</string>
+    <string name="type">Typ</string>
+    <string name="sex">Geschlecht</string>
+    <string name="action_restart">Neu starten</string>
+    <string name="getting_your_location">Bestimme Ihren Standort…</string>
+    <string name="has_x_recommendations">führt %s empfohlene Artikel</string>
+    <string name="last_critique">Letzte Bewertung</string>
+    <string name="thank_you_this_task_is_finished_">Vielen Dank, das war\'s!</string>
+    <string name="title_activity_item_details">Artikel-Eigenschaften</string>
+    <string name="choice_confirmation">Sind Sie mit \"%s\" zufrieden?</string>
+    <string name="choice_instructions">Wenn nicht, gehen Sie zurück.</string>
+    <string name="choice_finish">Dieses auswählen und abschließen</string>
+    <string name="your_selected_item">Ihr ausgewählter Artikel</string>
+
+</resources>
