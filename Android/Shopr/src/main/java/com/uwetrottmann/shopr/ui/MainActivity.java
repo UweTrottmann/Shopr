@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -124,6 +125,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         } else {
             mLocationClient.connect();
         }
+
+        EasyTracker.getInstance().activityStart(this);
     }
 
     @Override
@@ -132,6 +135,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             mLocationClient.disconnect();
         }
         super.onStop();
+
+        EasyTracker.getInstance().activityStop(this);
     }
 
     @Override

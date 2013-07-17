@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.squareup.picasso.Picasso;
 import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.algorithm.AdaptiveSelection;
@@ -94,6 +95,18 @@ public class ItemDetailsActivity extends Activity {
                         mItem.price().doubleValue()));
         TextView itemDescription = (TextView) findViewById(R.id.textViewItemDetailsAttributes);
         itemDescription.setText(description);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EasyTracker.getInstance().activityStart(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EasyTracker.getInstance().activityStop(this);
     }
 
     protected void onFinishTask() {

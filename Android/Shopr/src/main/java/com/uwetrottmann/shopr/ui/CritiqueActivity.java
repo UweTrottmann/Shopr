@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.squareup.picasso.Picasso;
 import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.algorithm.AdaptiveSelection;
@@ -128,6 +129,18 @@ public class CritiqueActivity extends Activity {
         mAdapter = new ItemFeatureAdapter(this);
         mAdapter.addAll(mItem.attributes().getAllAttributes());
         mListView.setAdapter(mAdapter);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EasyTracker.getInstance().activityStart(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EasyTracker.getInstance().activityStop(this);
     }
 
     @Override
