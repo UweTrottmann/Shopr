@@ -6,8 +6,8 @@
     <string name="title_list">Items</string>
     <string name="title_map">Shops</string>
     <string name="reason_empty">Close to you, store open</string>
-    <string name="like">I like this item</string>
-    <string name="dislike">I do not like this item</string>
+    <string name="like">I like something about this item</string>
+    <string name="dislike">I dislike something this item</string>
     <string name="description_item_picutre">Clothing item</string>
     <string name="title_activity_critique">CritiqueActivity</string>
     <string name="detail_like">What do you like about \"%s\" and want to see more of?</string>

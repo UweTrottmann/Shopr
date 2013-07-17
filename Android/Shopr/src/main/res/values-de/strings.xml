@@ -5,8 +5,8 @@
     <string name="title_list">Artikel</string>
     <string name="title_map">Geschäfte</string>
     <string name="reason_empty">In Ihrer Nähe, Geschäft geöffnet</string>
-    <string name="like">Mir gefällt dieser Artikel</string>
-    <string name="dislike">Mir gefällt dieser Artikel nicht</string>
+    <string name="like">Mir gefällt etwas an diesem Artikel</string>
+    <string name="dislike">Mir missfällt etwas an diesem Artikel</string>
     <string name="description_item_picutre">Kleidungsstück</string>
     <string name="title_activity_critique">Bewertung</string>
     <string name="detail_like">Was gefällt Ihnen an \"%s\" und wollen Sie mehr sehen?</string>
