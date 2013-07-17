@@ -27,5 +27,18 @@
     <string name="choice_instructions">Wenn nicht, gehen Sie zurück.</string>
     <string name="choice_finish">Dieses auswählen und abschließen</string>
     <string name="your_selected_item">Ihr ausgewählter Artikel</string>
+    <string name="swim_suit">Badeanzug</string>
+    <string name="trunks">Badehose</string>
+    <string name="blouse">Bluse</string>
+    <string name="shirt">Hemd</string>
+    <string name="trousers">Hose</string>
+    <string name="jeans">Jeans</string>
+    <string name="dress">Kleid</string>
+    <string name="poloshirt">Poloshirt</string>
+    <string name="sweater">Pullover</string>
+    <string name="skirt">Rock</string>
+    <string name="shorts">Shorts</string>
+    <string name="cardigan">Strickjacke</string>
+    <string name="top_t_shirt">Top/T-Shirt</string>
 
 </resources>

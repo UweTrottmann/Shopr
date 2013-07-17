@@ -50,5 +50,18 @@
     <string name="choice_instructions">If not, press back.</string>
     <string name="choice_finish">Select this and finish</string>
     <string name="your_selected_item">Your selected item</string>
+    <string name="swim_suit">Swim suit</string>
+    <string name="trunks">Trunks</string>
+    <string name="blouse">Blouse</string>
+    <string name="shirt">Shirt</string>
+    <string name="trousers">Trousers</string>
+    <string name="jeans">Jeans</string>
+    <string name="dress">Dress</string>
+    <string name="poloshirt">Poloshirt</string>
+    <string name="sweater">Sweater</string>
+    <string name="skirt">Skirt</string>
+    <string name="shorts">Shorts</string>
+    <string name="cardigan">Cardigan</string>
+    <string name="top_t_shirt">Top/T-Shirt</string>
 
 </resources>
