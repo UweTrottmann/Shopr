@@ -61,7 +61,7 @@ public class ValueConverter {
         if (integer != null) {
             return context.getString(integer);
         } else {
-            return "";
+            return descriptor;
         }
     }
 }

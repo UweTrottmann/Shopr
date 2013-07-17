@@ -259,7 +259,7 @@ public class CritiqueActivity extends Activity {
             }
 
             holder.title.setText(title);
-            if (id == ClothingType.ID) {
+            if (id != Label.ID) {
                 holder.value.setText(ValueConverter.getLocalizedStringForValue(getContext(), item
                         .currentValue().descriptor()));
             } else {
