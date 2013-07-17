@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+import com.uwetrottmann.androidutils.CheatSheet;
 import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.algorithm.AdaptiveSelection;
 import com.uwetrottmann.shopr.algorithm.model.Color;
@@ -82,6 +83,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
                 }
             }
         });
+        CheatSheet.setup(holder.buttonLike, R.string.like);
         holder.buttonDislike.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,6 +92,8 @@ public class ItemAdapter extends ArrayAdapter<Item> {
                 }
             }
         });
+        CheatSheet.setup(holder.buttonDislike, R.string.dislike);
+
         holder.pictureContainer.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
