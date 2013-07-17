@@ -109,10 +109,6 @@ public class CritiqueActivity extends Activity {
                 .centerCrop()
                 .into(image);
 
-        ImageView icon = (ImageView) findViewById(R.id.imageViewCritiqueIcon);
-        icon.setImageResource(mIsPositiveCritique ? R.drawable.ic_action_like
-                : R.drawable.ic_action_dontlike);
-
         mListView = (ListView) findViewById(R.id.listViewCritique);
 
         mButtonUpdate = (Button) findViewById(R.id.buttonRecommend);

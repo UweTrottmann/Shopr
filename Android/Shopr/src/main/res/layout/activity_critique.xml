@@ -33,35 +33,21 @@
 
     <Button
         android:id="@+id/buttonRecommend"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="?android:attr/selectableItemBackground"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
         android:text="@string/update_recommendations" />
-
-    <View
-        android:id="@+id/dividerHorizontalCritique"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_above="@id/buttonRecommend"
-        android:background="?android:attr/dividerHorizontal" />
 
     <ListView
         android:id="@+id/listViewCritique"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/dividerHorizontalCritique"
+        android:layout_above="@id/buttonRecommend"
         android:layout_below="@+id/containerCritiqueItem"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin" >
     </ListView>
-
-    <ImageView
-        android:id="@+id/imageViewCritiqueIcon"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_above="@+id/listViewCritique"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:src="@drawable/ic_action_like" />
 
 </RelativeLayout>
