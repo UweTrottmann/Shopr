@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.net.Uri;
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.uwetrottmann.shopr.provider.ShoprContract.Stats;
 
 /**
@@ -72,6 +73,12 @@ public class Statistics {
         statValues.put(Stats.CYCLE_COUNT, mCycleCount);
         statValues.put(Stats.DURATION, duration);
         final Uri inserted = context.getContentResolver().insert(Stats.CONTENT_URI, statValues);
+
+        EasyTracker.getTracker().sendEvent("Results", "Type",
+                mIsDiversity ? "Diversity" : "Similarity",
+                (long) 0);
+        EasyTracker.getTracker().sendEvent("Results", "Value", "Cycles", (long) mCycleCount);
+        EasyTracker.getTracker().sendEvent("Results", "Value", "Duration", duration);
 
         return inserted;
     }
