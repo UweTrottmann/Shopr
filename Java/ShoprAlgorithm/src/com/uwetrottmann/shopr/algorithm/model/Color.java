@@ -166,6 +166,7 @@ public class Color extends GenericAttribute {
         } else {
             // do not touch similar colors weights
 
+            // FIXME weights[valueIndex] could be smaller than another value
             // calculate average weight
             double weightIncrease = 1.0 / weights.length;
 
@@ -219,6 +220,7 @@ public class Color extends GenericAttribute {
             if (sum > 1.0) {
                 // distribute remaining weight evenly over all similar values
                 double redistribute = (1 - weights[valueIndex]) / similarColors.size();
+                // FIXME: redistribute can be bigger than weights[valueIndex]
                 for (int i = 0; i < weights.length; i++) {
                     if (i == valueIndex) {
                         // weight for liked color already set
