@@ -5,6 +5,7 @@ import static org.fest.assertions.api.Assertions.assertThat;
 
 import com.uwetrottmann.shopr.algorithm.model.ClothingType;
 import com.uwetrottmann.shopr.algorithm.model.Color;
+import com.uwetrottmann.shopr.algorithm.model.GenericAttribute;
 import com.uwetrottmann.shopr.algorithm.model.Price;
 
 import org.junit.Test;
@@ -13,23 +14,25 @@ public class LikeDislikeTest {
 
     @Test
     public void testLikeValue() {
+        /*
+         * Using trunks because they have no similar types.
+         */
         // all equal
         double[] actual = new double[] {
                 0.25, 0.25, 0.25, 0.25
         };
+        double weightOthers = 0.25 - (1.0 / 3) / 3;
         double[] expected = new double[] {
-                0.25 - 0.25 / 3, 0.5, 0.25 - 0.25 / 3, 0.25 - 0.25 / 3
+                weightOthers, 0.25 + 1.0 / 3, weightOthers, weightOthers
         };
         new ClothingType().likeValue(1, actual);
         assertThat(actual).isEqualTo(expected);
 
         // one getting bigger than zero
-        actual = new double[] {
-                0.05, 0.85, 0.05, 0.05
-        };
         expected = new double[] {
                 0.0, 1.0, 0.0, 0.0
         };
+        new ClothingType().likeValue(1, actual);
         new ClothingType().likeValue(1, actual);
         assertThat(actual).isEqualTo(expected);
     }
@@ -41,24 +44,72 @@ public class LikeDislikeTest {
                 // BLUE, RED, PINK, VIOLET
                 0.25, 0.25, 0.25, 0.25
         };
-        double[] expected = new double[] {
-                // BLUE, RED, PINK, VIOLET
-                0.0, 0.5, 0.25, 0.25
-        };
         new Color().likeValue(1, actual);
-        assertThat(actual).isEqualTo(expected);
+        double sumActual = GenericAttribute.getSum(actual);
+        assertThat(sumActual).isEqualTo(1.0);
 
-        // sum getting bigger than 1.0
+        // ensure value sum stays 1.0
         actual = new double[] {
                 // BLUE, RED, PINK, VIOLET
                 1.0 / 3, 0.0, 1.0 / 3, 1.0 / 3
         };
-        expected = new double[] {
+        new Color().likeValue(1, actual);
+        sumActual = GenericAttribute.getSum(actual);
+        assertThat(sumActual).isEqualTo(1.0);
+    }
+
+    @Test
+    public void testShiftedLikeSmall() {
+        // like RED
+        double[] actual = new double[] {
                 // BLUE, RED, PINK, VIOLET
-                0.0, 0.5, 0.25, 0.25
+                0.25, 0.25, 0.25, 0.25
         };
         new Color().likeValue(1, actual);
-        assertThat(actual).isEqualTo(expected);
+
+        // RED should have biggest weight
+        assertThat(actual[1]).isGreaterThan(actual[0]);
+        assertThat(actual[1]).isGreaterThan(actual[2]);
+        assertThat(actual[1]).isGreaterThan(actual[3]);
+        // sum should be one
+        double sumActual = GenericAttribute.getSum(actual);
+        assertThat(sumActual).isEqualTo(1.0);
+
+        // like PURPLE
+        new Color().likeValue(3, actual);
+
+        // PURPLE should have bigger weight than RED
+        assertThat(actual[3]).isGreaterThan(actual[1]);
+        // sum should be one
+        sumActual = GenericAttribute.getSum(actual);
+        assertThat(sumActual).isEqualTo(1.0);
+    }
+
+    @Test
+    public void testShiftedLikeLarge() {
+        /*
+         * The sums are close to one, but not exactly. This is due to the
+         * imprecision of double. The impact on the results is negligible.
+         */
+
+        // like RED
+        double[] actual = new double[] {
+                // BLUE, RED, PINK, VIOLET, YELLOW, ...
+                1.0 / 15, 1.0 / 15, 1.0 / 15, 1.0 / 15, 1.0 / 15, 1.0 / 15, 1.0 / 15, 1.0 / 15,
+                1.0 / 15, 1.0 / 15, 1.0 / 15, 1.0 / 15, 1.0 / 15, 1.0 / 15, 1.0 / 15
+        };
+        new Color().likeValue(1, actual);
+
+        // RED should have biggest weight
+        assertThat(actual[1]).isGreaterThan(actual[0]);
+        assertThat(actual[1]).isGreaterThan(actual[2]);
+        assertThat(actual[1]).isGreaterThan(actual[3]);
+
+        // like PURPLE
+        new Color().likeValue(3, actual);
+
+        // PURPLE should have bigger weight than RED
+        assertThat(actual[3]).isGreaterThan(actual[1]);
     }
 
     @Test
@@ -86,6 +137,9 @@ public class LikeDislikeTest {
 
     @Test
     public void testDislikeLikeValue() {
+        /*
+         * Using trunks because they have no similar types.
+         */
         // first dislike
         double[] actual = new double[] {
                 0.25, 0.25, 0.25, 0.25
@@ -98,9 +152,9 @@ public class LikeDislikeTest {
 
         // then like again
         // liked value should have highest weight now
+        double weightOthers = 0.25 + 0.25 / 3 - 1.0 / (3 * 3);
         expected = new double[] {
-                0.25 + 0.25 / 3 - 0.5 / 3, 0.5, 0.25 + 0.25 / 3 - 0.5 / 3,
-                0.25 + 0.25 / 3 - 0.5 / 3
+                weightOthers, 1.0 / 3, weightOthers, weightOthers
         };
         new ClothingType().likeValue(1, actual);
         assertThat(actual).isEqualTo(expected);

@@ -155,83 +155,47 @@ public class Color extends GenericAttribute {
     }
 
     @Override
-    public void likeValue(int valueIndex, double[] weights) {
+    public void likeValue(int indexLiked, double[] weights) {
         Value[] values = Value.values();
-        Value likedColor = values[valueIndex];
-        List<Value> similarColors = Graphs.neighborListOf(sSimilarValues, likedColor);
+        Value valueLiked = values[indexLiked];
+        List<Value> similarValues = Graphs.neighborListOf(sSimilarValues, valueLiked);
 
-        if (similarColors.isEmpty()) {
-            // treat like a regular like
-            super.likeValue(valueIndex, weights);
-        } else {
-            // do not touch similar colors weights
+        // do regular like for liked value
+        super.likeValue(indexLiked, weights);
 
-            // calculate average weight
-            double weightIncrease = 1.0 / weights.length;
+        if (similarValues.isEmpty()) {
+            // no similars: done!
+            return;
+        }
 
-            /*
-             * If the value was 0.0 (disliked) increase double so it will
-             * definitely have highest weight.
-             */
-            if (weights[valueIndex] == 0.0) {
-                weightIncrease *= 2;
+        // now do dampened like on similar values
+        double increaseLiked = 1.0 / (weights.length - 1);
+        double increaseSimilars = increaseLiked / 2;
+        // per similar value increase
+        double increaseSimilar = increaseSimilars / similarValues.size();
+        // per non-similar and non-liked value decrease
+        double decreaseOthers = increaseSimilars / (weights.length - similarValues.size() - 1);
+
+        // actually add and subtract
+        for (int i = 0; i < weights.length; i++) {
+            if (i == indexLiked) {
+                // skip liked value
+                continue;
             }
-
-            // add weight to liked value
-            weights[valueIndex] += weightIncrease;
-
-            // if liked value weight exceeds 1.0, sum exceeds 1.0
-            if (weights[valueIndex] > 1.0) {
-                // all other weights have to be 0.0
-                Arrays.fill(weights, 0.0);
-                weights[valueIndex] = 1.0;
-                return;
-            }
-
-            /*
-             * Subtract added weight evenly from other colors, BUT only from
-             * non-similar colors and those with non-zero weights.
-             */
-            // get number of non-zero weights
-            int count = 0;
-            for (int i = 0; i < weights.length; i++) {
-                if (weights[i] != 0 && !hasValueWithSameIndex(similarColors, i)) {
-                    count++;
-                }
-            }
-            // calculate share for each value
-            double redistributed = weightIncrease / (count - 1);
-            for (int i = 0; i < weights.length; i++) {
-                if (i != valueIndex && !hasValueWithSameIndex(similarColors, i)) {
-                    weights[i] -= redistributed;
-                    // floor at 0.0
-                    if (weights[i] < 0) {
-                        weights[i] = 0.0;
-                    }
-                }
-            }
-
-            // sum can not exceed 1.0
-            double sum = 0;
-            for (int i = 0; i < weights.length; i++) {
-                sum += weights[i];
-            }
-            if (sum > 1.0) {
-                // distribute remaining weight evenly over all similar values
-                double redistribute = (1 - weights[valueIndex]) / similarColors.size();
-                for (int i = 0; i < weights.length; i++) {
-                    if (i == valueIndex) {
-                        // weight for liked color already set
-                        continue;
-                    }
-                    if (hasValueWithSameIndex(similarColors, i)) {
-                        weights[i] = redistribute;
-                    } else {
-                        weights[i] = 0.0;
-                    }
+            if (hasValueWithSameIndex(similarValues, i)) {
+                // increase similar values
+                weights[i] += increaseSimilar;
+            } else {
+                // decrease other values
+                weights[i] -= decreaseOthers;
+                // floor at 0.0
+                if (weights[i] < 0) {
+                    weights[i] = 0.0;
                 }
             }
         }
+
+        ensureSumBound(weights);
     }
 
     /**

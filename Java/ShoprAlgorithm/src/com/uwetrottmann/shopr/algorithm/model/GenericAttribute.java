@@ -148,27 +148,15 @@ public abstract class GenericAttribute implements Attribute {
      * them to zero if liked value weight is 1.0.
      */
     public void likeValue(int valueIndex, double[] weights) {
-        // increase by the average weight
-        double weightIncrease = 1.0 / weights.length;
-
-        /*
-         * If the value was 0.0 (disliked) increase double so it will have
-         * definitely have highest weight.
-         */
-        if (weights[valueIndex] == 0.0) {
-            weightIncrease *= 2;
-        }
-
+        // calculate weight increase based on number of other values
+        double weightIncrease = 1.0 / (weights.length - 1);
         weights[valueIndex] += weightIncrease;
 
-        // sum can not exceed 1.0
-        if (weights[valueIndex] > 1.0) {
-            Arrays.fill(weights, 0.0);
-            weights[valueIndex] = 1.0;
+        if (bindExceedingWeight(valueIndex, weights)) {
             return;
         }
 
-        // subtract average from other non-zero weights
+        // subtract increase from other non-zero weights
         int count = 0;
         for (int i = 0; i < weights.length; i++) {
             if (weights[i] != 0) {
@@ -186,6 +174,57 @@ public abstract class GenericAttribute implements Attribute {
                 }
             }
         }
+    }
+
+    /**
+     * Ensures the given value weight does not exceed one, resets all other
+     * weights to 0. and given weight to 1.0 if that is the case.
+     * 
+     * @return If the weight at the given index exceeded one.
+     */
+    public static boolean bindExceedingWeight(int valueIndex, double[] weights) {
+        // if liked value weight exceeds 1.0, sum exceeds 1.0
+        if (weights[valueIndex] > 1.0) {
+            // reset other weights to 0.0
+            Arrays.fill(weights, 0.0);
+            weights[valueIndex] = 1.0;
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Distributes overweight (above 1.0) onto all values until the sum is very
+     * close to 1.0.
+     */
+    public static void ensureSumBound(double[] weights) {
+        // sum can not exceed 1.0
+        double sum = getSum(weights);
+        if (sum > 1.0) {
+            // distribute remaining weight weighted over all values
+            double overWeight = sum - 1.0;
+            double weightDecrease = overWeight / weights.length;
+
+            for (int i = 0; i < weights.length; i++) {
+                weights[i] -= weightDecrease;
+                if (weights[i] <= 0.0) {
+                    // distribute negative weight over remaining weights
+                    weightDecrease -= weights[i] / (weights.length - i - 1);
+                    weights[i] = 0.0;
+                }
+            }
+        }
+    }
+
+    /**
+     * Calculates the sum of all the given values.
+     */
+    public static double getSum(double[] values) {
+        double sum = 0;
+        for (double d : values) {
+            sum += d;
+        }
+        return sum;
     }
 
     /**
