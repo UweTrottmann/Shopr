@@ -17,6 +17,7 @@ public class Statistics {
 
     private long mStartTime;
     private int mCycleCount;
+    private int mCyclePositiveCount;
     private String mUserName;
     private boolean mIsDiversity;
 
@@ -43,13 +44,18 @@ public class Statistics {
         mIsDiversity = isDiversity;
         mStartTime = System.currentTimeMillis();
         mCycleCount = 0;
+        mCyclePositiveCount = 0;
     }
 
     /**
-     * Increases the recommendation cycle count by 1.
+     * Increases the recommendation cycle count by 1. Also the positive cycle
+     * count if isPositive is true.
      */
-    public synchronized void incrementCycleCount() {
+    public synchronized void incrementCycleCount(boolean isPositive) {
         mCycleCount++;
+        if (isPositive) {
+            mCyclePositiveCount++;
+        }
     }
 
     /**
@@ -70,7 +76,7 @@ public class Statistics {
         ContentValues statValues = new ContentValues();
         statValues.put(Stats.USERNAME, mUserName);
         statValues.put(Stats.TASK_TYPE, mIsDiversity ? "div" : "sim");
-        statValues.put(Stats.CYCLE_COUNT, mCycleCount);
+        statValues.put(Stats.CYCLE_COUNT, mCycleCount + "(" + mCyclePositiveCount + "+)");
         statValues.put(Stats.DURATION, duration);
         final Uri inserted = context.getContentResolver().insert(Stats.CONTENT_URI, statValues);
 
@@ -78,6 +84,8 @@ public class Statistics {
                 mIsDiversity ? "Diversity" : "Similarity",
                 (long) 0);
         EasyTracker.getTracker().sendEvent("Results", "Value", "Cycles", (long) mCycleCount);
+        EasyTracker.getTracker().sendEvent("Results", "Value", "Cycles (positive)",
+                (long) mCyclePositiveCount);
         EasyTracker.getTracker().sendEvent("Results", "Value", "Duration", duration);
 
         return inserted;
