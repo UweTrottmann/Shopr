@@ -1,0 +1,1 @@
+adb -d shell 'run-as com.uwetrottmann.shopr cat /data/data/com.uwetrottmann.shopr/databases/shopr.db > /sdcard/shopr.db'
