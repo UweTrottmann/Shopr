@@ -50,7 +50,8 @@ public abstract class GenericAttribute implements Attribute {
      * that have this value are recommended.
      */
     public String getOnlyString(AttributeValue value) {
-        return "only " + value.descriptor();
+        // return "only " + value.descriptor();
+        return "nur " + value.descriptor();
     }
 
     /**
@@ -59,7 +60,8 @@ public abstract class GenericAttribute implements Attribute {
      * options).
      */
     public String getAvoidString() {
-        return "avoid %s";
+        // return "avoid %s";
+        return "vermeide %s";
     }
 
     /**
@@ -67,7 +69,8 @@ public abstract class GenericAttribute implements Attribute {
      * e.g. recommended items are likely to have this value.
      */
     public String getPreferablyString(AttributeValue value) {
-        return "preferably " + value.descriptor();
+        // return "preferably " + value.descriptor();
+        return "bevorzugt " + value.descriptor();
     }
 
     @Override
