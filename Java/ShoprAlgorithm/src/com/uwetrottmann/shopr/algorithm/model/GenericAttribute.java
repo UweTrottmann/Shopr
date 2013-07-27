@@ -1,6 +1,8 @@
 
 package com.uwetrottmann.shopr.algorithm.model;
 
+import com.uwetrottmann.shopr.algorithm.AdaptiveSelection;
+import com.uwetrottmann.shopr.algorithm.LocalizationModule;
 import com.uwetrottmann.shopr.algorithm.Query;
 import com.uwetrottmann.shopr.algorithm.model.Attributes.Attribute;
 import com.uwetrottmann.shopr.algorithm.model.Attributes.AttributeValue;
@@ -50,8 +52,13 @@ public abstract class GenericAttribute implements Attribute {
      * that have this value are recommended.
      */
     public String getOnlyString(AttributeValue value) {
-        // return "only " + value.descriptor();
-        return "nur " + value.descriptor();
+        LocalizationModule localizer = AdaptiveSelection.get().getLocalizationModule();
+        if (localizer != null) {
+            return String.format(localizer.getOnlyString(),
+                    localizer.getLocalizedValueDescriptor(value.descriptor()));
+        } else {
+            return "only " + value.descriptor();
+        }
     }
 
     /**
@@ -60,8 +67,12 @@ public abstract class GenericAttribute implements Attribute {
      * options).
      */
     public String getAvoidString() {
-        // return "avoid %s";
-        return "vermeide %s";
+        LocalizationModule localizer = AdaptiveSelection.get().getLocalizationModule();
+        if (localizer != null) {
+            return localizer.getAvoidString();
+        } else {
+            return "avoid %s";
+        }
     }
 
     /**
@@ -69,12 +80,18 @@ public abstract class GenericAttribute implements Attribute {
      * e.g. recommended items are likely to have this value.
      */
     public String getPreferablyString(AttributeValue value) {
-        // return "preferably " + value.descriptor();
-        return "bevorzugt " + value.descriptor();
+        LocalizationModule localizer = AdaptiveSelection.get().getLocalizationModule();
+        if (localizer != null) {
+            return String.format(localizer.getPreferablyString(),
+                    localizer.getLocalizedValueDescriptor(value.descriptor()));
+        } else {
+            return "preferably " + value.descriptor();
+        }
     }
 
     @Override
     public String getReasonString() {
+        LocalizationModule localizer = AdaptiveSelection.get().getLocalizationModule();
         StringBuilder reason = new StringBuilder();
         AttributeValue[] values = getValueSymbols();
 
@@ -89,7 +106,11 @@ public abstract class GenericAttribute implements Attribute {
                 if (reason.length() != 0 && i < mValueWeights.length) {
                     reason.append("/");
                 }
-                reason.append(values[i].descriptor());
+                if (localizer != null) {
+                    reason.append(localizer.getLocalizedValueDescriptor(values[i].descriptor()));
+                } else {
+                    reason.append(values[i].descriptor());
+                }
             } else if (mValueWeights[i] > mValueWeights[maxIndex]) {
                 maxIndex = i;
             }

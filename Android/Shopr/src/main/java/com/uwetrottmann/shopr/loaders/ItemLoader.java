@@ -17,6 +17,7 @@ import com.uwetrottmann.shopr.algorithm.model.Sex;
 import com.uwetrottmann.shopr.provider.ShoprContract.Items;
 import com.uwetrottmann.shopr.provider.ShoprContract.Shops;
 import com.uwetrottmann.shopr.settings.AppSettings;
+import com.uwetrottmann.shopr.utils.ShoprLocalizer;
 import com.uwetrottmann.shopr.utils.ValueConverter;
 
 import java.math.BigDecimal;
@@ -48,6 +49,8 @@ public class ItemLoader extends GenericSimpleLoader<List<Item>> {
 
         // get initial case base
         if (mIsInit) {
+            manager.setLocalizationModule(new ShoprLocalizer(getContext()));
+
             Log.d(TAG, "Initializing case base.");
             List<Item> caseBase = getInitialCaseBase();
             manager.setInitialCaseBase(caseBase, AppSettings.isUsingDiversity(getContext()));
@@ -63,7 +66,6 @@ public class ItemLoader extends GenericSimpleLoader<List<Item>> {
     }
 
     private List<Item> getInitialCaseBase() {
-        // TODO Implement all attributes
         List<Item> caseBase = Lists.newArrayList();
 
         Cursor query = getContext().getContentResolver().query(

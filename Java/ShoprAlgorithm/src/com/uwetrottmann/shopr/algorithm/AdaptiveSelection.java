@@ -43,12 +43,21 @@ public class AdaptiveSelection {
     private int mNumRecommendations;
     private List<Item> mCurrentRecommendations;
     private boolean mIsUsingDiversity;
+    private LocalizationModule mLocalizer;
 
     private AdaptiveSelection() {
         mCaseBase = new ArrayList<Item>();
         mQuery = new Query();
         mNumRecommendations = NUM_RECOMMENDATIONS_DEFAULT;
         mIsUsingDiversity = IS_USING_DIVERSITY_DEFAULT;
+    }
+
+    public void setLocalizationModule(LocalizationModule localizer) {
+        mLocalizer = localizer;
+    }
+
+    public LocalizationModule getLocalizationModule() {
+        return mLocalizer;
     }
 
     /**
