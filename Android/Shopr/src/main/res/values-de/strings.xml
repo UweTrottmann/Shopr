@@ -65,5 +65,9 @@
     <string name="_100_to_150">100 bis 150 €</string>
     <string name="_150_to_200">150 bis 200 €</string>
     <string name="_200_or_more">200 € oder mehr</string>
+    
+    <string name="only">nur %s</string>
+    <string name="preferably">bevorzugt %s</string>
+    <string name="avoid">vermeide %s</string>
 
 </resources>
