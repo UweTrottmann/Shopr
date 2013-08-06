@@ -267,10 +267,22 @@ public abstract class GenericAttribute implements Attribute {
             }
         }
 
-        double redistributed = dislikedWeight / nonZeroCount;
-        for (int i = 0; i < weights.length; i++) {
-            if (weights[i] != 0) {
-                weights[i] += redistributed;
+        // check if all others are 0.0 already
+        if (nonZeroCount == 0) {
+            // distribute evenly over all others
+            double redistributed = dislikedWeight / (weights.length - 1);
+            for (int i = 0; i < weights.length; i++) {
+                if (i != valueIndex) {
+                    weights[i] += redistributed;
+                }
+            }
+        } else {
+            // distribute evenly over all non-zero weights
+            double redistributed = dislikedWeight / nonZeroCount;
+            for (int i = 0; i < weights.length; i++) {
+                if (weights[i] != 0) {
+                    weights[i] += redistributed;
+                }
             }
         }
     }
