@@ -55,6 +55,11 @@ public class ResultsActivity extends Activity {
             }
         }
 
+        if (mItem == null) {
+            finish();
+            return;
+        }
+
         setupViews();
     }
 

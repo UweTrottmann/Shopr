@@ -57,6 +57,11 @@ public class ItemDetailsActivity extends Activity {
             }
         }
 
+        if (mItem == null) {
+            finish();
+            return;
+        }
+
         setupViews();
     }
 

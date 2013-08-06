@@ -50,6 +50,7 @@ public class AdaptiveSelection {
         mQuery = new Query();
         mNumRecommendations = NUM_RECOMMENDATIONS_DEFAULT;
         mIsUsingDiversity = IS_USING_DIVERSITY_DEFAULT;
+        mCurrentRecommendations = new ArrayList<Item>();
     }
 
     public void setLocalizationModule(LocalizationModule localizer) {
