@@ -91,4 +91,8 @@ public class Statistics {
         return inserted;
     }
 
+    public synchronized String getUserName() {
+        return mUserName;
+    }
+
 }

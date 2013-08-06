@@ -48,11 +48,12 @@ public class TestSetupActivity extends Activity {
         });
 
         mNameEditText = (EditText) findViewById(R.id.editTextTestSetupName);
-        mNameEditText.setText("thisis" + new Random().nextInt(999999));
+        String prevUserName = Statistics.get().getUserName();
+        mNameEditText.setText(TextUtils.isEmpty(prevUserName) ? "thisis"
+                + new Random().nextInt(999999) : prevUserName);
 
         mDiversityCheckBox = (CheckBox) findViewById(R.id.checkBoxTestSetupDiversity);
         mDiversityCheckBox.setChecked(AppSettings.isUsingDiversity(this));
-        ;
     }
 
     protected void onStartTest() {
