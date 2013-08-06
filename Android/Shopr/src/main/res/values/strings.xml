@@ -92,5 +92,6 @@
     <string name="only">only %s</string>
     <string name="preferably">preferably %s</string>
     <string name="avoid">avoid %s</string>
+    <string name="restart_test">Restart test</string>
 
 </resources>

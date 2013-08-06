@@ -25,6 +25,7 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.maps.model.LatLng;
 import com.uwetrottmann.shopr.R;
+import com.uwetrottmann.shopr.eval.TestSetupActivity;
 import com.uwetrottmann.shopr.importer.ImporterActivity;
 import com.uwetrottmann.shopr.settings.AppSettings;
 
@@ -154,6 +155,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.action_restart_test:
+                startActivity(new Intent(this, TestSetupActivity.class));
+                // clean this activity up
+                finish();
+                return true;
             case R.id.action_import:
                 startActivity(new Intent(this, ImporterActivity.class));
                 return true;
