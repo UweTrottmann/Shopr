@@ -26,7 +26,7 @@ public class BoundedGreedySelection {
         }
     }
 
-    public static final double ALPHA = 0.5;
+    public static final double ALPHA = 0.99;
 
     /**
      * Chooses <code>bound*limit</code> items most similar to current query.
