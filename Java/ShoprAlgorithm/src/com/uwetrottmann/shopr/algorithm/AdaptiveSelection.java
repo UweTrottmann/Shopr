@@ -251,7 +251,6 @@ public class AdaptiveSelection {
             for (int i = 0; i < numItems; i++) {
                 // Remove previous recs to avoid same items
                 recommendations.add(caseBase.remove(0));
-                recommendations.add(caseBase.get(i));
             }
         } else {
             /*
