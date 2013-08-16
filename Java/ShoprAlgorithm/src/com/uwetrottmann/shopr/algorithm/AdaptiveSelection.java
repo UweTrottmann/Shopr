@@ -202,8 +202,6 @@ public class AdaptiveSelection {
              */
             Utils.sortBySimilarityToQuery(query, caseBase);
             for (int i = 0; i < numItems; i++) {
-                // TODO: Decide between removing previous recs or not
-                // recommendations.add(caseBase.remove(0));
                 recommendations.add(caseBase.get(i));
             }
         } else {
@@ -228,7 +226,6 @@ public class AdaptiveSelection {
             }
             // if not: replace the last one with it
             if (!isAlreadyPresent) {
-                // TODO: Decide between removing previous recs or not
                 recommendations.remove(recommendations.size() - 1);
                 recommendations.add(lastCritique.item());
             }
@@ -252,9 +249,9 @@ public class AdaptiveSelection {
              */
             Utils.sortBySimilarityToQuery(query, caseBase);
             for (int i = 0; i < numItems; i++) {
-                // TODO: Decide between removing previous recs or not
+                // Remove previous recs to avoid same items
                 recommendations.add(caseBase.remove(0));
-                // recommendations.add(caseBase.get(i));
+                recommendations.add(caseBase.get(i));
             }
         } else {
             /*
@@ -277,8 +274,9 @@ public class AdaptiveSelection {
             }
             // if not: replace the last one with it
             if (!isAlreadyPresent) {
-                // TODO: Decide between removing previous recs or not
-                caseBase.add(recommendations.remove(recommendations.size() - 1));
+                // Remove previous recs to avoid same items
+                caseBase.add(recommendations.remove(recommendations.size() -
+                        1));
                 recommendations.add(lastCritique.item());
             }
         }
