@@ -8,7 +8,7 @@
         android:id="@+id/containerItemPicture"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:foreground="?android:attr/selectableItemBackground" >
+        android:foreground="@drawable/selectable_background_shopr" >
 
         <ImageView
             android:id="@+id/imageViewItemPicture"
@@ -81,6 +81,7 @@
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="1"
+            android:background="@drawable/selectable_background_shopr"
             android:contentDescription="@string/like"
             android:src="@drawable/ic_action_like" />
 
@@ -90,6 +91,7 @@
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="1"
+            android:background="@drawable/selectable_background_shopr"
             android:contentDescription="@string/dislike"
             android:src="@drawable/ic_action_dontlike" />
     </LinearLayout>
