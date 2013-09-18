@@ -5,5 +5,6 @@
     <color name="white">#ffffffff</color>
     <color name="lilac">#ff5D1291</color>
     <color name="lilac_transparent">#505D1291</color>
+    <color name="light_grey">#ffe5e5e5</color>
 
 </resources>

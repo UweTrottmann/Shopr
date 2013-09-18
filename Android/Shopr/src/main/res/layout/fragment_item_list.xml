@@ -21,6 +21,8 @@
         android:horizontalSpacing="4dp"
         android:numColumns="@integer/gridview_num_columns"
         android:verticalSpacing="4dp"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
         android:visibility="gone" >
     </GridView>
 
