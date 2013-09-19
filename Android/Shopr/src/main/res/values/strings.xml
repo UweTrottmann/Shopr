@@ -20,7 +20,7 @@
     <string name="sex">Sex</string>
     <string name="action_restart">Start over</string>
     <string name="getting_your_location">Getting your location…</string>
-    <string name="has_x_recommendations">carries %s recommended items</string>
+    <string name="has_x_recommendations">sells %s recommended item</string>
     <string name="title_activity_importer">ImporterActivity</string>
     <string name="import_items">Import items</string>
     <string name="import_shops">Import shops</string>
