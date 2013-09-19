@@ -1,6 +1,8 @@
 Shopr
 =====
 
+![Shopr screenshot](/hero.png)
+
 Suggests clothing shops to you based on Active Learning strategies. Just a research project!
 
 The conversation-based active learning critiquing algorithm used is heavily based on
