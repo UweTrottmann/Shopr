@@ -19,3 +19,10 @@ How to add a new attribute
 
 1. Create a new class in shopr.algorithm.model extending GenericAttribute.
 2. Define end-user name in CritiqueActivity's ItemFeatureAdapter.getView().
+
+License
+-------
+
+The code in this repository is licensed under [Apache License, Version 2.0](/LICENSE.txt) except where noted otherwise.
+
+Other content is licensed under a [Creative Commons Attribution 3.0 Germany License](http://creativecommons.org/licenses/by/3.0/de/deed.en_US). Be aware that contents of the data set may be subject to intellectual property rights.
